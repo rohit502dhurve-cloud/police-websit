@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>View Complaints & Queries</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f2f2f2;
+    padding:20px;
+}
+
+h2{
+    text-align:center;
+    color:navy;
+}
+
+table{
+    width:100%;
+    border-collapse: collapse;
+    margin-bottom:40px;
+    background:white;
+}
+
+th, td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:navy;
+    color:white;
+}
+
+tr:nth-child(even){
+    background:#f9f9f9;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>📌 Complaints</h2>
+
+<table>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Message</th>
+</tr>
+
+{% for c in complaints %}
+<tr>
+<td>{{c[0]}}</td>
+<td>{{c[1]}}</td>
+<td>{{c[2]}}</td>
+</tr>
+{% endfor %}
+</table>
+
+
+<h2>📌 Queries</h2>
+
+<table>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Message</th>
+</tr>
+
+{% for q in queries %}
+<tr>
+<td>{{q[0]}}</td>
+<td>{{q[1]}}</td>
+<td>{{q[2]}}</td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>
