@@ -81,11 +81,11 @@ def view():
     conn.close()
 
     return render_template('view.html', complaints=complaints, queries=queries)
-    @app.route('/logout')
+
+@app.route('/logout')
 def logout():
     session.clear()
     return redirect('/login')
-
     html = "<h2>Complaints</h2><ul>"
     for comp in complaints:
         html += f"<li>ID:{comp[0]} | Name:{comp[1]} | Message:{comp[2]}</li>"
