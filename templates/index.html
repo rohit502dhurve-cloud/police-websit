@@ -2,27 +2,40 @@
 <html>
 <head>
 <title>Police Station Lanji</title>
+
 <style>
 body{font-family: Arial; margin:0; background:#f2f2f2;}
+
 header{text-align:center; background:navy; color:white; padding:20px;}
+
 nav{background:#333; padding:10px; text-align:center;}
 nav a{color:white; margin:15px; text-decoration:none; font-size:18px; cursor:pointer;}
+
 #mottoText{text-align:center; font-size:22px; color:blue; margin-top:10px;}
-.main{display:flex; flex-wrap:wrap; padding:20px;}
+
+.main{display:flex; padding:20px;}
 .left{width:70%; background:white; padding:20px; text-align:center;}
 .right{width:30%; background:white; padding:20px; text-align:center;}
+
 .slide{display:none;}
 .slide.active{display:block;}
 .slide img{width:200px; height:200px; object-fit:cover; border-radius:10px;}
+
 .popup{display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-background:white; padding:20px; box-shadow:0 0 10px black; width:300px; z-index:1000;}
+background:white; padding:20px; box-shadow:0 0 10px black; width:300px;}
+
 .popup input, .popup textarea{width:100%; margin:10px 0; padding:8px;}
-.overlay{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:500;}
+
+.overlay{display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+background:rgba(0,0,0,0.5);}
+
 .map{text-align:center; margin:20px;}
+
 footer{background:navy; color:white; text-align:center; padding:15px; margin-top:20px;}
-button{padding:8px 12px; margin:5px; cursor:pointer;}
 </style>
+
 </head>
+
 <body>
 
 <header>
@@ -31,51 +44,75 @@ button{padding:8px 12px; margin:5px; cursor:pointer;}
 <p>District Balaghat, Madhya Pradesh</p>
 </header>
 
+<!-- MENU -->
 <nav>
 <a onclick="showMotto()">Our Motto</a>
 <a onclick="openForm('query')">Queries</a>
 <a onclick="openForm('complaint')">Complaints</a>
 </nav>
 
+<!-- MOTTO -->
 <p id="mottoText"></p>
 
+<!-- MAIN -->
 <div class="main">
-  <div class="left">
-    <h2>Police Station Lanji</h2>
-    <img src="{{ url_for('static', filename='ps_lanji_photo.png') }}" style="width:100%; max-width:800px;">
-    <p>Serving and Protecting the Community</p>
-  </div>
-  <div class="right">
-    <h3>Officers</h3>
-    <div class="slide active">
-      <img src="{{ url_for('static', filename='si_deep_singh_parmar.png') }}">
-      <p><b>SI Deep Singh Parmar</b></p>
-    </div>
-    <div class="slide">
-      <img src="{{ url_for('static', filename='si_sundar_lal_pawar.png') }}">
-      <p><b>SI Sundar Lal Pawar</b></p>
-    </div>
-  </div>
+
+<div class="left">
+<h2>Police Station Lanji</h2>
+
+<img src="{{ url_for('static', filename='ps_lanji_photo.png') }}" style="width:100%; max-width:800px;">
+
+<p>Serving and Protecting the Community</p>
 </div>
 
+<div class="right">
+<h3>Officers</h3>
+
+<div class="slide active">
+<img src="{{ url_for('static', filename='si_deep_singh_parmar.png') }}">
+<p><b>SI Deep Singh Parmar</b></p>
+</div>
+
+<div class="slide">
+<img src="{{ url_for('static', filename='si_sundar_lal_pawar.png') }}">
+<p><b>SI Sundar Lal Pawar</b></p>
+</div>
+
+</div>
+
+</div>
+
+<!-- MAP -->
 <div class="map">
 <h3>Our Location</h3>
-<iframe src="https://www.google.com/maps?q=Police+Station+Lanji+Balaghat&output=embed" width="80%" height="300" style="border:0;"></iframe>
+<iframe 
+src="https://www.google.com/maps?q=Police+Station+Lanji+Balaghat&output=embed"
+width="80%" height="300" style="border:0;">
+</iframe>
 </div>
 
+<!-- POPUP FORM -->
 <div class="overlay" id="overlay"></div>
 
 <div class="popup" id="popup">
+
 <form action="/submit" method="POST">
+
 <h3 id="formTitle">Query / Complaint</h3>
+
 <input type="text" name="name" placeholder="Your Name" required>
 <textarea name="message" placeholder="Write your message" required></textarea>
+
 <input type="hidden" name="type" id="formType">
+
 <button type="submit">Submit</button>
 <button type="button" onclick="closeForm()">Close</button>
+
 </form>
+
 </div>
 
+<!-- FOOTER -->
 <footer>
 <p>Contact: 7049114614</p>
 <p>Police Station Lanji, District Balaghat</p>
@@ -83,32 +120,44 @@ button{padding:8px 12px; margin:5px; cursor:pointer;}
 </footer>
 
 <script>
+
+// SLIDER
 window.onload = function(){
-  let index = 0;
-  let slides = document.querySelectorAll(".slide");
-  setInterval(() => {
-    slides[index].classList.remove("active");
-    index = (index + 1) % slides.length;
-    slides[index].classList.add("active");
-  }, 3000);
+let index = 0;
+let slides = document.querySelectorAll(".slide");
+
+setInterval(() => {
+slides[index].classList.remove("active");
+index = (index + 1) % slides.length;
+slides[index].classList.add("active");
+}, 2000);
 }
 
+// POPUP
 function openForm(type){
-  document.getElementById("popup").style.display="block";
-  document.getElementById("overlay").style.display="block";
-  document.getElementById("formTitle").innerText = type.charAt(0).toUpperCase() + type.slice(1);
-  document.getElementById("formType").value = type;
+document.getElementById("popup").style.display="block";
+document.getElementById("overlay").style.display="block";
+
+document.getElementById("formTitle").innerText = type;
+document.getElementById("formType").value = type;
 }
 
 function closeForm(){
-  document.getElementById("popup").style.display="none";
-  document.getElementById("overlay").style.display="none";
+    document.getElementById("popup").style.display="none";
+    document.getElementById("overlay").style.display="none";
 }
 
+// MOTTO
 function showMotto(){
-  let text = document.getElementById("mottoText");
-  text.innerHTML = text.innerHTML === "" ? "देश भक्ति जन सेवा" : "";
+let text = document.getElementById("mottoText");
+
+if(text.innerHTML === ""){
+text.innerHTML = "देश भक्ति जन सेवा";
+}else{
+text.innerHTML = "";
 }
+}
+
 </script>
 
 </body>
