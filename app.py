@@ -63,6 +63,8 @@ def view():
     c.close()
     conn.close()
 
+    return render_template('view.html', complaints=complaints, queries=queries)
+
     html = "<h2>Complaints</h2><ul>"
     for comp in complaints:
         html += f"<li>ID:{comp[0]} | Name:{comp[1]} | Message:{comp[2]}</li>"
