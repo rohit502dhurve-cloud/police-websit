@@ -2,22 +2,24 @@ from flask import Flask, render_template, request, redirect
 import psycopg2
 import os
 
-app = Flask(__name__)   # <-- _name_ ko __name__ se replace karo
+app = Flask(__name__)
 
-# 🔹 Database URL (Render/Heroku me set environment variable)
+# 🔹 Database URL (Render / Heroku environment variable)
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 # 🔹 Connect function
 def get_db_connection():
+    if DATABASE_URL is None:
+        raise ValueError("DATABASE_URL environment variable not set!")
     return psycopg2.connect(DATABASE_URL)
 
-# 🔹 Database create (tables)
+# 🔹 Initialize database tables (complaints + queries)
 def init_db():
     try:
         conn = get_db_connection()
         c = conn.cursor()
 
-        # Complaint table
+        # Complaints table
         c.execute('''
             CREATE TABLE IF NOT EXISTS complaints (
                 id SERIAL PRIMARY KEY,
@@ -26,7 +28,7 @@ def init_db():
             )
         ''')
 
-        # Query table
+        # Queries table
         c.execute('''
             CREATE TABLE IF NOT EXISTS queries (
                 id SERIAL PRIMARY KEY,
@@ -36,12 +38,17 @@ def init_db():
         ''')
 
         conn.commit()
-        c.close()        # <-- cursor close karo
+        c.close()
         conn.close()
         print("Tables created successfully ✅")
 
     except Exception as e:
         print("Error creating tables:", e)
+
+# 🔹 Initialize tables before first request (Render compatible)
+@app.before_first_request
+def initialize():
+    init_db()
 
 # 🔹 Home page
 @app.route('/')
@@ -78,6 +85,7 @@ def view():
         return html
 
     except Exception as e:
+        print("DB Fetch Error:", e)
         return f"Error fetching data: {str(e)}"
 
 # 🔹 Form submit
@@ -99,12 +107,13 @@ def submit():
                 "INSERT INTO complaints (name, message) VALUES (%s, %s)",
                 (name, message)
             )
-
         elif form_type == "query":
             c.execute(
                 "INSERT INTO queries (name, message) VALUES (%s, %s)",
                 (name, message)
             )
+        else:
+            return "Invalid form type ❌"
 
         conn.commit()
         c.close()
@@ -113,9 +122,9 @@ def submit():
         return redirect('/')
 
     except Exception as e:
+        print("DB Insert Error:", e)
         return f"Error: {str(e)}"
 
 # 🔹 Run app
-if __name__ == '__main__':   # <-- _name_ == '_main_' ko __name__ == '__main__' se replace karo
-    init_db()
+if __name__ == '__main__':
     app.run(debug=True)
