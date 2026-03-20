@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 import psycopg2
 import os
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 # 🔹 Database URL (Render se aayega)
 DATABASE_URL = os.environ.get("DATABASE_URL")
@@ -97,6 +97,6 @@ def submit():
 
 
 # 🔹 Run app
-if _name_ == '_main_':
+if __name__ == '__main__':
     init_db()
     app.run()
