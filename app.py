@@ -12,7 +12,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 def get_db_connection():
     return psycopg2.connect(DATABASE_URL)
 
-# 🔹 Initialize database (tables)
+# 🔹 Initialize database (tables) once on startup
 def init_db():
     conn = get_db_connection()
     c = conn.cursor()
@@ -39,17 +39,26 @@ def init_db():
     c.close()
     conn.close()
 
-# 🔹 Run once on startup
-init_db()
+init_db()  # Run once
 
-# 🔹 Home route
+# 🔹 Root URL - show complaints & queries to everyone
 @app.route('/')
 def home():
-    if session.get('logged_in'):
-        return redirect(url_for('view'))
-    return redirect(url_for('login'))
+    conn = get_db_connection()
+    c = conn.cursor()
 
-# 🔹 Login route
+    c.execute("SELECT * FROM complaints ORDER BY id DESC")
+    complaints = c.fetchall()
+
+    c.execute("SELECT * FROM queries ORDER BY id DESC")
+    queries = c.fetchall()
+
+    c.close()
+    conn.close()
+
+    return render_template('view.html', complaints=complaints, queries=queries, admin=False)
+
+# 🔹 Admin login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -58,21 +67,21 @@ def login():
 
         if username == "admin" and password == "1234":
             session['logged_in'] = True
-            return redirect(url_for('view'))
+            return redirect(url_for('admin_view'))
         else:
             return render_template('login.html', error="Invalid Credentials ❌")
 
     return render_template('login.html', error=None)
 
-# 🔹 Logout
+# 🔹 Admin logout
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
-# 🔹 View complaints & queries
-@app.route('/view')
-def view():
+# 🔹 Admin view with session check
+@app.route('/admin')
+def admin_view():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
@@ -88,7 +97,7 @@ def view():
     c.close()
     conn.close()
 
-    return render_template('view.html', complaints=complaints, queries=queries)
+    return render_template('view.html', complaints=complaints, queries=queries, admin=True)
 
 # 🔹 Form submit (complaint/query)
 @app.route('/submit', methods=['POST'])
@@ -119,7 +128,7 @@ def submit():
         c.close()
         conn.close()
 
-        return redirect(url_for('view', success=1))
+        return redirect(url_for('home'))
 
     except Exception as e:
         return f"Error: {str(e)}"
