@@ -2,9 +2,9 @@ from flask import Flask, render_template, request, redirect
 import psycopg2
 import os
 
-app = Flask(_name_)
+app = Flask(__name__)   # <-- _name_ ko __name__ se replace karo
 
-# 🔹 Database URL (Render se aayega)
+# 🔹 Database URL (Render/Heroku me set environment variable)
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 # 🔹 Connect function
@@ -13,53 +13,72 @@ def get_db_connection():
 
 # 🔹 Database create (tables)
 def init_db():
-    conn = get_db_connection()
-    c = conn.cursor()
+    try:
+        conn = get_db_connection()
+        c = conn.cursor()
 
-    # Complaint table
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS complaints (
-            id SERIAL PRIMARY KEY,
-            name TEXT,
-            message TEXT
-        )
-    ''')
+        # Complaint table
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS complaints (
+                id SERIAL PRIMARY KEY,
+                name TEXT NOT NULL,
+                message TEXT NOT NULL
+            )
+        ''')
 
-    # Query table
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS queries (
-            id SERIAL PRIMARY KEY,
-            name TEXT,
-            message TEXT
-        )
-    ''')
+        # Query table
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS queries (
+                id SERIAL PRIMARY KEY,
+                name TEXT NOT NULL,
+                message TEXT NOT NULL
+            )
+        ''')
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        c.close()        # <-- cursor close karo
+        conn.close()
+        print("Tables created successfully ✅")
 
+    except Exception as e:
+        print("Error creating tables:", e)
 
 # 🔹 Home page
 @app.route('/')
 def home():
     return render_template('index.html')
 
-
-# 🔹 View data (IMPORTANT 🔥)
+# 🔹 View data
 @app.route('/view')
 def view():
-    conn = get_db_connection()
-    c = conn.cursor()
+    try:
+        conn = get_db_connection()
+        c = conn.cursor()
 
-    c.execute("SELECT * FROM complaints")
-    complaints = c.fetchall()
+        c.execute("SELECT * FROM complaints")
+        complaints = c.fetchall()
 
-    c.execute("SELECT * FROM queries")
-    queries = c.fetchall()
+        c.execute("SELECT * FROM queries")
+        queries = c.fetchall()
 
-    conn.close()
+        c.close()
+        conn.close()
 
-    return f"<h2>Complaints</h2>{complaints}<br><br><h2>Queries</h2>{queries}"
+        # Nicely format output
+        html = "<h2>Complaints</h2><ul>"
+        for comp in complaints:
+            html += f"<li>ID:{comp[0]} | Name:{comp[1]} | Message:{comp[2]}</li>"
+        html += "</ul>"
 
+        html += "<h2>Queries</h2><ul>"
+        for q in queries:
+            html += f"<li>ID:{q[0]} | Name:{q[1]} | Message:{q[2]}</li>"
+        html += "</ul>"
+
+        return html
+
+    except Exception as e:
+        return f"Error fetching data: {str(e)}"
 
 # 🔹 Form submit
 @app.route('/submit', methods=['POST'])
@@ -88,6 +107,7 @@ def submit():
             )
 
         conn.commit()
+        c.close()
         conn.close()
 
         return redirect('/')
@@ -95,8 +115,7 @@ def submit():
     except Exception as e:
         return f"Error: {str(e)}"
 
-
 # 🔹 Run app
-if _name_ == '_main_':
+if __name__ == '__main__':   # <-- _name_ == '_main_' ko __name__ == '__main__' se replace karo
     init_db()
-    app.run()
+    app.run(debug=True)
