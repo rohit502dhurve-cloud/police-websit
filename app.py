@@ -1,23 +1,22 @@
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect
 import psycopg2
 import os
 
-app = Flask(__name__)
-app.secret_key = "secret123"
+app = Flask(_name_)
 
-# 🔹 Database URL from environment
+# 🔹 Database URL
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-# 🔹 Function to get DB connection
+# 🔹 Connect function
 def get_db_connection():
     return psycopg2.connect(DATABASE_URL)
 
-# 🔹 Initialize database tables once
+# 🔹 Database create (tables)
 def init_db():
     conn = get_db_connection()
     c = conn.cursor()
 
-    # Complaints table
+    # Complaint table
     c.execute('''
         CREATE TABLE IF NOT EXISTS complaints (
             id SERIAL PRIMARY KEY,
@@ -26,7 +25,7 @@ def init_db():
         )
     ''')
 
-    # Queries table
+    # Query table
     c.execute('''
         CREATE TABLE IF NOT EXISTS queries (
             id SERIAL PRIMARY KEY,
@@ -39,55 +38,46 @@ def init_db():
     c.close()
     conn.close()
 
-init_db()  # Run once on startup
+# 🔥 IMPORTANT: har request se pehle table create
+@app.before_request
+def create_tables():
+    init_db()
 
-# 🔹 Public homepage (form only, no submissions shown)
+# 🔹 Home page
 @app.route('/')
 def home():
-    return render_template('public_home.html')  # templates/public_home.html
+    return render_template('index.html')
 
-# 🔹 Admin login
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-
-        if username == "admin" and password == "1234":
-            session['logged_in'] = True
-            return redirect(url_for('admin_view'))
-        else:
-            return render_template('login.html', error="Invalid Credentials ❌")
-
-    return render_template('login.html', error=None)
-
-# 🔹 Admin logout
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('home'))
-
-# 🔹 Admin view (login required)
-@app.route('/admin')
-def admin_view():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-
+# 🔹 View data
+@app.route('/view')
+def view():
     conn = get_db_connection()
     c = conn.cursor()
 
-    c.execute("SELECT * FROM complaints ORDER BY id DESC")
+    c.execute("SELECT * FROM complaints")
     complaints = c.fetchall()
 
-    c.execute("SELECT * FROM queries ORDER BY id DESC")
+    c.execute("SELECT * FROM queries")
     queries = c.fetchall()
 
     c.close()
     conn.close()
 
-    return render_template('admin_view.html', complaints=complaints, queries=queries)
+    return render_template('view.html', complaints=complaints, queries=queries)
 
-# 🔹 Form submit (public can submit, data goes to DB)
+    html = "<h2>Complaints</h2><ul>"
+    for comp in complaints:
+        html += f"<li>ID:{comp[0]} | Name:{comp[1]} | Message:{comp[2]}</li>"
+    html += "</ul>"
+
+    html += "<h2>Queries</h2><ul>"
+    for q in queries:
+        html += f"<li>ID:{q[0]} | Name:{q[1]} | Message:{q[2]}</li>"
+    html += "</ul>"
+
+    return html
+
+# 🔹 Form submit
 @app.route('/submit', methods=['POST'])
 def submit():
     name = request.form.get('name')
@@ -106,6 +96,7 @@ def submit():
                 "INSERT INTO complaints (name, message) VALUES (%s, %s)",
                 (name, message)
             )
+
         elif form_type == "query":
             c.execute(
                 "INSERT INTO queries (name, message) VALUES (%s, %s)",
@@ -116,12 +107,12 @@ def submit():
         c.close()
         conn.close()
 
-        # Redirect public back to home after submit
-        return redirect(url_for('home'))
+        # ✅ Success message
+        return redirect('/?success=1')
 
     except Exception as e:
         return f"Error: {str(e)}"
 
 # 🔹 Run app
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000, debug=True)
+if _name_ == '_main_':
+    app.run(host='0.0.0.0', port=10000)
