@@ -5,18 +5,19 @@ import os
 app = Flask(__name__)
 app.secret_key = "secret123"
 
-# 🔹 Database URL
+# 🔹 Database URL from environment
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-# 🔹 Connect function
+# 🔹 Function to get DB connection
 def get_db_connection():
     return psycopg2.connect(DATABASE_URL)
 
-# 🔹 Initialize database once
+# 🔹 Initialize database tables once
 def init_db():
     conn = get_db_connection()
     c = conn.cursor()
 
+    # Complaints table
     c.execute('''
         CREATE TABLE IF NOT EXISTS complaints (
             id SERIAL PRIMARY KEY,
@@ -25,6 +26,7 @@ def init_db():
         )
     ''')
 
+    # Queries table
     c.execute('''
         CREATE TABLE IF NOT EXISTS queries (
             id SERIAL PRIMARY KEY,
@@ -37,12 +39,12 @@ def init_db():
     c.close()
     conn.close()
 
-init_db()
+init_db()  # Run once on startup
 
-# 🔹 Public homepage - form only, no submissions shown
+# 🔹 Public homepage (form only, no submissions shown)
 @app.route('/')
 def home():
-    return render_template('public_home.html')  # Only form, no data
+    return render_template('public_home.html')  # templates/public_home.html
 
 # 🔹 Admin login
 @app.route('/login', methods=['GET', 'POST'])
@@ -65,7 +67,7 @@ def logout():
     session.clear()
     return redirect(url_for('home'))
 
-# 🔹 Admin view - only logged-in admin can see submissions
+# 🔹 Admin view (login required)
 @app.route('/admin')
 def admin_view():
     if not session.get('logged_in'):
