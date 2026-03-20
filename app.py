@@ -4,16 +4,16 @@ import os
 
 app = Flask(__name__)
 
-# 🔹 Database URL (Render / Heroku environment variable)
+# 🔹 Database URL (Render environment variable)
 DATABASE_URL = os.environ.get("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable not set!")
 
 # 🔹 Connect function
 def get_db_connection():
-    if DATABASE_URL is None:
-        raise ValueError("DATABASE_URL environment variable not set!")
     return psycopg2.connect(DATABASE_URL)
 
-# 🔹 Initialize database tables (complaints + queries)
+# 🔹 Initialize database tables
 def init_db():
     try:
         conn = get_db_connection()
@@ -43,12 +43,10 @@ def init_db():
         print("Tables created successfully ✅")
 
     except Exception as e:
-        print("Error creating tables:", e)
+        print("DB init error:", e)
 
-# 🔹 Initialize tables before first request (Render compatible)
-@app.before_first_request
-def initialize():
-    init_db()
+# 🔹 Call init_db immediately (Render compatible)
+init_db()
 
 # 🔹 Home page
 @app.route('/')
@@ -71,7 +69,6 @@ def view():
         c.close()
         conn.close()
 
-        # Nicely format output
         html = "<h2>Complaints</h2><ul>"
         for comp in complaints:
             html += f"<li>ID:{comp[0]} | Name:{comp[1]} | Message:{comp[2]}</li>"
@@ -125,6 +122,6 @@ def submit():
         print("DB Insert Error:", e)
         return f"Error: {str(e)}"
 
-# 🔹 Run app
+# 🔹 Run app locally
 if __name__ == '__main__':
     app.run(debug=True)
