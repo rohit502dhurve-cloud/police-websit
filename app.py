@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-# 🔹 Database URL (Render se aayega)
+# 🔹 Database URL
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 # 🔹 Connect function
@@ -20,8 +20,8 @@ def init_db():
     c.execute('''
         CREATE TABLE IF NOT EXISTS complaints (
             id SERIAL PRIMARY KEY,
-            name TEXT,
-            message TEXT
+            name TEXT NOT NULL,
+            message TEXT NOT NULL
         )
     ''')
 
@@ -29,22 +29,26 @@ def init_db():
     c.execute('''
         CREATE TABLE IF NOT EXISTS queries (
             id SERIAL PRIMARY KEY,
-            name TEXT,
-            message TEXT
+            name TEXT NOT NULL,
+            message TEXT NOT NULL
         )
     ''')
 
     conn.commit()
+    c.close()
     conn.close()
 
+# 🔥 IMPORTANT: har request se pehle table create
+@app.before_request
+def create_tables():
+    init_db()
 
 # 🔹 Home page
 @app.route('/')
 def home():
     return render_template('index.html')
 
-
-# 🔹 View data (IMPORTANT 🔥)
+# 🔹 View data
 @app.route('/view')
 def view():
     conn = get_db_connection()
@@ -56,10 +60,20 @@ def view():
     c.execute("SELECT * FROM queries")
     queries = c.fetchall()
 
+    c.close()
     conn.close()
 
-    return f"<h2>Complaints</h2>{complaints}<br><br><h2>Queries</h2>{queries}"
+    html = "<h2>Complaints</h2><ul>"
+    for comp in complaints:
+        html += f"<li>ID:{comp[0]} | Name:{comp[1]} | Message:{comp[2]}</li>"
+    html += "</ul>"
 
+    html += "<h2>Queries</h2><ul>"
+    for q in queries:
+        html += f"<li>ID:{q[0]} | Name:{q[1]} | Message:{q[2]}</li>"
+    html += "</ul>"
+
+    return html
 
 # 🔹 Form submit
 @app.route('/submit', methods=['POST'])
@@ -88,15 +102,15 @@ def submit():
             )
 
         conn.commit()
+        c.close()
         conn.close()
 
-        return redirect('/')
+        # ✅ Success message
+        return redirect('/?success=1')
 
     except Exception as e:
         return f"Error: {str(e)}"
 
-
 # 🔹 Run app
 if __name__ == '__main__':
-    init_db()
     app.run(host='0.0.0.0', port=10000)
