@@ -12,12 +12,11 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 def get_db_connection():
     return psycopg2.connect(DATABASE_URL)
 
-# 🔹 Initialize database (tables) once on startup
+# 🔹 Initialize database once
 def init_db():
     conn = get_db_connection()
     c = conn.cursor()
 
-    # Complaint table
     c.execute('''
         CREATE TABLE IF NOT EXISTS complaints (
             id SERIAL PRIMARY KEY,
@@ -26,7 +25,6 @@ def init_db():
         )
     ''')
 
-    # Query table
     c.execute('''
         CREATE TABLE IF NOT EXISTS queries (
             id SERIAL PRIMARY KEY,
@@ -39,24 +37,12 @@ def init_db():
     c.close()
     conn.close()
 
-init_db()  # Run once
+init_db()
 
-# 🔹 Root URL - show complaints & queries to everyone
+# 🔹 Public homepage - form only, no submissions shown
 @app.route('/')
 def home():
-    conn = get_db_connection()
-    c = conn.cursor()
-
-    c.execute("SELECT * FROM complaints ORDER BY id DESC")
-    complaints = c.fetchall()
-
-    c.execute("SELECT * FROM queries ORDER BY id DESC")
-    queries = c.fetchall()
-
-    c.close()
-    conn.close()
-
-    return render_template('view.html', complaints=complaints, queries=queries, admin=False)
+    return render_template('public_home.html')  # Only form, no data
 
 # 🔹 Admin login
 @app.route('/login', methods=['GET', 'POST'])
@@ -79,7 +65,7 @@ def logout():
     session.clear()
     return redirect(url_for('home'))
 
-# 🔹 Admin view with session check
+# 🔹 Admin view - only logged-in admin can see submissions
 @app.route('/admin')
 def admin_view():
     if not session.get('logged_in'):
@@ -97,9 +83,9 @@ def admin_view():
     c.close()
     conn.close()
 
-    return render_template('view.html', complaints=complaints, queries=queries, admin=True)
+    return render_template('admin_view.html', complaints=complaints, queries=queries)
 
-# 🔹 Form submit (complaint/query)
+# 🔹 Form submit (public can submit, data goes to DB)
 @app.route('/submit', methods=['POST'])
 def submit():
     name = request.form.get('name')
@@ -128,6 +114,7 @@ def submit():
         c.close()
         conn.close()
 
+        # Redirect public back to home after submit
         return redirect(url_for('home'))
 
     except Exception as e:
