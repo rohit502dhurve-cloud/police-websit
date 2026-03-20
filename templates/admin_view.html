@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - Complaints & Queries</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f9;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+            background: #007BFF;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 30px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+        }
+        th {
+            background: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even){background-color: #f2f2f2;}
+    </style>
+</head>
+<body>
+    <h2>Admin Dashboard</h2>
+    <a href="/logout">Logout</a>
+
+    <h3>Complaints</h3>
+    {% if complaints %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Message</th>
+        </tr>
+        {% for c in complaints %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td>{{ c[1] }}</td>
+            <td>{{ c[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No complaints submitted yet.</p>
+    {% endif %}
+
+    <h3>Queries</h3>
+    {% if queries %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Message</th>
+        </tr>
+        {% for q in queries %}
+        <tr>
+            <td>{{ q[0] }}</td>
+            <td>{{ q[1] }}</td>
+            <td>{{ q[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No queries submitted yet.</p>
+    {% endif %}
+</body>
+</html>
