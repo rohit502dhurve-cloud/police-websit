@@ -31,24 +31,20 @@ button{padding:8px 12px; margin:5px; cursor:pointer;}
 <p>District Balaghat, Madhya Pradesh</p>
 </header>
 
-<!-- MENU -->
 <nav>
 <a onclick="showMotto()">Our Motto</a>
 <a onclick="openForm('query')">Queries</a>
 <a onclick="openForm('complaint')">Complaints</a>
 </nav>
 
-<!-- MOTTO -->
 <p id="mottoText"></p>
 
-<!-- MAIN -->
 <div class="main">
   <div class="left">
     <h2>Police Station Lanji</h2>
     <img src="{{ url_for('static', filename='ps_lanji_photo.png') }}" style="width:100%; max-width:800px;">
     <p>Serving and Protecting the Community</p>
   </div>
-
   <div class="right">
     <h3>Officers</h3>
     <div class="slide active">
@@ -62,15 +58,11 @@ button{padding:8px 12px; margin:5px; cursor:pointer;}
   </div>
 </div>
 
-<!-- MAP -->
 <div class="map">
 <h3>Our Location</h3>
-<iframe 
-src="https://www.google.com/maps?q=Police+Station+Lanji+Balaghat&output=embed"
-width="80%" height="300" style="border:0;"></iframe>
+<iframe src="https://www.google.com/maps?q=Police+Station+Lanji+Balaghat&output=embed" width="80%" height="300" style="border:0;"></iframe>
 </div>
 
-<!-- POPUP FORM -->
 <div class="overlay" id="overlay"></div>
 
 <div class="popup" id="popup">
@@ -84,7 +76,6 @@ width="80%" height="300" style="border:0;"></iframe>
 </form>
 </div>
 
-<!-- FOOTER -->
 <footer>
 <p>Contact: 7049114614</p>
 <p>Police Station Lanji, District Balaghat</p>
@@ -92,30 +83,28 @@ width="80%" height="300" style="border:0;"></iframe>
 </footer>
 
 <script>
-// SLIDER
 window.onload = function(){
-let index = 0;
-let slides = document.querySelectorAll(".slide");
-setInterval(() => {
-  slides[index].classList.remove("active");
-  index = (index + 1) % slides.length;
-  slides[index].classList.add("active");
-}, 3000);
+  let index = 0;
+  let slides = document.querySelectorAll(".slide");
+  setInterval(() => {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+  }, 3000);
 }
 
-// POPUP FORM
 function openForm(type){
   document.getElementById("popup").style.display="block";
   document.getElementById("overlay").style.display="block";
   document.getElementById("formTitle").innerText = type.charAt(0).toUpperCase() + type.slice(1);
   document.getElementById("formType").value = type;
 }
+
 function closeForm(){
   document.getElementById("popup").style.display="none";
   document.getElementById("overlay").style.display="none";
 }
 
-// MOTTO
 function showMotto(){
   let text = document.getElementById("mottoText");
   text.innerHTML = text.innerHTML === "" ? "देश भक्ति जन सेवा" : "";
