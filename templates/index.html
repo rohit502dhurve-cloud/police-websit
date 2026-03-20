@@ -47,8 +47,8 @@ footer{background:navy; color:white; text-align:center; padding:15px; margin-top
 <!-- MENU -->
 <nav>
 <a onclick="showMotto()">Our Motto</a>
-<a onclick="openForm('query')">Queries</a>
-<a onclick="openForm('complaint')">Complaints</a>
+<a onclick="openForm('Query')">Queries</a>
+<a onclick="openForm('Complaint')">Complaints</a>
 </nav>
 
 <!-- MOTTO -->
@@ -106,7 +106,6 @@ width="80%" height="300" style="border:0;">
 <input type="hidden" name="type" id="formType">
 
 <button type="submit">Submit</button>
-<button type="button" onclick="closeForm()">Close</button>
 
 </form>
 
@@ -140,11 +139,6 @@ document.getElementById("overlay").style.display="block";
 
 document.getElementById("formTitle").innerText = type;
 document.getElementById("formType").value = type;
-}
-
-function closeForm(){
-    document.getElementById("popup").style.display="none";
-    document.getElementById("overlay").style.display="none";
 }
 
 // MOTTO
