@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 import psycopg2
 import os
 
 app = Flask(__name__)
+app.secret_key = "secret123"
 
 # 🔹 Database URL
 DATABASE_URL = os.environ.get("DATABASE_URL")
@@ -44,13 +45,26 @@ def create_tables():
     init_db()
 
 # 🔹 Home page
-@app.route('/')
-def home():
-    return render_template('index.html')
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        if username == "admin" and password == "1234":
+            session['logged_in'] = True
+            return redirect('/view')
+        else:
+            return "Invalid Credentials ❌"
+
+    return render_template('login.html')    
 
 # 🔹 View data
 @app.route('/view')
 def view():
+    if not session.get('logged_in'):
+        return redirect('/login')
+
     conn = get_db_connection()
     c = conn.cursor()
 
