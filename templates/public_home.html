@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Police Website - Submit Complaint/Query</title>
+</head>
+<body>
+    <h2>Submit Complaint or Query</h2>
+    <form action="/submit" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required><br><br>
+        <textarea name="message" placeholder="Your Message" required></textarea><br><br>
+        <select name="type">
+            <option value="complaint">Complaint</option>
+            <option value="query">Query</option>
+        </select><br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
