@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, url_for
 import psycopg2
 import os
 
@@ -12,7 +12,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 def get_db_connection():
     return psycopg2.connect(DATABASE_URL)
 
-# 🔹 Database create (tables)
+# 🔹 Initialize database (tables)
 def init_db():
     conn = get_db_connection()
     c = conn.cursor()
@@ -39,15 +39,17 @@ def init_db():
     c.close()
     conn.close()
 
-# 🔥 IMPORTANT: har request se pehle table create
-@app.before_request
-def create_tables():
-    init_db()
+# 🔹 Run once on startup
+init_db()
 
-# 🔹 Home page
+# 🔹 Home route
 @app.route('/')
 def home():
-    return redirect('/login')
+    if session.get('logged_in'):
+        return redirect(url_for('view'))
+    return redirect(url_for('login'))
+
+# 🔹 Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -56,25 +58,31 @@ def login():
 
         if username == "admin" and password == "1234":
             session['logged_in'] = True
-            return redirect('/view')
+            return redirect(url_for('view'))
         else:
-            return "Invalid Credentials ❌"
+            return render_template('login.html', error="Invalid Credentials ❌")
 
-    return render_template('login.html')    
+    return render_template('login.html', error=None)
 
-# 🔹 View data
+# 🔹 Logout
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+# 🔹 View complaints & queries
 @app.route('/view')
 def view():
     if not session.get('logged_in'):
-        return redirect('/login')
+        return redirect(url_for('login'))
 
     conn = get_db_connection()
     c = conn.cursor()
 
-    c.execute("SELECT * FROM complaints")
+    c.execute("SELECT * FROM complaints ORDER BY id DESC")
     complaints = c.fetchall()
 
-    c.execute("SELECT * FROM queries")
+    c.execute("SELECT * FROM queries ORDER BY id DESC")
     queries = c.fetchall()
 
     c.close()
@@ -82,23 +90,7 @@ def view():
 
     return render_template('view.html', complaints=complaints, queries=queries)
 
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect('/login')
-    html = "<h2>Complaints</h2><ul>"
-    for comp in complaints:
-        html += f"<li>ID:{comp[0]} | Name:{comp[1]} | Message:{comp[2]}</li>"
-    html += "</ul>"
-
-    html += "<h2>Queries</h2><ul>"
-    for q in queries:
-        html += f"<li>ID:{q[0]} | Name:{q[1]} | Message:{q[2]}</li>"
-    html += "</ul>"
-
-    return html
-
-# 🔹 Form submit
+# 🔹 Form submit (complaint/query)
 @app.route('/submit', methods=['POST'])
 def submit():
     name = request.form.get('name')
@@ -117,7 +109,6 @@ def submit():
                 "INSERT INTO complaints (name, message) VALUES (%s, %s)",
                 (name, message)
             )
-
         elif form_type == "query":
             c.execute(
                 "INSERT INTO queries (name, message) VALUES (%s, %s)",
@@ -128,12 +119,11 @@ def submit():
         c.close()
         conn.close()
 
-        # ✅ Success message
-        return redirect('/?success=1')
+        return redirect(url_for('view', success=1))
 
     except Exception as e:
         return f"Error: {str(e)}"
 
 # 🔹 Run app
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    app.run(host='0.0.0.0', port=10000, debug=True)
