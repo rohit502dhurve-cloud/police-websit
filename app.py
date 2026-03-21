@@ -34,39 +34,40 @@ def init_db():
         )
     ''')
 
+    # Beatbook table
     c.execute('''
-    CREATE TABLE IF NOT EXISTS beatbook (
-        id SERIAL PRIMARY KEY,
-        police_station TEXT,
-        village TEXT,
-        beat_officer TEXT,
-        beat_constable TEXT,
-        population TEXT,
-        caste TEXT,
-        sarpanch TEXT,
-        school TEXT
-    )
-''')
+        CREATE TABLE IF NOT EXISTS beatbook (
+            id SERIAL PRIMARY KEY,
+            police_station TEXT,
+            village TEXT,
+            beat_officer TEXT,
+            beat_constable TEXT,
+            population TEXT,
+            caste TEXT,
+            sarpanch TEXT,
+            school TEXT
+        )
+    ''')
 
     # Check if data exists
-c.execute("SELECT COUNT(*) FROM beatbook")
-count = c.fetchone()[0]
+    c.execute("SELECT COUNT(*) FROM beatbook")
+    count = c.fetchone()[0]
 
-if count == 0:
-    c.execute("""
-        INSERT INTO beatbook 
-        (police_station, village, beat_officer, beat_constable, population, caste, sarpanch, school)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
-    """, (
-        "Lanji",
-        "Bisoni",
-        "SI Sundar Lal Pawar",
-        "Surendra Panche",
-        "Approx 2500",
-        "Lodhi, Kalar, Marar, Gowara",
-        "Smt. Varsha Vare (9424937724)",
-        "Govt. High School Bisoni"
-   ))
+    if count == 0:
+        c.execute("""
+            INSERT INTO beatbook 
+            (police_station, village, beat_officer, beat_constable, population, caste, sarpanch, school)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+        """, (
+            "Lanji",
+            "Bisoni",
+            "SI Sundar Lal Pawar",
+            "Surendra Panche",
+            "Approx 2500",
+            "Lodhi, Kalar, Marar, Gowara",
+            "Smt. Varsha Vare (9424937724)",
+            "Govt. High School Bisoni"
+        ))
 
     conn.commit()
     c.close()
@@ -111,17 +112,7 @@ def view():
 
     return render_template('view.html', complaints=complaints, queries=queries)
 
-    for comp in complaints:
-        html += f"<li>ID:{comp[0]} | Name:{comp[1]} | Message:{comp[2]}</li>"
-    html += "</ul>"
-
-    html += "<h2>Queries</h2><ul>"
-    for q in queries:
-        html += f"<li>ID:{q[0]} | Name:{q[1]} | Message:{q[2]}</li>"
-    html += "</ul>"
-
-    return html
-
+ 
 # 🔹 Form submit
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -160,4 +151,4 @@ def submit():
 
 # 🔹 Run app
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
