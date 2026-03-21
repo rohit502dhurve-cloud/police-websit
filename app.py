@@ -16,6 +16,40 @@ def init_db():
     conn = get_db_connection()
     c = conn.cursor()
 
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS beatbook (
+        id SERIAL PRIMARY KEY,
+        police_station TEXT,
+        village TEXT,
+        beat_officer TEXT,
+        beat_constable TEXT,
+        population TEXT,
+        caste TEXT,
+        sarpanch TEXT,
+        school TEXT
+    )
+''')
+
+    # Check if data exists
+c.execute("SELECT COUNT(*) FROM beatbook")
+count = c.fetchone()[0]
+
+if count == 0:
+    c.execute("""
+        INSERT INTO beatbook 
+        (police_station, village, beat_officer, beat_constable, population, caste, sarpanch, school)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+    """, (
+        "Lanji",
+        "Bisoni",
+        "SI Sundar Lal Pawar",
+        "Surendra Panche",
+        "Approx 2500",
+        "Lodhi, Kalar, Marar, Gowara",
+        "Smt. Varsha Vare (9424937724)",
+        "Govt. High School Bisoni"
+    ))
+
     # Complaint table
     c.execute('''
         CREATE TABLE IF NOT EXISTS complaints (
@@ -39,14 +73,26 @@ def init_db():
     conn.close()
 
 # 🔥 IMPORTANT: har request se pehle table create
-@app.before_request
-def create_tables():
+with app.app_context():
     init_db()
 
 # 🔹 Home page
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/beatbook')
+def beatbook():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM beatbook")
+    data = c.fetchall()
+
+    c.close()
+    conn.close()
+
+    return render_template('beatbook.html', data=data)
 
 # 🔹 View data
 @app.route('/view')
@@ -65,7 +111,6 @@ def view():
 
     return render_template('view.html', complaints=complaints, queries=queries)
 
-    html = "<h2>Complaints</h2><ul>"
     for comp in complaints:
         html += f"<li>ID:{comp[0]} | Name:{comp[1]} | Message:{comp[2]}</li>"
     html += "</ul>"
