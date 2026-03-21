@@ -95,24 +95,6 @@ def beatbook():
 
     return render_template('beatbook.html', data=data)
 
-# 🔹 View data
-@app.route('/view')
-def view():
-    conn = get_db_connection()
-    c = conn.cursor()
-
-    c.execute("SELECT * FROM complaints")
-    complaints = c.fetchall()
-
-    c.execute("SELECT * FROM queries")
-    queries = c.fetchall()
-
-    c.close()
-    conn.close()
-
-    return render_template('view.html', complaints=complaints, queries=queries)
-
- 
 # 🔹 Form submit
 @app.route('/submit', methods=['POST'])
 def submit():
