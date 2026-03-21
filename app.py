@@ -16,6 +16,24 @@ def init_db():
     conn = get_db_connection()
     c = conn.cursor()
 
+    # Complaint table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS complaints (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            message TEXT NOT NULL
+        )
+    ''')
+
+    # Query table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS queries (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            message TEXT NOT NULL
+        )
+    ''')
+
     c.execute('''
     CREATE TABLE IF NOT EXISTS beatbook (
         id SERIAL PRIMARY KEY,
@@ -48,25 +66,7 @@ if count == 0:
         "Lodhi, Kalar, Marar, Gowara",
         "Smt. Varsha Vare (9424937724)",
         "Govt. High School Bisoni"
-    ))
-
-    # Complaint table
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS complaints (
-            id SERIAL PRIMARY KEY,
-            name TEXT NOT NULL,
-            message TEXT NOT NULL
-        )
-    ''')
-
-    # Query table
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS queries (
-            id SERIAL PRIMARY KEY,
-            name TEXT NOT NULL,
-            message TEXT NOT NULL
-        )
-    ''')
+   ))
 
     conn.commit()
     c.close()
