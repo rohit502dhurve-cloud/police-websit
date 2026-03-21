@@ -42,7 +42,7 @@ nav a{
   margin-top:10px;
 }
 
-/* ✅ FIXED LAYOUT */
+/* MAIN LAYOUT */
 .main{
   display:flex;
   gap:20px;
@@ -57,22 +57,23 @@ nav a{
 }
 
 .right{
-  height: 450px;
-  background: white;
-  padding: 10px;
-  position: relative;
+  height:450px;
+  overflow:hidden;
+  position:relative;
+  background:white;
+  padding:10px;
+}
+
+.right h3{
+  text-align:center;
+  margin-bottom:10px;
+  border-bottom:2px solid #ccc;
+  padding-bottom:5px;
 }
 
 .slide{
-  display: block;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-  .scroll-box{
-  height: 380px;
-  overflow: hidden;
-  position: relative;
+  text-align:center;
+  margin-bottom:20px;
 }
 
 .slide img{
@@ -82,7 +83,22 @@ nav a{
   border-radius:10px;
 }
 
-/* animation container */
+/* SCROLL */
+.slides-wrapper{
+  animation: scrollUp 18s linear infinite;
+  margin-top:20px;
+}
+
+.slides-wrapper:hover{
+  animation-play-state: paused;
+}
+
+@keyframes scrollUp{
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+/* bottom fade */
 .right::after{
   content:'';
   position:absolute;
@@ -91,20 +107,6 @@ nav a{
   width:100%;
   height:50px;
   background:linear-gradient(to top, white, transparent);
-}
-
-.slides-wrapper{
-  animation: scrollUp 12s linear infinite;
-  padding-top: 20px;
-}
-
-  .slides-wrapper:hover{
-  animation-play-state: paused;
-}
-
-@keyframes scrollUp{
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(-50%); }
 }
 
 /* POPUP */
@@ -157,29 +159,27 @@ button{
   cursor:pointer;
 }
 </style>
-
 </head>
 
 <body>
 
 <header style="position:relative;">
-    
-    <a href="/beatbook" style="
-        position:absolute;
-        top:20px;
-        right:20px;
-        background:red;
-        color:white;
-        padding:10px 15px;
-        text-decoration:none;
-        border-radius:5px;
-        font-weight:bold;">
-        Beat Book
-    </a>
+<a href="/beatbook" style="
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:red;
+  color:white;
+  padding:10px 15px;
+  text-decoration:none;
+  border-radius:5px;
+  font-weight:bold;">
+  Beat Book
+</a>
 
-    <img src="{{ url_for('static', filename='mp_police_logo.jpeg') }}" width="100">
-    <h1>Police Station Lanji</h1>
-    <p>District Balaghat, Madhya Pradesh</p>
+<img src="{{ url_for('static', filename='mp_police_logo.jpeg') }}" width="100">
+<h1>Police Station Lanji</h1>
+<p>District Balaghat, Madhya Pradesh</p>
 </header>
 
 <!-- MENU -->
@@ -189,7 +189,6 @@ button{
 <a onclick="openForm('complaint')">Complaints</a>
 </nav>
 
-<!-- MOTTO -->
 <p id="mottoText"></p>
 
 <!-- MAIN -->
@@ -205,8 +204,7 @@ button{
 
 <div class="right">
 <h3>Officers</h3>
-  
-<div class="scroll-box">
+
 <div class="slides-wrapper">
 
 <div class="slide">
@@ -239,42 +237,13 @@ button{
 <p><b>ASI Devraj Singh</b></p>
 </div>
 
-<div class="slide">
-<img src="{{ url_for('static', filename='si_deep_singh_parmar.png') }}">
-<p><b>SI Deep Singh Parmar</b></p>
-</div>
+<!-- repeat for smooth loop -->
 
-<div class="slide">
-<img src="{{ url_for('static', filename='si_sundar_lal_pawar.png') }}">
-<p><b>SI Sundar Lal Pawar</b></p>
 </div>
-
-<div class="slide">
-<img src="{{ url_for('static', filename='asi_pramod_bagri.jpeg') }}">
-<p><b>ASI Pramod Bagri</b></p>
-</div>
-
-<div class="slide">
-<img src="{{ url_for('static', filename='asi_mahesh.bisen.jpeg') }}">
-<p><b>ASI Mahesh Bisen</b></p>
-</div>
-
-<div class="slide">
-<img src="{{ url_for('static', filename='asi_parmanand_bhagat.jpeg') }}">
-<p><b>ASI Parmanand Bhagat</b></p>
-</div>
-
-<div class="slide">
-<img src="{{ url_for('static', filename='asi_devraj_singh_dhurway.jpeg') }}">
-<p><b>ASI Devraj Singh</b></p>
 </div>
 
 </div>
 
-</div>
-
-</div>
-    
 <!-- MAP -->
 <div class="map">
 <h3>Our Location</h3>
@@ -284,11 +253,10 @@ width="80%" height="300" style="border:0;">
 </iframe>
 </div>
 
-<!-- POPUP FORM -->
+<!-- POPUP -->
 <div class="overlay" id="overlay"></div>
 
 <div class="popup" id="popup">
-
 <form action="/submit" method="POST">
 
 <h3 id="formTitle">Query / Complaint</h3>
@@ -302,7 +270,6 @@ width="80%" height="300" style="border:0;">
 <button type="button" onclick="closeForm()">Close</button>
 
 </form>
-
 </div>
 
 <!-- FOOTER -->
@@ -313,12 +280,9 @@ width="80%" height="300" style="border:0;">
 </footer>
 
 <script>
-
-// POPUP
 function openForm(type){
   document.getElementById("popup").style.display="block";
   document.getElementById("overlay").style.display="block";
-
   document.getElementById("formTitle").innerText = type;
   document.getElementById("formType").value = type;
 }
@@ -328,23 +292,15 @@ function closeForm(){
   document.getElementById("overlay").style.display="none";
 }
 
-// MOTTO
 function showMotto(){
   let text = document.getElementById("mottoText");
-
-  if(text.innerHTML === ""){
-    text.innerHTML = "देश भक्ति जन सेवा";
-  } else {
-    text.innerHTML = "";
-  }
+  text.innerHTML = text.innerHTML === "" ? "देश भक्ति जन सेवा" : "";
 }
 
-// ✅ SUCCESS MESSAGE
 const params = new URLSearchParams(window.location.search);
 if(params.get("success") === "1"){
   alert("✅ Submitted Successfully!");
 }
-
 </script>
 
 </body>
