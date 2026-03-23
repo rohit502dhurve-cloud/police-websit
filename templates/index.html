@@ -369,6 +369,11 @@ function showSlides(){
   setTimeout(showSlides, 2000); // 2 sec me change hoga
 }
 
+  const params = new URLSearchParams(window.location.search);
+if(params.get("success") === "1"){
+  alert("✅ Observation Submitted Successfully!");
+}
+
   function updateDateTime(){
   let now = new Date();
   document.getElementById("datetime").innerText = now.toLocaleString();
