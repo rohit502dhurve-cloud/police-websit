@@ -165,18 +165,6 @@ button{
 <body>
 
 <header style="position:relative;">
-<a href="/beatbook" style="
-  position:absolute;
-  top:20px;
-  right:20px;
-  background:red;
-  color:white;
-  padding:10px 15px;
-  text-decoration:none;
-  border-radius:5px;
-  font-weight:bold;">
-  Beat Book
-</a>
 
 <img src="{{ url_for('static', filename='mp_police_logo.jpeg') }}" width="100">
 <h1>Police Station Lanji</h1>
@@ -188,6 +176,7 @@ button{
 <a onclick="showMotto()">Our Motto</a>
 <a onclick="openForm('query')">Queries</a>
 <a onclick="openForm('complaint')">Complaints</a>
+<a href="/beatbook">Beat Book</a>
 </nav>
 
 <p id="mottoText"></p>
