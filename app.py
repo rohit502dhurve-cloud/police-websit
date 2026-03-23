@@ -74,8 +74,15 @@ def init_db():
     conn.close()
 
 # 🔥 IMPORTANT: har request se pehle table create
+def init_db_safe():
+    try:
+        init_db()
+        print("✅ Database initialized")
+    except Exception as e:
+        print("❌ DB Error:", e)
+
 with app.app_context():
-    init_db()
+    init_db_safe()
 
 # 🔹 Home page
 @app.route('/')
