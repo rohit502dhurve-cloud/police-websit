@@ -8,6 +8,19 @@
   box-sizing: border-box;
 }
 
+  .ps-slider{
+  position: relative;
+  width:100%;
+  max-width:800px;
+  margin:auto;
+}
+
+.ps-slide{
+  width:100%;
+  display:none;
+  border-radius:10px;
+}
+
 body{
   font-family: Arial;
   margin:0;
@@ -186,8 +199,20 @@ button{
 
 <div class="left">
 <h2>Police Station Lanji</h2>
+  
+ <div class="ps-slider">
 
-<img src="{{ url_for('static', filename='ps_lanji_photo.png') }}" style="width:100%; max-width:800px;">
+<img src="{{ url_for('static', filename='ps_lanji_photo.png') }}" class="ps-slide">
+<img src="{{ url_for('static', filename='ps3.jpeg') }}" class="ps-slide">
+<img src="{{ url_for('static', filename='ps4.jpeg') }}" class="ps-slide">
+<img src="{{ url_for('static', filename='ps5.jpeg') }}" class="ps-slide">
+<img src="{{ url_for('static', filename='ps6.jpeg') }}" class="ps-slide">
+<img src="{{ url_for('static', filename='ps7.jpeg') }}" class="ps-slide">
+<img src="{{ url_for('static', filename='ps8.jpeg') }}" class="ps-slide">
+<img src="{{ url_for('static', filename='ps9.jpeg') }}" class="ps-slide">
+<img src="{{ url_for('static', filename='ps10.jpeg') }}" class="ps-slide">
+
+ </div>
 
 <p>Serving and Protecting the Community</p>
 </div>
@@ -321,6 +346,27 @@ const params = new URLSearchParams(window.location.search);
 if(params.get("success") === "1"){
   alert("✅ Submitted Successfully!");
 }
+
+let slideIndex = 0;
+showSlides();
+
+function showSlides(){
+  let slides = document.getElementsByClassName("ps-slide");
+
+  for(let i=0; i<slides.length; i++){
+    slides[i].style.display = "none";
+  }
+
+  slideIndex++;
+  if(slideIndex > slides.length){
+    slideIndex = 1;
+  }
+
+  slides[slideIndex-1].style.display = "block";
+
+  setTimeout(showSlides, 2000); // 2 sec me change hoga
+}
+  
 </script>
 
 </body>
