@@ -49,6 +49,13 @@ def init_db():
         )
     ''')
 
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS observations (
+        id SERIAL PRIMARY KEY,
+        text TEXT
+    )
+''')
+
     # Check if data exists
     c.execute("SELECT COUNT(*) FROM beatbook")
     count = c.fetchone()[0]
@@ -111,7 +118,7 @@ def beatbook():
 def save_observation():
     observation = request.form['observation']
 
-    conn = sqlite3.connect('database.db')
+    conn = get_db_connection()
     c = conn.cursor()
 
     c.execute("INSERT INTO observations (text) VALUES (?)", (observation,))
@@ -119,11 +126,6 @@ def save_observation():
     conn.close()
 
     return redirect('/beatbook')
-
-c.execute('''CREATE TABLE IF NOT EXISTS observations (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    text TEXT
-)''')
 
 @app.route('/edit/<int:id>')
 def edit(id):
