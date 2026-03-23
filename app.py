@@ -121,7 +121,7 @@ def save_observation():
     conn = get_db_connection()
     c = conn.cursor()
 
-    c.execute("INSERT INTO observations (text) VALUES (?)", (observation,))
+    c.execute("INSERT INTO observations (text) VALUES (%s)", (observation,))
     conn.commit()
     conn.close()
 
