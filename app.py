@@ -107,6 +107,19 @@ def beatbook():
 
     return render_template('beatbook.html', data=data)
 
+@app.route('/edit/<int:id>')
+def edit(id):
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM beatbook WHERE id=%s", (id,))
+    row = c.fetchone()
+
+    c.close()
+    conn.close()
+
+    return render_template('edit.html', row=row)
+
 # 🔹 View data
 @app.route('/view')
 def view():
