@@ -101,7 +101,7 @@ def home():
 def health():
     return "OK", 200
 
-@app.route('/beatbook')
+@app.route('/beatbook?success=1')')
 def beatbook():
     conn = get_db_connection()
     c = conn.cursor()
