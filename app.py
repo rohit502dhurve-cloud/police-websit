@@ -107,6 +107,24 @@ def beatbook():
 
     return render_template('beatbook.html', data=data)
 
+@app.route('/save_observation', methods=['POST'])
+def save_observation():
+    observation = request.form['observation']
+
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+
+    c.execute("INSERT INTO observations (text) VALUES (?)", (observation,))
+    conn.commit()
+    conn.close()
+
+    return redirect('/beatbook')
+
+c.execute('''CREATE TABLE IF NOT EXISTS observations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    text TEXT
+)''')
+
 @app.route('/edit/<int:id>')
 def edit(id):
     conn = get_db_connection()
