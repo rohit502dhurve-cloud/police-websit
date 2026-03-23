@@ -82,6 +82,10 @@ with app.app_context():
 def home():
     return render_template('index.html')
 
+@app.route('/health')
+def health():
+    return "OK", 200
+
 @app.route('/beatbook')
 def beatbook():
     conn = get_db_connection()
