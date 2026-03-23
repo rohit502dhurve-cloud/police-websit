@@ -120,6 +120,43 @@ def edit(id):
 
     return render_template('edit.html', row=row)
 
+@app.route('/update/<int:id>', methods=['POST'])
+def update(id):
+    police_station = request.form.get('police_station')
+    village = request.form.get('village')
+    beat_officer = request.form.get('beat_officer')
+    beat_constable = request.form.get('beat_constable')
+    population = request.form.get('population')
+    caste = request.form.get('caste')
+    sarpanch = request.form.get('sarpanch')
+    school = request.form.get('school')
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("""
+        UPDATE beatbook SET
+        police_station=%s,
+        village=%s,
+        beat_officer=%s,
+        beat_constable=%s,
+        population=%s,
+        caste=%s,
+        sarpanch=%s,
+        school=%s
+        WHERE id=%s
+    """, (
+        police_station, village, beat_officer,
+        beat_constable, population, caste,
+        sarpanch, school, id
+    ))
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return redirect('/beatbook')
+
 # 🔹 View data
 @app.route('/view')
 def view():
