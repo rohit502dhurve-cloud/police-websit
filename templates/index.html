@@ -348,7 +348,9 @@ if(params.get("success") === "1"){
 }
 
 let slideIndex = 0;
-showSlides();
+  window.onload = function(){
+  showSlides();
+};
 
 function showSlides(){
   let slides = document.getElementsByClassName("ps-slide");
