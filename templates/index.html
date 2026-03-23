@@ -342,10 +342,6 @@ function showMotto(){
   text.innerHTML = text.innerHTML === "" ? "देश भक्ति जन सेवा" : "";
 }
 
-const params = new URLSearchParams(window.location.search);
-if(params.get("success") === "1"){
-  alert("✅ Submitted Successfully!");
-}
 
 let slideIndex = 0;
   window.onload = function(){
@@ -371,7 +367,7 @@ function showSlides(){
 
   const params = new URLSearchParams(window.location.search);
 if(params.get("success") === "1"){
-  alert("✅ Observation Submitted Successfully!");
+  document.getElementById("successMsg").innerText = "✅ Observation Submitted Successfully!";
 }
 
   function updateDateTime(){
