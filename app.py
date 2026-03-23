@@ -123,6 +123,7 @@ def save_observation():
 
     c.execute("INSERT INTO observations (text) VALUES (%s)", (observation,))
     conn.commit()
+    c.close()
     conn.close()
 
     return redirect('/beatbook')
