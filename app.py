@@ -9,8 +9,8 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 
 # 🔹 Connect function
 def get_db_connection():
-    return psycopg2.connect(DATABASE_URL)
-
+    return psycopg2.connect(DATABASE_URL, connect_timeout=3)
+    
 # 🔹 Database create (tables)
 def init_db():
     conn = get_db_connection()
@@ -81,14 +81,15 @@ def init_db_safe():
     except Exception as e:
         print("❌ DB Error:", e)
 
-with app.app_context():
-    init_db_safe()
-
 # 🔹 Home page
 @app.route('/')
 def home():
+    try:
+        init_db()
+    except:
+        pass
     return render_template('index.html')
-
+    
 @app.route('/health')
 def health():
     return "OK", 200
