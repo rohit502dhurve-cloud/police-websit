@@ -18,6 +18,22 @@
 <tr><td>School Name</td><td>{{ row[8] }}</td></tr>
 </table>
 
+<div style="text-align:center; margin-top:20px;">
+  <a href="/edit/{{ row[0] }}">
+    <button style="
+      background:green;
+      color:white;
+      border:none;
+      padding:10px 20px;
+      font-size:16px;
+      border-radius:5px;">
+      Edit
+    </button>
+  </a>
+</div>
+
+{% endfor %}
+
 <!-- 🔹 Observation Box -->
 <div style="width:80%; margin:30px auto; background:white; padding:20px; border-radius:10px;">
 
@@ -45,18 +61,14 @@
   </form>
 </div>
 
-<div style="text-align:center; margin-top:20px;">
-  <a href="/edit/{{ row[0] }}">
-    <button style="
-      background:green;
-      color:white;
-      border:none;
-      padding:10px 20px;
-      font-size:16px;
-      border-radius:5px;">
-      Edit
-    </button>
-  </a>
-</div>
+<script>
+const params = new URLSearchParams(window.location.search);
 
-{% endfor %}
+if (params.get("success") === "1") {
+    alert("Submitted Successfully ✅");
+}
+</script>
+
+<script>
+document.getElementById("datetime").innerText = new Date().toLocaleString();
+</script>
