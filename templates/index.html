@@ -381,20 +381,19 @@ let slideIndex = 0;
 function showSlides(){
   let slides = document.getElementsByClassName("ps-slide");
 
-  if(slides.length === 0) return;
-
-  for(let i=0; i<slides.length; i++){
+  for(let i = 0; i < slides.length; i++){
     slides[i].style.display = "none";
   }
 
-  slides[slideIndex].style.display = "block";
-
   slideIndex++;
-  if(slideIndex >= slides.length){
-    slideIndex = 0;
+
+  if(slideIndex > slides.length){
+    slideIndex = 1;
   }
 
-  setTimeout(showSlides, 2000);
+  slides[slideIndex - 1].style.display = "block";
+
+  setTimeout(showSlides, 2000); // 2 sec
 }
 
   function updateDateTime(){
