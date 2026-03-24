@@ -101,7 +101,7 @@ def home():
 def health():
     return "OK", 200
 
-@app.route('/beatbook?success=1')')
+@app.route('/beatbook')
 def beatbook():
     conn = get_db_connection()
     c = conn.cursor()
@@ -126,7 +126,7 @@ def save_observation():
     c.close()
     conn.close()
 
-    return redirect('/beatbook')
+    return redirect('/beatbook?success=1')
 
 @app.route('/edit/<int:id>')
 def edit(id):
