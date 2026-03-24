@@ -62,21 +62,27 @@
 </div>
 
 <!-- 🔹 Show Observations -->
-<div style="width:80%; margin:20px auto; background:white; padding:20px; border-radius:10px;">
-
+ <div style="width:80%; margin:20px auto; background:white; padding:20px; border-radius:10px;">
   <h3>Previous Observations</h3>
 
   {% for obs in observations %}
-    <p style="border-bottom:1px solid #ccc; padding:5px;">
-      {{ obs[1] }}
-    </p>
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #ccc; padding:5px; margin-bottom:5px;">
+      <span>{{ obs[1] }}</span>
+      <form action="/delete_observation/{{ obs[0] }}" method="POST" style="margin:0;">
+        <button type="submit" onclick="return confirm('Are you sure you want to delete this observation?');" 
+        style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px;">
+          Delete
+        </button>
+      </form>
+    </div>
   {% endfor %}
 
 </div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
+document.getElementById("datetime").innerText = new Date().toLocaleString();
 
+const params = new URLSearchParams(window.location.search);
 if (params.get("success") === "1") {
     alert("Submitted Successfully ✅");
 }
