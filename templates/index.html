@@ -192,6 +192,14 @@ button{
 <a href="/beatbook">Beat Book</a>
 </nav>
 
+  <div id="successMsg" style="
+  text-align:center;
+  color:green;
+  font-size:18px;
+  margin:10px;
+  font-weight:bold;
+"></div>
+
 <p id="mottoText"></p>
 
 <!-- MAIN -->
@@ -347,6 +355,11 @@ function showMotto(){
 let slideIndex = 0;
   window.onload = function(){
   showSlides();
+
+    const params = new URLSearchParams(window.location.search);
+if(params.get("success") === "1"){
+  document.getElementById("successMsg").innerText = "✅ Submitted Successfully!";
+}
 };
 
 function showSlides(){
@@ -366,11 +379,6 @@ function showSlides(){
   setTimeout(showSlides, 2000); // 2 sec me change hoga
 }
 
-  const params = new URLSearchParams(window.location.search);
-if(params.get("success") === "1"){
-  document.getElementById("successMsg").innerText = "✅ Submitted Successfully!";
-}
-
   function updateDateTime(){
   let now = new Date();
   document.getElementById("datetime").innerText = now.toLocaleString();
@@ -380,13 +388,6 @@ updateDateTime();
 setInterval(updateDateTime, 1000);
   
 </script>
-
-  <p id="successMsg" style="
-  text-align:center;
-  color:green;
-  font-weight:bold;
-  margin-top:10px;
-"></p>
 
 </body>
 </html>
