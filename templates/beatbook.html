@@ -61,6 +61,19 @@
   </form>
 </div>
 
+<!-- 🔹 Show Observations -->
+<div style="width:80%; margin:20px auto; background:white; padding:20px; border-radius:10px;">
+
+  <h3>Previous Observations</h3>
+
+  {% for obs in observations %}
+    <p style="border-bottom:1px solid #ccc; padding:5px;">
+      {{ obs[1] }}
+    </p>
+  {% endfor %}
+
+</div>
+
 <script>
 const params = new URLSearchParams(window.location.search);
 
