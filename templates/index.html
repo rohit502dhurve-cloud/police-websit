@@ -213,7 +213,6 @@ button{
 <img src="{{ url_for('static', filename='ps8.jpeg') }}" class="ps-slide">
 <img src="{{ url_for('static', filename='ps9.jpeg') }}" class="ps-slide">
 <img src="{{ url_for('static', filename='ps10.jpeg') }}" class="ps-slide">
-<img src="{{ url_for('static', filename='ps11.jpeg') }}" class="ps-slide">
 
 </div>
 
@@ -402,14 +401,13 @@ function showSlides(){
   let now = new Date();
   document.getElementById("datetime").innerText = now.toLocaleString();
 }
+updateDateTime();
+setInterval(updateDateTime, 1000);
 
   function closeSuccess(){
   document.getElementById("successPopup").style.display = "none";
   document.getElementById("successOverlay").style.display = "none";
 }
-
-updateDateTime();
-setInterval(updateDateTime, 1000);
 
   window.addEventListener("load", function(){
   showSlides();
