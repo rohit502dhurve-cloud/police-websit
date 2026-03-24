@@ -117,6 +117,35 @@ def beatbook():
 
     return render_template('beatbook.html', data=data, observations=observations)
 
+@app.route('/delete_observation/<int:id>', methods=['POST'])
+def delete_observation(id):
+    try:
+        conn = get_db_connection()
+        c = conn.cursor()
+        c.execute("DELETE FROM observations WHERE id=%s", (id,))
+        conn.commit()
+        c.close()
+        conn.close()
+        return redirect('/beatbook?success=1')
+    except Exception as e:
+        return f"Error: {str(e)}"
+        
+@app.route('/delete_form/<string:type>/<int:id>', methods=['POST'])
+def delete_form(type, id):
+    try:
+        conn = get_db_connection()
+        c = conn.cursor()
+        if type == "complaint":
+            c.execute("DELETE FROM complaints WHERE id=%s", (id,))
+        elif type == "query":
+            c.execute("DELETE FROM queries WHERE id=%s", (id,))
+        conn.commit()
+        c.close()
+        conn.close()
+        return redirect('/view?success=1')
+    except Exception as e:
+        return f"Error: {str(e)}"
+
 @app.route('/save_observation', methods=['POST'])
 def save_observation():
     observation = request.form['observation']
