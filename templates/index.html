@@ -409,7 +409,7 @@ setInterval(updateDateTime, 1000);
   document.getElementById("successOverlay").style.display = "none";
 }
 
-  window.addEventListener("load", function(){
+ window.onload = function(){
   showSlides();
 
     const params = new URLSearchParams(window.location.search);
@@ -417,7 +417,7 @@ if(params.get("success") === "1"){
   document.getElementById("successPopup").style.display = "block";
   document.getElementById("successOverlay").style.display = "block";
 }
-});
+};
   
 </script>
 
