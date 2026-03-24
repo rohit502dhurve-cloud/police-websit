@@ -112,7 +112,7 @@ def beatbook():
     c.close()
     conn.close()
 
-    return render_template('beatbook.html', data=data)
+    return render_template('beatbook.html', data=data, observations=observations)
 
 @app.route('/save_observation', methods=['POST'])
 def save_observation():
