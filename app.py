@@ -121,7 +121,7 @@ def beatbook():
 def save_observation():
     observation = request.form['observation']
     if not observation:
-    return "Observation required ❗"
+        return "Observation required ❗"
 
     conn = get_db_connection()
     c = conn.cursor()
