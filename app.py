@@ -109,6 +109,9 @@ def beatbook():
     c.execute("SELECT * FROM beatbook")
     data = c.fetchall()
 
+    c.execute("SELECT * FROM observations ORDER BY id DESC")
+    observations = c.fetchall()
+
     c.close()
     conn.close()
 
