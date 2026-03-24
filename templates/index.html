@@ -367,7 +367,7 @@ function showSlides(){
 
   const params = new URLSearchParams(window.location.search);
 if(params.get("success") === "1"){
-  document.getElementById("successMsg").innerText = "✅ Observation Submitted Successfully!";
+  document.getElementById("successMsg").innerText = "✅ Submitted Successfully!";
 }
 
   function updateDateTime(){
@@ -379,6 +379,13 @@ updateDateTime();
 setInterval(updateDateTime, 1000);
   
 </script>
+
+  <p id="successMsg" style="
+  text-align:center;
+  color:green;
+  font-weight:bold;
+  margin-top:10px;
+"></p>
 
 </body>
 </html>
