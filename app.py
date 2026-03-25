@@ -25,11 +25,6 @@ def init_db():
         )
     ''')
 
-    try:
-    c.execute("ALTER TABLE observations ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-except:
-    pass
-
     # Query table
     c.execute('''
         CREATE TABLE IF NOT EXISTS queries (
@@ -57,10 +52,15 @@ except:
     c.execute('''
     CREATE TABLE IF NOT EXISTS observations (
         id SERIAL PRIMARY KEY,
-        text TEXT
+        text TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 ''')
+     try:
+        c.execute("ALTER TABLE observations ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    except:
+        pass
+
 
     # Check if data exists
     c.execute("SELECT COUNT(*) FROM beatbook")
