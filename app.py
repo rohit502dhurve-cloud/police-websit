@@ -53,6 +53,7 @@ def init_db():
     CREATE TABLE IF NOT EXISTS observations (
         id SERIAL PRIMARY KEY,
         text TEXT
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 ''')
 
