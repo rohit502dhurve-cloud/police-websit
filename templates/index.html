@@ -87,6 +87,21 @@ nav a{
   padding-bottom:5px;
 }
 
+.officer-title{
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+  padding: 10px;
+  border-bottom:2px solid #ccc;
+}
+
+.slides-container{
+  height: 380px;   /* title के नीचे का area */
+  overflow: hidden;
+  position: relative;
+}
+
 .slide{
   text-align:center;
   margin-bottom:20px;
@@ -102,9 +117,7 @@ nav a{
 /* SCROLL */
 .slides-wrapper{
   animation: scrollUp 18s linear infinite;
-  margin-top:40px;
-  osition: relative;
-  z-index: 5;
+  margin-top:10px;
 }
 
 .slides-wrapper:hover{
@@ -222,7 +235,8 @@ button{
 </div>
 
 <div class="right">
-<h3 style="position:relative; z-index:10;">Officers</h3>
+<<h3 class="officer-title">Officers</h3>
+<div class="slides-container">
 <div class="slides-wrapper">
 
 <div class="slide">
