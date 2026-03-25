@@ -57,11 +57,7 @@ def init_db():
     )
     ''')
     
-    try:
-        c.execute("ALTER TABLE observations ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    except:
-        pass
-
+    
     # Check if data exists
     c.execute("SELECT COUNT(*) FROM beatbook")
     count = c.fetchone()[0]
