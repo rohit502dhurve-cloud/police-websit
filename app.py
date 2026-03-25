@@ -25,6 +25,11 @@ def init_db():
         )
     ''')
 
+    try:
+    c.execute("ALTER TABLE observations ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+except:
+    pass
+
     # Query table
     c.execute('''
         CREATE TABLE IF NOT EXISTS queries (
