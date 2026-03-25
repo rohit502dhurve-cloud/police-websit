@@ -55,12 +55,12 @@ def init_db():
         text TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
-''')
-     try:
+    ''')
+    
+    try:
         c.execute("ALTER TABLE observations ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     except:
         pass
-
 
     # Check if data exists
     c.execute("SELECT COUNT(*) FROM beatbook")
