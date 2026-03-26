@@ -3,31 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <title>Beat Book</title>
-<!-- Tailwind CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans">
 
-<h1 class="text-4xl font-bold text-center mt-8 mb-6 text-blue-700">Beat Book</h1>
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-gray-100 font-sans">
+
+<h1 class="text-4xl font-bold text-center mt-8 mb-8 text-blue-700">
+  Beat Book
+</h1>
 
 {% for row in data %}
-<div class="max-w-5xl mx-auto mb-8 bg-white shadow-lg rounded-lg overflow-hidden">
+<div class="max-w-5xl mx-auto mb-8 bg-white/90 backdrop-blur shadow-2xl rounded-2xl border border-gray-200 overflow-hidden">
+
+  <!-- 🔹 Beat Information -->
   <div class="p-6">
-    <h2 class="text-xl font-semibold mb-4 text-gray-800">Beat Information</h2>
-    <table class="w-full text-left border border-gray-200">
+    <h2 class="text-white bg-gradient-to-r from-blue-600 to-blue-400 px-4 py-2 rounded-lg shadow mb-4">
+      Beat Information
+    </h2>
+
+    <table class="w-full text-left">
       <tbody>
         {% set fields = ['Police Station','Village','Beat Officer','Beat Constable'] %}
         {% set ids = ['ps','village','officer','constable'] %}
+
         {% for i in range(4) %}
-        <tr class="border-b border-gray-200">
-          <td class="py-2 px-4 font-medium">{{ fields[i] }}</td>
-          <td class="py-2 px-4">
+        <tr class="border-b hover:bg-blue-50 transition">
+          <td class="py-3 px-4 font-medium text-gray-700 w-1/3">{{ fields[i] }}</td>
+
+          <td class="py-3 px-4 w-1/3">
             <span id="{{ ids[i] }}-{{ row[0] }}">{{ row[i+1] }}</span>
-            <input type="text" id="{{ ids[i] }}-input-{{ row[0] }}" value="{{ row[i+1] }}" class="border rounded px-2 py-1 w-full hidden">
+            <input type="text"
+              id="{{ ids[i] }}-input-{{ row[0] }}"
+              value="{{ row[i+1] }}"
+              class="border rounded px-2 py-1 w-full hidden focus:ring-2 focus:ring-blue-400">
           </td>
-          <td class="py-2 px-4">
-            <button id="{{ ids[i] }}-edit-{{ row[0] }}" onclick="enableEdit({{ row[0] }}, '{{ ids[i] }}')" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Edit</button>
-            <button id="{{ ids[i] }}-save-{{ row[0] }}" onclick="saveEdit({{ row[0] }}, '{{ ids[i] }}')" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 hidden">Save</button>
+
+          <td class="py-3 px-4 text-right">
+            <button id="{{ ids[i] }}-edit-{{ row[0] }}"
+              onclick="enableEdit({{ row[0] }}, '{{ ids[i] }}')"
+              class="bg-gradient-to-r from-blue-600 to-blue-400 text-white px-4 py-1 rounded-lg shadow hover:scale-105 transition">
+              Edit
+            </button>
+
+            <button id="{{ ids[i] }}-save-{{ row[0] }}"
+              onclick="saveEdit({{ row[0] }}, '{{ ids[i] }}')"
+              class="bg-gradient-to-r from-green-600 to-green-400 text-white px-4 py-1 rounded-lg shadow hidden hover:scale-105 transition">
+              Save
+            </button>
           </td>
         </tr>
         {% endfor %}
@@ -35,50 +58,86 @@
     </table>
   </div>
 
-  <div class="p-6 border-t border-gray-200">
-    <h2 class="text-xl font-semibold mb-4 text-gray-800">Village Basic Information</h2>
-    <table class="w-full text-left border border-gray-200">
+  <!-- 🔹 Village Info -->
+  <div class="p-6 border-t">
+    <h2 class="text-white bg-gradient-to-r from-blue-600 to-blue-400 px-4 py-2 rounded-lg shadow mb-4">
+      Village Basic Information
+    </h2>
+
+    <table class="w-full text-left">
       <tbody>
         {% set fields2 = ['Population','Caste','Sarpanch','School Name'] %}
         {% set ids2 = ['population','caste','sarpanch','school'] %}
+
         {% for i in range(4) %}
-        <tr class="border-b border-gray-200">
-          <td class="py-2 px-4 font-medium">{{ fields2[i] }}</td>
-          <td class="py-2 px-4">
+        <tr class="border-b hover:bg-blue-50 transition">
+          <td class="py-3 px-4 font-medium text-gray-700 w-1/3">{{ fields2[i] }}</td>
+
+          <td class="py-3 px-4 w-1/3">
             <span id="{{ ids2[i] }}-{{ row[0] }}">{{ row[i+5] }}</span>
-            <input type="text" id="{{ ids2[i] }}-input-{{ row[0] }}" value="{{ row[i+5] }}" class="border rounded px-2 py-1 w-full hidden">
+            <input type="text"
+              id="{{ ids2[i] }}-input-{{ row[0] }}"
+              value="{{ row[i+5] }}"
+              class="border rounded px-2 py-1 w-full hidden focus:ring-2 focus:ring-blue-400">
           </td>
-          <td class="py-2 px-4">
-            <button id="{{ ids2[i] }}-edit-{{ row[0] }}" onclick="enableEdit({{ row[0] }}, '{{ ids2[i] }}')" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Edit</button>
-            <button id="{{ ids2[i] }}-save-{{ row[0] }}" onclick="saveEdit({{ row[0] }}, '{{ ids2[i] }}')" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 hidden">Save</button>
+
+          <td class="py-3 px-4 text-right">
+            <button id="{{ ids2[i] }}-edit-{{ row[0] }}"
+              onclick="enableEdit({{ row[0] }}, '{{ ids2[i] }}')"
+              class="bg-gradient-to-r from-blue-600 to-blue-400 text-white px-4 py-1 rounded-lg shadow hover:scale-105 transition">
+              Edit
+            </button>
+
+            <button id="{{ ids2[i] }}-save-{{ row[0] }}"
+              onclick="saveEdit({{ row[0] }}, '{{ ids2[i] }}')"
+              class="bg-gradient-to-r from-green-600 to-green-400 text-white px-4 py-1 rounded-lg shadow hidden hover:scale-105 transition">
+              Save
+            </button>
           </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
+
 </div>
 {% endfor %}
 
-<!-- Observation Box -->
-<div class="max-w-5xl mx-auto mb-8 bg-white shadow-lg rounded-lg p-6">
-  <h3 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Observation</h3>
-  <p class="mb-2"><b>Date & Time:</b> <span id="datetime"></span></p>
+<!-- 🔹 Observation -->
+<div class="max-w-5xl mx-auto mb-8 bg-gradient-to-r from-blue-50 to-white shadow-2xl rounded-2xl p-6 border">
+  <h3 class="text-xl font-bold text-white bg-gradient-to-r from-blue-600 to-blue-400 px-4 py-2 rounded-lg text-center mb-4">
+    Observation
+  </h3>
+
+  <p class="mb-3 text-gray-700">
+    <b>Date & Time:</b> <span id="datetime"></span>
+  </p>
+
   <form action="/save_observation" method="POST">
-    <textarea name="observation" placeholder="Enter observation here..." class="w-full border rounded px-3 py-2 mb-4" required></textarea>
-    <button type="submit" class="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600">Submit</button>
+    <textarea name="observation"
+      placeholder="Enter observation here..."
+      class="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-blue-500 shadow-sm"
+      required></textarea>
+
+    <button type="submit"
+      class="bg-gradient-to-r from-blue-600 to-blue-400 text-white px-6 py-2 rounded-lg shadow hover:scale-105 transition">
+      Submit
+    </button>
   </form>
 </div>
 
-<!-- Previous Observations -->
-<div class="max-w-5xl mx-auto mb-12 bg-white shadow-lg rounded-lg p-6">
-  <h3 class="text-2xl font-semibold text-gray-800 mb-4">Previous Observations</h3>
+<!-- 🔹 Previous Observations -->
+<div class="max-w-5xl mx-auto mb-12 bg-white shadow-2xl rounded-2xl p-6 border">
+  <h3 class="text-xl font-bold text-white bg-gradient-to-r from-blue-600 to-blue-400 px-4 py-2 rounded-lg mb-4">
+    Previous Observations
+  </h3>
+
   {% for obs in observations %}
-  <div class="flex justify-between items-center border-b border-gray-200 py-2 mb-2">
-    <div>
-      <p class="mb-1">{{ obs[1] }}</p>
-      <small class="text-gray-500">{{ obs[2].strftime('%d/%m/%Y %I:%M %p') }}</small>
-    </div>
+  <div class="border-b py-3 px-3 rounded-lg hover:bg-blue-50 hover:shadow transition">
+    <p class="text-gray-800">{{ obs[1] }}</p>
+    <small class="text-gray-500">
+      {{ obs[2].strftime('%d/%m/%Y %I:%M %p') }}
+    </small>
   </div>
   {% endfor %}
 </div>
@@ -93,6 +152,7 @@ function enableEdit(id, field) {
 
 function saveEdit(id, field) {
     const newValue = document.getElementById(`${field}-input-${id}`).value;
+
     fetch(`/update_row/${id}`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -113,8 +173,8 @@ function saveEdit(id, field) {
     .catch(err => alert("Update failed! " + err));
 }
 
-// Show current date & time
-document.getElementById('datetime').innerText = new Date().toLocaleString('en-GB');
+document.getElementById('datetime').innerText =
+    new Date().toLocaleString('en-GB');
 </script>
 
 </body>
