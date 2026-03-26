@@ -21,7 +21,72 @@
   border-radius:10px;
 }
 
+/* 🔥 Modern Header */
+.main-header{
+  background: linear-gradient(135deg, #0a1f6b, #1e3a8a);
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
 
+.main-header::before{
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+  top: -50%;
+  left: -50%;
+}
+
+.header-content{
+  position: relative;
+  z-index: 2;
+}
+
+.logo{
+  width: 90px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  background: white;
+  padding: 5px;
+}
+
+.main-header h1{
+  margin: 10px 0 5px;
+  font-size: 32px;
+}
+
+.main-header p{
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* Navbar */
+.navbar{
+  background: rgba(0,0,0,0.85);
+  text-align: center;
+  padding: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar a{
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 8px 15px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.navbar a:hover{
+  background: linear-gradient(to right, #2563eb, #3b82f6);
+}
 
 body{
   font-family: Arial;
@@ -194,19 +259,23 @@ button{
 
 <body>
 
-<header style="position:relative;">
+<header class="main-header">
 
-<img src="{{ url_for('static', filename='mp_police_logo.jpeg') }}" width="100">
-<h1>Police Station Lanji</h1>
-<p>District Balaghat, Madhya Pradesh</p>
+  <div class="header-content">
+    <img src="{{ url_for('static', filename='mp_police_logo.jpeg') }}" class="logo">
+
+    <h1>Police Station Lanji</h1>
+    <p>District Balaghat, Madhya Pradesh</p>
+  </div>
+
 </header>
 
 <!-- MENU -->
-<nav>
-<a onclick="showMotto()">Our Motto</a>
-<a onclick="openForm('query')">Queries</a>
-<a onclick="openForm('complaint')">Complaints</a>
-<a href="/beatbook">Beat Book</a>
+<nav class="navbar">
+  <a onclick="showMotto()">Our Motto</a>
+  <a onclick="openForm('query')">Queries</a>
+  <a onclick="openForm('complaint')">Complaints</a>
+  <a href="/beatbook">Beat Book</a>
 </nav>
 
 <p id="mottoText"></p>
