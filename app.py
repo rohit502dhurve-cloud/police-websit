@@ -3,6 +3,9 @@ import psycopg2
 import os
 
 app = Flask(__name__)
+from flask import session
+
+app.secret_key = "secret123"
 
 # 🔹 Database URL
 DATABASE_URL = os.environ.get("DATABASE_URL")
@@ -56,6 +59,23 @@ def init_db():
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     ''')
+    # 🔐 Admin table
+c.execute('''
+    CREATE TABLE IF NOT EXISTS admin (
+        id SERIAL PRIMARY KEY,
+        username TEXT UNIQUE,
+        password TEXT
+    )
+''')
+
+# Default admin
+c.execute("SELECT COUNT(*) FROM admin")
+if c.fetchone()[0] == 0:
+    c.execute(
+        "INSERT INTO admin (username, password) VALUES (%s, %s)",
+        ("admin", "1234")
+    )
+
     
     
     # Check if data exists
@@ -99,6 +119,60 @@ def home():
         pass
     return render_template('index.html')
     
+    @app.route('/admin', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        conn = get_db_connection()
+        c = conn.cursor()
+
+        c.execute("SELECT * FROM admin WHERE username=%s AND password=%s",
+                  (username, password))
+        admin = c.fetchone()
+
+        c.close()
+        conn.close()
+
+        if admin:
+            session['admin'] = username
+            return redirect('/admin/dashboard')
+        else:
+            return "❌ Invalid Username or Password"
+
+    return render_template('admin_login.html')
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    if 'admin' not in session:
+        return redirect('/admin')
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM complaints")
+    complaints = c.fetchall()
+
+    c.execute("SELECT * FROM queries")
+    queries = c.fetchall()
+
+    c.execute("SELECT * FROM observations ORDER BY id DESC")
+    observations = c.fetchall()
+
+    c.close()
+    conn.close()
+
+    return render_template('admin_dashboard.html',
+                           complaints=complaints,
+                           queries=queries,
+                           observations=observations)
+@app.route('/logout')
+def logout():
+    session.pop('admin', None)
+    return redirect('/admin')
+
+
 @app.route('/health')
 def health():
     return "OK", 200
