@@ -1,180 +1,249 @@
-<h1 style="text-align:center;">Beat Book</h1>
+<h1 style="text-align:center; margin-top:20px; font-family:Arial, sans-serif; color:#2c3e50;">Beat Book</h1>
 
 {% for row in data %}
+<div class="beat-card">
+  <h2>Beat Information</h2>
+  <div class="info-row">
+    <div class="info-label">Police Station</div>
+    <div class="info-value">
+      <span id="ps-{{ row[0] }}">{{ row[1] }}</span>
+      <input type="text" id="ps-input-{{ row[0] }}" value="{{ row[1] }}" style="display:none;">
+    </div>
+    <div class="info-actions">
+      <button onclick="enableEdit({{ row[0] }}, 'ps')">Edit</button>
+      <button onclick="saveEdit({{ row[0] }}, 'ps')" style="display:none;">Save</button>
+    </div>
+  </div>
 
-<table border="1" style="width:80%; margin:20px auto; background:white; border-radius:10px; padding:10px;">
-<tr><th colspan="3">Beat Information</th></tr>
+  <div class="info-row">
+    <div class="info-label">Village</div>
+    <div class="info-value">
+      <span id="village-{{ row[0] }}">{{ row[2] }}</span>
+      <input type="text" id="village-input-{{ row[0] }}" value="{{ row[2] }}" style="display:none;">
+    </div>
+    <div class="info-actions">
+      <button onclick="enableEdit({{ row[0] }}, 'village')">Edit</button>
+      <button onclick="saveEdit({{ row[0] }}, 'village')" style="display:none;">Save</button>
+    </div>
+  </div>
 
-<tr>
-  <td>Police Station</td>
-  <td>
-    <span id="ps-{{ row[0] }}">{{ row[1] }}</span>
-    <input type="text" id="ps-input-{{ row[0] }}" value="{{ row[1] }}" style="display:none;">
-  </td>
-  <td>
-    <button id="ps-edit-{{ row[0] }}" onclick="enableEdit({{ row[0] }}, 'ps')">Edit</button>
-    <button id="ps-save-{{ row[0] }}" onclick="saveEdit({{ row[0] }}, 'ps')" style="display:none;">Save</button>
-  </td>
-</tr>
+  <div class="info-row">
+    <div class="info-label">Beat Officer</div>
+    <div class="info-value">
+      <span id="officer-{{ row[0] }}">{{ row[3] }}</span>
+      <input type="text" id="officer-input-{{ row[0] }}" value="{{ row[3] }}" style="display:none;">
+    </div>
+    <div class="info-actions">
+      <button onclick="enableEdit({{ row[0] }}, 'officer')">Edit</button>
+      <button onclick="saveEdit({{ row[0] }}, 'officer')" style="display:none;">Save</button>
+    </div>
+  </div>
 
-<tr>
-  <td>Village</td>
-  <td>
-    <span id="village-{{ row[0] }}">{{ row[2] }}</span>
-    <input type="text" id="village-input-{{ row[0] }}" value="{{ row[2] }}" style="display:none;">
-  </td>
-  <td>
-    <button id="village-edit-{{ row[0] }}" onclick="enableEdit({{ row[0] }}, 'village')">Edit</button>
-    <button id="village-save-{{ row[0] }}" onclick="saveEdit({{ row[0] }}, 'village')" style="display:none;">Save</button>
-  </td>
-</tr>
+  <div class="info-row">
+    <div class="info-label">Beat Constable</div>
+    <div class="info-value">
+      <span id="constable-{{ row[0] }}">{{ row[4] }}</span>
+      <input type="text" id="constable-input-{{ row[0] }}" value="{{ row[4] }}" style="display:none;">
+    </div>
+    <div class="info-actions">
+      <button onclick="enableEdit({{ row[0] }}, 'constable')">Edit</button>
+      <button onclick="saveEdit({{ row[0] }}, 'constable')" style="display:none;">Save</button>
+    </div>
+  </div>
+</div>
 
-<tr>
-  <td>Beat Officer</td>
-  <td>
-    <span id="officer-{{ row[0] }}">{{ row[3] }}</span>
-    <input type="text" id="officer-input-{{ row[0] }}" value="{{ row[3] }}" style="display:none;">
-  </td>
-  <td>
-    <button id="officer-edit-{{ row[0] }}" onclick="enableEdit({{ row[0] }}, 'officer')">Edit</button>
-    <button id="officer-save-{{ row[0] }}" onclick="saveEdit({{ row[0] }}, 'officer')" style="display:none;">Save</button>
-  </td>
-</tr>
+<div class="beat-card">
+  <h2>Village Basic Information</h2>
+  <div class="info-row">
+    <div class="info-label">Population</div>
+    <div class="info-value">
+      <span id="population-{{ row[0] }}">{{ row[5] }}</span>
+      <input type="text" id="population-input-{{ row[0] }}" value="{{ row[5] }}" style="display:none;">
+    </div>
+    <div class="info-actions">
+      <button onclick="enableEdit({{ row[0] }}, 'population')">Edit</button>
+      <button onclick="saveEdit({{ row[0] }}, 'population')" style="display:none;">Save</button>
+    </div>
+  </div>
 
-<tr>
-  <td>Beat Constable</td>
-  <td>
-    <span id="constable-{{ row[0] }}">{{ row[4] }}</span>
-    <input type="text" id="constable-input-{{ row[0] }}" value="{{ row[4] }}" style="display:none;">
-  </td>
-  <td>
-    <button id="constable-edit-{{ row[0] }}" onclick="enableEdit({{ row[0] }}, 'constable')">Edit</button>
-    <button id="constable-save-{{ row[0] }}" onclick="saveEdit({{ row[0] }}, 'constable')" style="display:none;">Save</button>
-  </td>
-</tr>
+  <div class="info-row">
+    <div class="info-label">Caste</div>
+    <div class="info-value">
+      <span id="caste-{{ row[0] }}">{{ row[6] }}</span>
+      <input type="text" id="caste-input-{{ row[0] }}" value="{{ row[6] }}" style="display:none;">
+    </div>
+    <div class="info-actions">
+      <button onclick="enableEdit({{ row[0] }}, 'caste')">Edit</button>
+      <button onclick="saveEdit({{ row[0] }}, 'caste')" style="display:none;">Save</button>
+    </div>
+  </div>
 
-</table>
+  <div class="info-row">
+    <div class="info-label">Sarpanch</div>
+    <div class="info-value">
+      <span id="sarpanch-{{ row[0] }}">{{ row[7] }}</span>
+      <input type="text" id="sarpanch-input-{{ row[0] }}" value="{{ row[7] }}" style="display:none;">
+    </div>
+    <div class="info-actions">
+      <button onclick="enableEdit({{ row[0] }}, 'sarpanch')">Edit</button>
+      <button onclick="saveEdit({{ row[0] }}, 'sarpanch')" style="display:none;">Save</button>
+    </div>
+  </div>
 
-<table border="1" style="width:80%; margin:20px auto; background:white; border-radius:10px; padding:10px;">
-<tr><th colspan="3">Village Basic Information</th></tr>
-
-<tr>
-  <td>Population</td>
-  <td>
-    <span id="population-{{ row[0] }}">{{ row[5] }}</span>
-    <input type="text" id="population-input-{{ row[0] }}" value="{{ row[5] }}" style="display:none;">
-  </td>
-  <td>
-    <button id="population-edit-{{ row[0] }}" onclick="enableEdit({{ row[0] }}, 'population')">Edit</button>
-    <button id="population-save-{{ row[0] }}" onclick="saveEdit({{ row[0] }}, 'population')" style="display:none;">Save</button>
-  </td>
-</tr>
-
-<tr>
-  <td>Caste</td>
-  <td>
-    <span id="caste-{{ row[0] }}">{{ row[6] }}</span>
-    <input type="text" id="caste-input-{{ row[0] }}" value="{{ row[6] }}" style="display:none;">
-  </td>
-  <td>
-    <button id="caste-edit-{{ row[0] }}" onclick="enableEdit({{ row[0] }}, 'caste')">Edit</button>
-    <button id="caste-save-{{ row[0] }}" onclick="saveEdit({{ row[0] }}, 'caste')" style="display:none;">Save</button>
-  </td>
-</tr>
-
-<tr>
-  <td>Sarpanch</td>
-  <td>
-    <span id="sarpanch-{{ row[0] }}">{{ row[7] }}</span>
-    <input type="text" id="sarpanch-input-{{ row[0] }}" value="{{ row[7] }}" style="display:none;">
-  </td>
-  <td>
-    <button id="sarpanch-edit-{{ row[0] }}" onclick="enableEdit({{ row[0] }}, 'sarpanch')">Edit</button>
-    <button id="sarpanch-save-{{ row[0] }}" onclick="saveEdit({{ row[0] }}, 'sarpanch')" style="display:none;">Save</button>
-  </td>
-</tr>
-
-<tr>
-  <td>School Name</td>
-  <td>
-    <span id="school-{{ row[0] }}">{{ row[8] }}</span>
-    <input type="text" id="school-input-{{ row[0] }}" value="{{ row[8] }}" style="display:none;">
-  </td>
-  <td>
-    <button id="school-edit-{{ row[0] }}" onclick="enableEdit({{ row[0] }}, 'school')">Edit</button>
-    <button id="school-save-{{ row[0] }}" onclick="saveEdit({{ row[0] }}, 'school')" style="display:none;">Save</button>
-  </td>
-</tr>
-
-</table>
-
+  <div class="info-row">
+    <div class="info-label">School</div>
+    <div class="info-value">
+      <span id="school-{{ row[0] }}">{{ row[8] }}</span>
+      <input type="text" id="school-input-{{ row[0] }}" value="{{ row[8] }}" style="display:none;">
+    </div>
+    <div class="info-actions">
+      <button onclick="enableEdit({{ row[0] }}, 'school')">Edit</button>
+      <button onclick="saveEdit({{ row[0] }}, 'school')" style="display:none;">Save</button>
+    </div>
+  </div>
+</div>
 {% endfor %}
 
 <!-- 🔹 Observation Box -->
-<div style="width:80%; margin:30px auto; background:white; padding:20px; border-radius:10px;">
-  <h3 style="text-align:center;">Observation</h3>
+<div class="beat-card observation-box">
+  <h2>New Observation</h2>
   <p><b>Date & Time:</b> <span id="datetime"></span></p>
 
   <form action="/save_observation" method="POST">
-    <textarea name="observation" placeholder="Enter observation here..." 
-    style="width:100%; height:100px; padding:10px;" required></textarea>
-    <br><br>
-    <button type="submit" style="
-      background:blue;
-      color:white;
-      border:none;
-      padding:10px 20px;
-      border-radius:5px;">
-      Submit
-    </button>
+    <textarea name="observation" placeholder="Enter observation here..." required></textarea>
+    <button type="submit">Submit</button>
   </form>
 </div>
 
-<!-- 🔹 Show Observations -->
-<div style="width:80%; margin:20px auto; background:white; padding:20px; border-radius:10px;">
-  <h3>Previous Observations</h3>
+<!-- 🔹 Previous Observations -->
+<div class="beat-card">
+  <h2>Previous Observations</h2>
   {% for obs in observations %}
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #ccc; padding:5px; margin-bottom:5px;">
-      <div>
-        <p style="margin:0;">{{ obs[1] }}</p>
-        <small style="color:gray;">
-          {{ obs[2].strftime('%d/%m/%Y %I:%M %p') }}
-        </small>
-      </div>
+    <div class="obs-item">
+      <p>{{ obs[1] }}</p>
+      <small>{{ obs[2].strftime('%d/%m/%Y %I:%M %p') }}</small>
     </div>
   {% endfor %}
 </div>
 
-<script>
-function enableEdit(id, field) {
-    document.getElementById(`${field}-${id}`).style.display = "none";
-    document.getElementById(`${field}-input-${id}`).style.display = "inline-block";
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #2c3e50;
+}
 
-    document.getElementById(`${field}-edit-${id}`).style.display = "none";
-    document.getElementById(`${field}-save-${id}`).style.display = "inline-block";
+.beat-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.beat-card h2 {
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  color: #3498db;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.info-label {
+  font-weight: bold;
+  width: 25%;
+}
+
+.info-value {
+  width: 50%;
+}
+
+.info-actions button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.info-actions button:hover {
+  background: #2980b9;
+}
+
+.observation-box textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  resize: vertical;
+}
+
+.observation-box button {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.observation-box button:hover {
+  background: #1e8449;
+}
+
+.obs-item {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.obs-item p {
+  margin: 0;
+}
+
+.obs-item small {
+  color: gray;
+}
+</style>
+
+<script>
+document.getElementById('datetime').innerText = new Date().toLocaleString('en-GB');
+
+function enableEdit(id, field) {
+  document.getElementById(`${field}-${id}`).style.display = "none";
+  document.getElementById(`${field}-input-${id}`).style.display = "inline-block";
+  document.getElementById(`${field}-edit-${id}`).style.display = "none";
+  document.getElementById(`${field}-save-${id}`).style.display = "inline-block";
 }
 
 function saveEdit(id, field) {
-    const newValue = document.getElementById(`${field}-input-${id}`).value;
-
-    fetch(`/update_row/${id}`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ field: field, value: newValue })
-    }).then(response => response.json())
-      .then(data => {
-        if(data.status === "success"){
-            document.getElementById(`${field}-${id}`).innerText = newValue;
-            document.getElementById(`${field}-${id}`).style.display = "inline-block";
-            document.getElementById(`${field}-input-${id}`).style.display = "none";
-            document.getElementById(`${field}-save-${id}`).style.display = "none";
-            document.getElementById(`${field}-edit-${id}`).style.display = "inline-block";
-        } else {
-            alert("Update failed!");
-        }
-    }).catch(err => alert("Update failed! " + err));
+  const newValue = document.getElementById(`${field}-input-${id}`).value;
+  fetch(`/update_row/${id}`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ field, value: newValue })
+  }).then(res => res.json()).then(data => {
+    if(data.status === "success"){
+      document.getElementById(`${field}-${id}`).innerText = newValue;
+      document.getElementById(`${field}-${id}`).style.display = "inline-block";
+      document.getElementById(`${field}-input-${id}`).style.display = "none";
+      document.getElementById(`${field}-save-${id}`).style.display = "none";
+      document.getElementById(`${field}-edit-${id}`).style.display = "inline-block";
+    } else {
+      alert("Update failed!");
+    }
+  }).catch(err => alert("Update failed! " + err));
 }
-
+</script>
 // Optional: Show current date & time
 document.getElementById('datetime').innerText = new Date().toLocaleString('en-GB');
 </script>
