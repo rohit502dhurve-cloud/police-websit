@@ -2,59 +2,108 @@
 
 {% for row in data %}
 
-<table border="1" style="width:80%; margin:20px auto; background:white;">
-<tr><th colspan="2">Beat Information</th></tr>
+<table border="1" style="width:80%; margin:20px auto; background:white; border-radius:10px; padding:10px;">
+<tr><th colspan="3">Beat Information</th></tr>
 
 <tr>
   <td>Police Station</td>
-  <td>{{ row[1] }}</td>
-  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+  <td>
+    <span id="ps-{{ row[0] }}">{{ row[1] }}</span>
+    <input type="text" id="ps-input-{{ row[0] }}" value="{{ row[1] }}" style="display:none;">
+  </td>
+  <td>
+    <button onclick="enableEdit({{ row[0] }}, 'ps')">Edit</button>
+    <button onclick="saveEdit({{ row[0] }}, 'ps')" style="display:none;" id="ps-save-{{ row[0] }}">Save</button>
+  </td>
 </tr>
 
 <tr>
   <td>Village</td>
-  <td>{{ row[2] }}</td>
-  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+  <td>
+    <span id="village-{{ row[0] }}">{{ row[2] }}</span>
+    <input type="text" id="village-input-{{ row[0] }}" value="{{ row[2] }}" style="display:none;">
+  </td>
+  <td>
+    <button onclick="enableEdit({{ row[0] }}, 'village')">Edit</button>
+    <button onclick="saveEdit({{ row[0] }}, 'village')" style="display:none;" id="village-save-{{ row[0] }}">Save</button>
+  </td>
 </tr>
 
 <tr>
   <td>Beat Officer</td>
-  <td>{{ row[3] }}</td>
-  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+  <td>
+    <span id="officer-{{ row[0] }}">{{ row[3] }}</span>
+    <input type="text" id="officer-input-{{ row[0] }}" value="{{ row[3] }}" style="display:none;">
+  </td>
+  <td>
+    <button onclick="enableEdit({{ row[0] }}, 'officer')">Edit</button>
+    <button onclick="saveEdit({{ row[0] }}, 'officer')" style="display:none;" id="officer-save-{{ row[0] }}">Save</button>
+  </td>
 </tr>
 
 <tr>
   <td>Beat Constable</td>
-  <td>{{ row[4] }}</td>
-  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+  <td>
+    <span id="constable-{{ row[0] }}">{{ row[4] }}</span>
+    <input type="text" id="constable-input-{{ row[0] }}" value="{{ row[4] }}" style="display:none;">
+  </td>
+  <td>
+    <button onclick="enableEdit({{ row[0] }}, 'constable')">Edit</button>
+    <button onclick="saveEdit({{ row[0] }}, 'constable')" style="display:none;" id="constable-save-{{ row[0] }}">Save</button>
+  </td>
 </tr>
+
 </table>
 
-<table border="1" style="width:80%; margin:20px auto; background:white;">
-<tr><th colspan="2">Village Basic Information</th></tr>
+<table border="1" style="width:80%; margin:20px auto; background:white; border-radius:10px; padding:10px;">
+<tr><th colspan="3">Village Basic Information</th></tr>
 
 <tr>
   <td>Population</td>
-  <td>{{ row[5] }}</td>
-  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+  <td>
+    <span id="population-{{ row[0] }}">{{ row[5] }}</span>
+    <input type="text" id="population-input-{{ row[0] }}" value="{{ row[5] }}" style="display:none;">
+  </td>
+  <td>
+    <button onclick="enableEdit({{ row[0] }}, 'population')">Edit</button>
+    <button onclick="saveEdit({{ row[0] }}, 'population')" style="display:none;" id="population-save-{{ row[0] }}">Save</button>
+  </td>
 </tr>
 
 <tr>
   <td>Caste</td>
-  <td>{{ row[6] }}</td>
-  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+  <td>
+    <span id="caste-{{ row[0] }}">{{ row[6] }}</span>
+    <input type="text" id="caste-input-{{ row[0] }}" value="{{ row[6] }}" style="display:none;">
+  </td>
+  <td>
+    <button onclick="enableEdit({{ row[0] }}, 'caste')">Edit</button>
+    <button onclick="saveEdit({{ row[0] }}, 'caste')" style="display:none;" id="caste-save-{{ row[0] }}">Save</button>
+  </td>
 </tr>
 
 <tr>
   <td>Sarpanch</td>
-  <td>{{ row[7] }}</td>
-  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+  <td>
+    <span id="sarpanch-{{ row[0] }}">{{ row[7] }}</span>
+    <input type="text" id="sarpanch-input-{{ row[0] }}" value="{{ row[7] }}" style="display:none;">
+  </td>
+  <td>
+    <button onclick="enableEdit({{ row[0] }}, 'sarpanch')">Edit</button>
+    <button onclick="saveEdit({{ row[0] }}, 'sarpanch')" style="display:none;" id="sarpanch-save-{{ row[0] }}">Save</button>
+  </td>
 </tr>
 
 <tr>
   <td>School Name</td>
-  <td>{{ row[8] }}</td>
-  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+  <td>
+    <span id="school-{{ row[0] }}">{{ row[8] }}</span>
+    <input type="text" id="school-input-{{ row[0] }}" value="{{ row[8] }}" style="display:none;">
+  </td>
+  <td>
+    <button onclick="enableEdit({{ row[0] }}, 'school')">Edit</button>
+    <button onclick="saveEdit({{ row[0] }}, 'school')" style="display:none;" id="school-save-{{ row[0] }}">Save</button>
+  </td>
 </tr>
 
 </table>
@@ -112,12 +161,32 @@
 </div>
 
 <script>
-document.getElementById("datetime").innerText = new Date().toLocaleString('en-GB');
-
-const params = new URLSearchParams(window.location.search);
-if (params.get("success") === "1") {
-    alert("Submitted Successfully ✅");
+function enableEdit(id, field) {
+    document.getElementById(`${field}-${id}`).style.display = "none";
+    document.getElementById(`${field}-input-${id}`).style.display = "inline-block";
+    
+    event.target.style.display = "none";
+    document.getElementById(`${field}-save-${id}`).style.display = "inline-block";
 }
-if (params.get("delete") === "1") {
+
+function saveEdit(id, field) {
+    const newValue = document.getElementById(`${field}-input-${id}`).value;
+
+    // AJAX call to save in backend
+    fetch(`/update_row/${id}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ field: field, value: newValue })
+    }).then(response => {
+        if(response.ok){
+            document.getElementById(`${field}-${id}`).innerText = newValue;
+            document.getElementById(`${field}-${id}`).style.display = "inline-block";
+            document.getElementById(`${field}-input-${id}`).style.display = "none";
+            document.getElementById(`${field}-save-${id}`).style.display = "none";
+            event.target.previousElementSibling.style.display = "inline-block"; // Show Edit button
+        } else {
+            alert("Update failed!");
+        }
+    });
 }
 </script>
