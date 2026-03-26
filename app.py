@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, jsonify
 import psycopg2
 import os
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 # 🔹 Database URL
 DATABASE_URL = os.environ.get("DATABASE_URL")
@@ -260,5 +260,5 @@ def submit():
         return f"Error: {str(e)}"
 
 # 🔹 Run app
-if _name_ == '_main_':
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
