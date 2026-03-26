@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 import psycopg2
 import os
 
@@ -180,22 +180,30 @@ def edit(id):
 
     return render_template('edit.html', row=row)
 
-@app.route('/update/<int:id>', methods=['POST'])
-def update(id):
-    data = request.get_json()
-    field = data.get("field")
-    value = data.get("value")
+@app.route("/update_row/<int:id>", methods=["POST"])
+def update_row(id):
+    try:
+        data = request.get_json()  # JS से भेजा गया JSON पढ़ो
+        field = data.get("field")
+        value = data.get("value")
+        allowed_fields = ["police_station","village","beat_officer","beat_constable",
+                          "population","caste","sarpanch","school"]
+        if field not in allowed_fields:
+            return jsonify({"status": "error", "message": "Invalid field"}), 400
 
-    conn = get_db_connection()
-    c = conn.cursor()
+        conn = get_db_connection()
+        c = conn.cursor()
 
-    query = f"UPDATE beatbook SET {field}=%s WHERE id=%s"
-    c.execute(query, (value, id))
-    conn.commit()
-    c.close()
-    conn.close()
+        query = f"UPDATE beatbook SET {field}=%s WHERE id=%s"
+        c.execute(query, (value, id))
+        conn.commit()
+        c.close()
+        conn.close()
 
-    return jsonify({"status": "success"})
+        return jsonify({"status": "success"})
+    except Exception as e:
+        print("Update error:", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
     
 # 🔹 View data
 @app.route('/view')
