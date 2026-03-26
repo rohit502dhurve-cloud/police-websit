@@ -4,33 +4,60 @@
 
 <table border="1" style="width:80%; margin:20px auto; background:white;">
 <tr><th colspan="2">Beat Information</th></tr>
-<tr><td>Police Station</td><td>{{ row[1] }}</td></tr>
-<tr><td>Village</td><td>{{ row[2] }}</td></tr>
-<tr><td>Beat Officer</td><td>{{ row[3] }}</td></tr>
-<tr><td>Beat Constable</td><td>{{ row[4] }}</td></tr>
+
+<tr>
+  <td>Police Station</td>
+  <td>{{ row[1] }}</td>
+  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+</tr>
+
+<tr>
+  <td>Village</td>
+  <td>{{ row[2] }}</td>
+  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+</tr>
+
+<tr>
+  <td>Beat Officer</td>
+  <td>{{ row[3] }}</td>
+  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+</tr>
+
+<tr>
+  <td>Beat Constable</td>
+  <td>{{ row[4] }}</td>
+  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+</tr>
 </table>
 
 <table border="1" style="width:80%; margin:20px auto; background:white;">
 <tr><th colspan="2">Village Basic Information</th></tr>
-<tr><td>Population</td><td>{{ row[5] }}</td></tr>
-<tr><td>Caste</td><td>{{ row[6] }}</td></tr>
-<tr><td>Sarpanch</td><td>{{ row[7] }}</td></tr>
-<tr><td>School Name</td><td>{{ row[8] }}</td></tr>
-</table>
 
-<div style="text-align:center; margin-top:20px;">
-  <a href="/edit/{{ row[0] }}">
-    <button style="
-      background:green;
-      color:white;
-      border:none;
-      padding:10px 20px;
-      font-size:16px;
-      border-radius:5px;">
-      Edit
-    </button>
-  </a>
-</div>
+<tr>
+  <td>Population</td>
+  <td>{{ row[5] }}</td>
+  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+</tr>
+
+<tr>
+  <td>Caste</td>
+  <td>{{ row[6] }}</td>
+  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+</tr>
+
+<tr>
+  <td>Sarpanch</td>
+  <td>{{ row[7] }}</td>
+  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+</tr>
+
+<tr>
+  <td>School Name</td>
+  <td>{{ row[8] }}</td>
+  <td><a href="/edit/{{ row[0] }}">Edit</a></td>
+</tr>
+
+</table>
 
 {% endfor %}
 
