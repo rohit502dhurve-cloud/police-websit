@@ -147,32 +147,35 @@
 
 <script>
 function enableEdit(id, field) {
-    document.getElementById(${field}-${id}).style.display = "none";
-    document.getElementById(${field}-input-${id}).style.display = "inline-block";
+    // Correctly use template literals with backticks ``
+    document.getElementById(`${field}-${id}`).style.display = "none";
+    document.getElementById(`${field}-input-${id}`).style.display = "inline-block";
 
-    document.getElementById(${field}-edit-${id}).style.display = "none";
-    document.getElementById(${field}-save-${id}).style.display = "inline-block";
+    document.getElementById(`${field}-edit-${id}`).style.display = "none";
+    document.getElementById(`${field}-save-${id}`).style.display = "inline-block";
 }
 
 function saveEdit(id, field) {
-    const newValue = document.getElementById(${field}-input-${id}).value;
+    const newValue = document.getElementById(`${field}-input-${id}`).value;
 
-    fetch(/update_row/${id}, {
+    fetch(`/update_row/${id}`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ field: field, value: newValue })
-    }).then(response => response.json())
-      .then(data => {
+    })
+    .then(response => response.json())
+    .then(data => {
         if(data.status === "success"){
-            document.getElementById(${field}-${id}).innerText = newValue;
-            document.getElementById(${field}-${id}).style.display = "inline-block";
-            document.getElementById(${field}-input-${id}).style.display = "none";
-            document.getElementById(${field}-save-${id}).style.display = "none";
-            document.getElementById(${field}-edit-${id}).style.display = "inline-block";
+            document.getElementById(`${field}-${id}`).innerText = newValue;
+            document.getElementById(`${field}-${id}`).style.display = "inline-block";
+            document.getElementById(`${field}-input-${id}`).style.display = "none";
+            document.getElementById(`${field}-save-${id}`).style.display = "none";
+            document.getElementById(`${field}-edit-${id}`).style.display = "inline-block";
         } else {
             alert("Update failed!");
         }
-    }).catch(err => alert("Update failed! " + err));
+    })
+    .catch(err => alert("Update failed! " + err));
 }
 
 // Optional: Show current date & time
