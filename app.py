@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, jsonify, session
 import psycopg2
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.secret_key = "secret123"
@@ -168,12 +168,14 @@ def village(name):
     c.close()
     conn.close()
     
+    now = datetime.now() + timedelta(hours=5, minutes=30)
+    
     return render_template(
     'village_detail.html',
     beat=beat,
     observations=observations,
     village=name,
-    now=datetime.now()
+    now=now
 )
 
 
@@ -245,7 +247,7 @@ def save_observation():
 
     c.execute("""
     INSERT INTO observations (text, created_at) 
-    VALUES (%s, NOW() + INTERVAL '5 hours 30 minutes')
+    VALUES (%s, NOW())
     """, (observation,))
     conn.commit()
     c.close()
