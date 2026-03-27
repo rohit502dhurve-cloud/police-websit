@@ -82,34 +82,65 @@
     
 <body>
     <script>
-function enableEdit(){
+function enableEdit(btn){
+
+    // 🔴 पहले सब rows reset करो
     document.querySelectorAll(".editable").forEach(el=>{
-        el.contentEditable = true;
-        el.style.border = "1px solid #999";
-        el.style.padding = "3px";
+        el.contentEditable = false;
+        el.style.border = "none";
     });
-    document.getElementById("saveBtn").style.display="inline";
+
+    document.querySelectorAll(".saveBtn").forEach(b=>{
+        b.style.display = "none";
+    });
+
+    document.querySelectorAll(".editBtn").forEach(b=>{
+        b.style.display = "inline";
+    });
+
+    // ✅ अब current row enable करो
+    let row = btn.closest("tr");
+
+    let editable = row.querySelector(".editable");
+    editable.contentEditable = true;
+    editable.style.border = "1px solid #999";
+    editable.style.padding = "3px";
+
+    row.querySelector(".saveBtn").style.display = "inline";
+    btn.style.display = "none";
 }
 
-function saveData(){
-    let fields = document.querySelectorAll(".editable");
+function saveRow(btn){
+    let row = btn.closest("tr");
+
+    let editable = row.querySelector(".editable");
+    let field = editable.dataset.field;
+    let value = editable.innerText;
+    if(value.trim() === ""){
+    alert("Field empty नहीं हो सकता ❗");
+    return;
+}
+
     let id = "{{ beat[0] }}";
 
-    fields.forEach(el=>{
-        let field = el.dataset.field;
-        let value = el.innerText;
+    fetch(`/update_row/${id}`, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({field:field,value:value})
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        alert("Saved ✅");
 
-        fetch(`/update_row/${id}`, {
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({field:field,value:value})
-        });
+        editable.contentEditable = false;
+        editable.style.border = "none";
+
+        btn.style.display = "none";
+        row.querySelector(".editBtn").style.display = "inline";
     });
-
-    alert("Saved ✅");
-    location.reload();
 }
 </script>
+
 
 <div class="container">
 
@@ -136,13 +167,21 @@ function saveData(){
         <tr>
             <td>Beat Officer</td>
             <td class="editable" data-field="beat_officer">{{ beat[3] }}</td>
-            <td><button onclick="enableEdit()">Edit</button></td>
+            <td>
+    <button class="editBtn" onclick="enableEdit(this)">Edit</button>
+    <button class="saveBtn" onclick="saveRow(this)" style="display:none;">Save</button>
+</td>
+
         </tr>
 
         <tr>
             <td>Beat Constable</td>
             <td class="editable" data-field="beat_constable">{{ beat[4] }}</td>
-            <td><button onclick="enableEdit()">Edit</button></td>
+            <td>
+    <button class="editBtn" onclick="enableEdit(this)">Edit</button>
+    <button class="saveBtn" onclick="saveRow(this)" style="display:none;">Save</button>
+</td>
+
         </tr>
     </table>
 </div>
@@ -157,29 +196,45 @@ function saveData(){
         <tr>
             <td>Population</td>
             <td class="editable" data-field="population">{{ beat[5] }}</td>
-            <td><button onclick="enableEdit()">Edit</button></td>
+            <td>
+    <button class="editBtn" onclick="enableEdit(this)">Edit</button>
+    <button class="saveBtn" onclick="saveRow(this)" style="display:none;">Save</button>
+</td>
+
         </tr>
 
         <tr>
             <td>Caste</td>
             <td class="editable" data-field="caste">{{ beat[6] }}</td>
-            <td><button onclick="enableEdit()">Edit</button></td>
+            <td>
+    <button class="editBtn" onclick="enableEdit(this)">Edit</button>
+    <button class="saveBtn" onclick="saveRow(this)" style="display:none;">Save</button>
+</td>
+
         </tr>
 
         <tr>
             <td>Sarpanch</td>
             <td class="editable" data-field="sarpanch">{{ beat[7] }}</td>
-            <td><button onclick="enableEdit()">Edit</button></td>
+            <td>
+    <button class="editBtn" onclick="enableEdit(this)">Edit</button>
+    <button class="saveBtn" onclick="saveRow(this)" style="display:none;">Save</button>
+</td>
+
         </tr>
 
         <tr>
             <td>School Name</td>
             <td class="editable" data-field="school">{{ beat[8] }}</td>
-            <td><button onclick="enableEdit()">Edit</button></td>
+            <td>
+    <button class="editBtn" onclick="enableEdit(this)">Edit</button>
+    <button class="saveBtn" onclick="saveRow(this)" style="display:none;">Save</button>
+</td>
+
         </tr>
     </table>
 
-    <button onclick="saveData()" id="saveBtn" style="display:none;">Save</button>
+    
 </div>
 
     <div class="card">
@@ -188,7 +243,7 @@ function saveData(){
         <form method="POST" action="/save_observation">
             <textarea name="observation" placeholder="Enter observation..."></textarea>
             <br>
-            <button type="submit">Save</button>
+            <button type="submit">Submit</button>
         </form>
     </div>
 
