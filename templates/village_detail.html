@@ -10,6 +10,9 @@
             margin: 0;
             padding: 0;
         }
+    .editable {
+    border-radius: 4px;
+    }
 
         .container {
             width: 90%;
@@ -76,8 +79,37 @@
         }
     </style>
 </head>
-
+    
 <body>
+    <script>
+function enableEdit(){
+    document.querySelectorAll(".editable").forEach(el=>{
+        el.contentEditable = true;
+        el.style.border = "1px solid #999";
+        el.style.padding = "3px";
+    });
+    document.getElementById("saveBtn").style.display="inline";
+}
+
+function saveData(){
+    let fields = document.querySelectorAll(".editable");
+    let id = "{{ beat[0] }}";
+
+    fields.forEach(el=>{
+        let field = el.dataset.field;
+        let value = el.innerText;
+
+        fetch(`/update_row/${id}`, {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({field:field,value:value})
+        });
+    });
+
+    alert("Saved ✅");
+    location.reload();
+}
+</script>
 
 <div class="container">
 
@@ -91,10 +123,23 @@
 
     <div class="card">
         <h2>🏡 Village Basic Info</h2>
-        <p><span class="label">Population:</span> {{ beat[5] }}</p>
-        <p><span class="label">Caste:</span> {{ beat[6] }}</p>
-        <p><span class="label">Sarpanch:</span> {{ beat[7] }}</p>
-        <p><span class="label">School:</span> {{ beat[8] }}</p>
+        <p><span class="label">Population:</span> 
+       <span class="editable" data-field="population">{{ beat[5] }}</span>
+        </p>
+
+        <p><span class="label">Caste:</span> 
+        <span class="editable" data-field="caste">{{ beat[6] }}</span>
+        </p>
+
+        <p><span class="label">Sarpanch:</span> 
+        <span class="editable" data-field="sarpanch">{{ beat[7] }}</span>
+        </p>
+
+        <p><span class="label">School:</span> 
+        <span class="editable" data-field="school">{{ beat[8] }}</span>
+        </p>
+        <button onclick="enableEdit()">Edit</button>
+        <button onclick="saveData()" id="saveBtn" style="display:none;">Save</button>
     </div>
 
     <div class="card">
@@ -110,11 +155,14 @@
         <h2>📜 Previous Observations</h2>
 
         {% for obs in observations %}
-            <div class="obs-box">
-                <div>{{ obs[1] }}</div>
-                <div class="time">{{ obs[2] }}</div>
-            </div>
-        {% endfor %}
+    <div class="obs-box">
+        <div>{{ obs[1] }}</div>
+        <div class="time">
+            {{ obs[2].strftime("%d/%m/%Y %I:%M %p") }}
+        </div>
+    </div>
+{% endfor %}
+
 
     </div>
 
