@@ -82,6 +82,16 @@
     
 <body>
     <script>
+        window.onload = function(){
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if(urlParams.get('success') === '1'){
+        alert("Observation Submitted Successfully ✅");
+
+        // URL साफ करने के लिए
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+}
 function enableEdit(btn){
 
     // 🔴 पहले सब rows reset करो
@@ -140,14 +150,6 @@ function saveRow(btn){
     });
 }
 </script>
-
-
-<div class="container">
-{% if request.args.get('success') %}
-<div style="background:#d4edda; color:#155724; padding:10px; border-radius:5px; margin-bottom:15px;">
-    ✅ Observation Submitted Successfully
-</div>
-{% endif %}
 
     <h1>{{ village }} Details</h1>
 
