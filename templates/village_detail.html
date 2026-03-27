@@ -115,35 +115,76 @@ function saveData(){
 
     <h1>{{ village }} Details</h1>
 
-    <div class="card">
-        <h2>🚓 Beat Information</h2>
-        <p><span class="label">Officer:</span> {{ beat[3] }}</p>
-        <p><span class="label">Constable:</span> {{ beat[4] }}</p>
-    </div>
+   <div class="card">
+    <h2 style="background:linear-gradient(to right, #2d6cdf, #5a9cff); color:white; padding:10px; border-radius:5px;">
+        Beat Information
+    </h2>
+
+    <table style="width:100%;">
+        <tr>
+            <td>Police Station</td>
+            <td>{{ beat[1] }}</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Village</td>
+            <td>{{ beat[2] }}</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Beat Officer</td>
+            <td class="editable" data-field="beat_officer">{{ beat[3] }}</td>
+            <td><button onclick="enableEdit()">Edit</button></td>
+        </tr>
+
+        <tr>
+            <td>Beat Constable</td>
+            <td class="editable" data-field="beat_constable">{{ beat[4] }}</td>
+            <td><button onclick="enableEdit()">Edit</button></td>
+        </tr>
+    </table>
+</div>
+
 
     <div class="card">
-        <h2>🏡 Village Basic Info</h2>
-        <p><span class="label">Population:</span> 
-       <span class="editable" data-field="population">{{ beat[5] }}</span>
-        </p>
+    <h2 style="background:linear-gradient(to right, #2d6cdf, #5a9cff); color:white; padding:10px; border-radius:5px;">
+        Village Basic Information
+    </h2>
 
-        <p><span class="label">Caste:</span> 
-        <span class="editable" data-field="caste">{{ beat[6] }}</span>
-        </p>
+    <table style="width:100%;">
+        <tr>
+            <td>Population</td>
+            <td class="editable" data-field="population">{{ beat[5] }}</td>
+            <td><button onclick="enableEdit()">Edit</button></td>
+        </tr>
 
-        <p><span class="label">Sarpanch:</span> 
-        <span class="editable" data-field="sarpanch">{{ beat[7] }}</span>
-        </p>
+        <tr>
+            <td>Caste</td>
+            <td class="editable" data-field="caste">{{ beat[6] }}</td>
+            <td><button onclick="enableEdit()">Edit</button></td>
+        </tr>
 
-        <p><span class="label">School:</span> 
-        <span class="editable" data-field="school">{{ beat[8] }}</span>
-        </p>
-        <button onclick="enableEdit()">Edit</button>
-        <button onclick="saveData()" id="saveBtn" style="display:none;">Save</button>
-    </div>
+        <tr>
+            <td>Sarpanch</td>
+            <td class="editable" data-field="sarpanch">{{ beat[7] }}</td>
+            <td><button onclick="enableEdit()">Edit</button></td>
+        </tr>
+
+        <tr>
+            <td>School Name</td>
+            <td class="editable" data-field="school">{{ beat[8] }}</td>
+            <td><button onclick="enableEdit()">Edit</button></td>
+        </tr>
+    </table>
+
+    <button onclick="saveData()" id="saveBtn" style="display:none;">Save</button>
+</div>
 
     <div class="card">
         <h2>📝 Add Observation</h2>
+        <p><b>Date & Time:</b> {{ now.strftime("%d/%m/%Y %H:%M:%S") }}</p>
         <form method="POST" action="/save_observation">
             <textarea name="observation" placeholder="Enter observation..."></textarea>
             <br>
