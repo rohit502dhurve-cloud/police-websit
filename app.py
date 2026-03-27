@@ -253,7 +253,7 @@ def save_observation():
     c.close()
     conn.close()
 
-    return redirect(request.referrer)
+    return redirect(request.referrer + "?success=1")
 
 @app.route('/edit/<int:id>')
 def edit(id):
