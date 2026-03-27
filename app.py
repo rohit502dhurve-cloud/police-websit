@@ -247,7 +247,7 @@ def save_observation():
 
     c.execute("""
     INSERT INTO observations (text, created_at) 
-    VALUES (%s, NOW())
+    VALUES (%s, NOW() + INTERVAL '5 hours 30 minutes')
     """, (observation,))
     conn.commit()
     c.close()
