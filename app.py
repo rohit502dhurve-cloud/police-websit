@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, jsonify, session
 import psycopg2
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "secret123"
@@ -166,21 +167,21 @@ def village(name):
 
     c.close()
     conn.close()
-
+    
     return render_template(
-        'village_detail.html',
-        beat=beat,
-        observations=observations,
-        village=name
-    )
+    'village_detail.html',
+    beat=beat,
+    observations=observations,
+    village=name,
+    now=datetime.now()
+)
+
 
 @app.route('/')
 def home():
-    try:
-        init_db()
-    except:
-        pass
+    init_db_safe()
     return render_template('index.html')
+
     
 @app.route('/health')
 def health():
@@ -213,7 +214,7 @@ def delete_observation(id):
         conn.commit()
         c.close()
         conn.close()
-        return redirect('/beatbook?success=1')
+        return redirect(request.referrer)
     except Exception as e:
         return f"Error: {str(e)}"
         
@@ -250,7 +251,7 @@ def save_observation():
     c.close()
     conn.close()
 
-    return redirect('/beatbook?success=1')
+    return redirect(request.referrer)
 
 @app.route('/edit/<int:id>')
 def edit(id):
