@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, jsonify, session
-app.secret_key = "secret123"
 import psycopg2
 import os
 
 app = Flask(__name__)
+app.secret_key = "secret123"
 
 # 🔹 Database URL
 DATABASE_URL = os.environ.get("DATABASE_URL")
@@ -63,7 +63,9 @@ def init_db():
     c.execute("SELECT COUNT(*) FROM beatbook")
     count = c.fetchone()[0]
 
-    if count == 0:
+    c.execute("SELECT village FROM beatbook")
+    existing = [row[0] for row in c.fetchall()]
+    if "Bisoni" not in existing:
         c.execute("""
             INSERT INTO beatbook 
             (police_station, village, beat_officer, beat_constable, population, caste, sarpanch, school)
@@ -79,13 +81,28 @@ def init_db():
             "Govt. High School Bisoni"
         ))
 
+   
+    villages_to_add = [
+        ("Village2","SI Verma","Constable A","1500","General","Mr X","School A"),
+        ("Village3","SI Singh","Constable B","1200","OBC","Mr Y","School B"),
+        ("Village4","SI Khan","Constable C","1800","SC","Mr Z","School C"),
+        ("Village5","SI Patel","Constable D","1400","ST","Mr K","School D")
+    ]
+
+    for v in villages_to_add:
+        if v[0] not in existing:
+            c.execute("""
+                INSERT INTO beatbook 
+                (police_station, village, beat_officer, beat_constable, population, caste, sarpanch, school)
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+            """, ("Lanji", v[0], v[1], v[2], v[3], v[4], v[5], v[6]))
+
+
     conn.commit()
     c.close()
     conn.close()
 
-# 🔥 IMPORTANT: har request se pehle table create
-def init_db_safe():
-    # 🔹 Dummy Users
+ # 🔹 Dummy Users
 users = {
     "si": {"password": "123", "rank": "SI"},
     "constable": {"password": "123", "rank": "CONSTABLE"}
@@ -97,6 +114,9 @@ village_mapping = {
     "CONSTABLE": ["Bisoni"]
 }
 
+
+# 🔥 IMPORTANT: har request se pehle table create
+def init_db_safe():
     try:
         init_db()
         print("✅ Database initialized")
