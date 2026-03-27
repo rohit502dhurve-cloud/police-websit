@@ -1,0 +1,16 @@
+<h2>Select Village</h2>
+
+<select onchange="goToVillage(this.value)">
+    <option value="">Select Village</option>
+    {% for v in villages %}
+        <option value="{{ v }}">{{ v }}</option>
+    {% endfor %}
+</select>
+
+<script>
+function goToVillage(v){
+    if(v){
+        window.location.href = "/village/" + v;
+    }
+}
+</script>
