@@ -1,23 +1,124 @@
-<h2>{{ village }} Details</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ village }} Details</title>
 
-{% if beat %}
-<h3>Beat Information</h3>
-<p>{{ beat[3] }}</p>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
 
-<h3>Village Basic Info</h3>
-<p>Population: {{ beat[5] }}</p>
-<p>Caste: {{ beat[6] }}</p>
-<p>Sarpanch: {{ beat[7] }}</p>
-<p>School: {{ beat[8] }}</p>
-{% endif %}
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+        }
 
-<h3>Observation</h3>
-<form method="POST" action="/save_observation">
-    <textarea name="observation"></textarea>
-    <button type="submit">Save</button>
-</form>
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
 
-<h3>Previous Observation</h3>
-{% for obs in observations %}
-    <p>{{ obs[1] }} ({{ obs[2] }})</p>
-{% endfor %}
+        h1 {
+            text-align: center;
+            color: navy;
+        }
+
+        h2 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            color: #333;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 15px;
+            border: none;
+            background: navy;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkblue;
+        }
+
+        .obs-box {
+            background: #fafafa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 4px solid navy;
+        }
+
+        .time {
+            color: gray;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>{{ village }} Details</h1>
+
+    <div class="card">
+        <h2>🚓 Beat Information</h2>
+        <p><span class="label">Officer:</span> {{ beat[3] }}</p>
+        <p><span class="label">Constable:</span> {{ beat[4] }}</p>
+    </div>
+
+    <div class="card">
+        <h2>🏡 Village Basic Info</h2>
+        <p><span class="label">Population:</span> {{ beat[5] }}</p>
+        <p><span class="label">Caste:</span> {{ beat[6] }}</p>
+        <p><span class="label">Sarpanch:</span> {{ beat[7] }}</p>
+        <p><span class="label">School:</span> {{ beat[8] }}</p>
+    </div>
+
+    <div class="card">
+        <h2>📝 Add Observation</h2>
+        <form method="POST" action="/save_observation">
+            <textarea name="observation" placeholder="Enter observation..."></textarea>
+            <br>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>📜 Previous Observations</h2>
+
+        {% for obs in observations %}
+            <div class="obs-box">
+                <div>{{ obs[1] }}</div>
+                <div class="time">{{ obs[2] }}</div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
