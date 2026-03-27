@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, session
+app.secret_key = "secret123"
 import psycopg2
 import os
 
@@ -84,6 +85,18 @@ def init_db():
 
 # 🔥 IMPORTANT: har request se pehle table create
 def init_db_safe():
+    # 🔹 Dummy Users
+users = {
+    "si": {"password": "123", "rank": "SI"},
+    "constable": {"password": "123", "rank": "CONSTABLE"}
+}
+
+# 🔹 Rank wise village mapping
+village_mapping = {
+    "SI": ["Bisoni", "Village2", "Village3", "Village4", "Village5"],
+    "CONSTABLE": ["Bisoni"]
+}
+
     try:
         init_db()
         print("✅ Database initialized")
@@ -91,6 +104,56 @@ def init_db_safe():
         print("❌ DB Error:", e)
 
 # 🔹 Home page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if username in users and users[username]["password"] == password:
+            session["user"] = username
+            session["rank"] = users[username]["rank"]
+            return redirect('/dashboard')
+        else:
+            return "Invalid Login ❌"
+
+    return render_template('login.html')
+
+@app.route('/dashboard')
+def dashboard():
+    if "user" not in session:
+        return redirect('/login')
+
+    rank = session.get("rank")
+    villages = village_mapping.get(rank, [])
+
+    return render_template('dashboard.html', villages=villages)
+@app.route('/village/<name>')
+def village(name):
+    if "user" not in session:
+        return redirect('/login')
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    # Beatbook data
+    c.execute("SELECT * FROM beatbook WHERE village=%s", (name,))
+    beat = c.fetchone()
+
+    # Observations
+    c.execute("SELECT * FROM observations ORDER BY id DESC")
+    observations = c.fetchall()
+
+    c.close()
+    conn.close()
+
+    return render_template(
+        'village_detail.html',
+        beat=beat,
+        observations=observations,
+        village=name
+    )
+
 @app.route('/')
 def home():
     try:
@@ -105,6 +168,8 @@ def health():
 
 @app.route('/beatbook')
 def beatbook():
+    if "user" not in session:
+        return redirect('/login')
     conn = get_db_connection()
     c = conn.cursor()
 
