@@ -106,14 +106,18 @@ def init_db():
  # 🔹 Dummy Users
 users = {
     "si": {"password": "123", "rank": "SI"},
-    "constable": {"password": "123", "rank": "CONSTABLE"}
+    "const_bisoni": {"password": "123", "rank": "CONSTABLE", "village": "Bisoni"},
+    "const_chichtola": {"password": "123", "rank": "CONSTABLE", "village": "Village2"},
+    "const_rampura": {"password": "123", "rank": "CONSTABLE", "village": "Village3"},
+    "const_lanji": {"password": "123", "rank": "CONSTABLE", "village": "Village4"},
+    "const_sogalpur": {"password": "123", "rank": "CONSTABLE", "village": "Village5"}
 }
 
 # 🔹 Rank wise village mapping
 village_mapping = {
     "SI": ["Bisoni", "Chichtola", "Rampura", "Lanji", "Sogalpur"],
     "CONSTABLE": ["Bisoni"]
-}
+    }
 
 
 # 🔥 IMPORTANT: har request se pehle table create
@@ -131,14 +135,18 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        if username in users and users[username]["password"] == password:
-            session["user"] = username
-            session["rank"] = users[username]["rank"]
-            return redirect('/dashboard')
-        else:
-            return "Invalid Login ❌"
+    if username in users and users[username]["password"] == password:
+        session["user"] = username
+        session["rank"] = users[username]["rank"]
 
-    return render_template('login.html')
+    # ✅ Constable के लिए village save करो
+        if users[username]["rank"] == "CONSTABLE":
+            session["village"] = users[username]["village"]
+
+        return redirect('/dashboard')
+    else:
+        return "Invalid Login ❌"
+return render_template('login.html')
 
 @app.route('/dashboard')
 def dashboard():
@@ -146,7 +154,11 @@ def dashboard():
         return redirect('/login')
 
     rank = session.get("rank")
-    villages = village_mapping.get(rank, [])
+
+    if rank == "CONSTABLE":
+        villages = [session.get("village")]
+    else:
+        villages = village_mapping.get(rank, [])
 
     return render_template('dashboard.html', villages=villages)
 @app.route('/village/<name>')
