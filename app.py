@@ -135,18 +135,20 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-    if username in users and users[username]["password"] == password:
-        session["user"] = username
-        session["rank"] = users[username]["rank"]
+        if username in users and users[username]["password"] == password:
+            session["user"] = username
+            session["rank"] = users[username]["rank"]
 
-    # ✅ Constable के लिए village save करो
-        if users[username]["rank"] == "CONSTABLE":
-            session["village"] = users[username]["village"]
+            # Constable के लिए village save करो
+            if users[username]["rank"] == "CONSTABLE":
+                session["village"] = users[username]["village"]
 
-        return redirect('/dashboard')
-    else:
-        return "Invalid Login ❌"
-return render_template('login.html')
+            return redirect('/dashboard')
+        else:
+            return "Invalid Login ❌"
+
+    # GET request के लिए login page render
+    return render_template('login.html')
 
 @app.route('/dashboard')
 def dashboard():
