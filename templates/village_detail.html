@@ -1,0 +1,23 @@
+<h2>{{ village }} Details</h2>
+
+{% if beat %}
+<h3>Beat Information</h3>
+<p>{{ beat[3] }}</p>
+
+<h3>Village Basic Info</h3>
+<p>Population: {{ beat[5] }}</p>
+<p>Caste: {{ beat[6] }}</p>
+<p>Sarpanch: {{ beat[7] }}</p>
+<p>School: {{ beat[8] }}</p>
+{% endif %}
+
+<h3>Observation</h3>
+<form method="POST" action="/save_observation">
+    <textarea name="observation"></textarea>
+    <button type="submit">Save</button>
+</form>
+
+<h3>Previous Observation</h3>
+{% for obs in observations %}
+    <p>{{ obs[1] }} ({{ obs[2] }})</p>
+{% endfor %}
