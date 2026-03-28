@@ -107,10 +107,10 @@ def init_db():
 users = {
     "si": {"password": "123", "rank": "SI"},
     "const_bisoni": {"password": "123", "rank": "CONSTABLE", "village": "Bisoni"},
-    "const_chichtola": {"password": "123", "rank": "CONSTABLE", "village": "Village2"},
-    "const_rampura": {"password": "123", "rank": "CONSTABLE", "village": "Village3"},
-    "const_lanji": {"password": "123", "rank": "CONSTABLE", "village": "Village4"},
-    "const_sogalpur": {"password": "123", "rank": "CONSTABLE", "village": "Village5"}
+    "const_chichtola": {"password": "123", "rank": "CONSTABLE", "village": "Chichtola"},
+    "const_rampura": {"password": "123", "rank": "CONSTABLE", "village": "Rampura"},
+    "const_lanji": {"password": "123", "rank": "CONSTABLE", "village": "Lanji"},
+    "const_sogalpur": {"password": "123", "rank": "CONSTABLE", "village": "Sogalpur"}
 }
 
 # 🔹 Rank wise village mapping
