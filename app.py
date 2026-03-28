@@ -63,8 +63,10 @@ def init_db():
     # ✅ Add village column if not exists
     try:
         c.execute("ALTER TABLE observations ADD COLUMN village TEXT;")
-    except:
-        pass    
+        conn.commit()   # 🔥 IMPORTANT
+    except Exception as e:
+        conn.rollback()  # 🔥 transaction reset
+ 
     
     # Check if data exists
     c.execute("SELECT COUNT(*) FROM beatbook")
@@ -259,7 +261,7 @@ def delete_form(type, id):
 @app.route('/save_observation', methods=['POST'])
 def save_observation():
     observation = request.form['observation']
-    village = request.form.get['village']
+    village = request.form.get('village')
     if not observation:
         return "Observation required ❗"
 
