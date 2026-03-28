@@ -61,11 +61,17 @@ def init_db():
     ''')
 
     # ✅ Add village column if not exists
-    try:
-        c.execute("ALTER TABLE observations ADD COLUMN village TEXT;")
-        conn.commit()   # 🔥 IMPORTANT
-    except Exception as e:
-        conn.rollback()  # 🔥 transaction reset
+    c.execute("""
+    DO $$
+    BEGIN
+        IF NOT EXISTS (
+            SELECT 1 FROM information_schema.columns 
+            WHERE table_name='observations' AND column_name='village'
+        ) THEN
+            ALTER TABLE observations ADD COLUMN village TEXT;
+        END IF;
+    END$$;
+    """)
  
     
     # Check if data exists
@@ -200,13 +206,10 @@ def village(name):
     now=now
 )
 
-
 @app.route('/')
-def home():
-    init_db_safe()
+def home():    
     return render_template('index.html')
-
-    
+        
 @app.route('/health')
 def health():
     return "OK", 200
@@ -372,4 +375,5 @@ def submit():
 
 # 🔹 Run app
 if __name__ == '__main__':
+    init_db_safe()
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
