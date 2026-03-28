@@ -11,6 +11,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 
 # 🔹 Connect function
 def get_db_connection():
+    
     return psycopg2.connect(DATABASE_URL, connect_timeout=3)
     
 # 🔹 Database create (tables)
@@ -58,7 +59,12 @@ def init_db():
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     ''')
-    
+
+    # ✅ Add village column if not exists
+    try:
+        c.execute("ALTER TABLE observations ADD COLUMN village TEXT;")
+    except:
+        pass    
     
     # Check if data exists
     c.execute("SELECT COUNT(*) FROM beatbook")
@@ -176,7 +182,7 @@ def village(name):
     beat = c.fetchone()
 
     # Observations
-    c.execute("SELECT * FROM observations ORDER BY id DESC")
+    c.execute("SELECT * FROM observations WHERE village=%s ORDER BY id DESC", (name,))
     observations = c.fetchall()
 
     c.close()
@@ -253,6 +259,7 @@ def delete_form(type, id):
 @app.route('/save_observation', methods=['POST'])
 def save_observation():
     observation = request.form['observation']
+    village = request.form.get['village']
     if not observation:
         return "Observation required ❗"
 
@@ -260,9 +267,9 @@ def save_observation():
     c = conn.cursor()
 
     c.execute("""
-    INSERT INTO observations (text, created_at) 
-    VALUES (%s, NOW() + INTERVAL '5 hours 30 minutes')
-    """, (observation,))
+    INSERT INTO observations (text, created_at, village) 
+    VALUES (%s, NOW() + INTERVAL '5 hours 30 minutes', %s)
+    """, (observation, village))
     conn.commit()
     c.close()
     conn.close()
