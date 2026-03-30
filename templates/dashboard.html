@@ -1,11 +1,39 @@
-<h2>Select Village</h2>
+<h2 style="text-align:center;">Select Village</h2>
 
-<select onchange="goToVillage(this.value)">
-    <option value="">Select Village</option>
-    {% for v in villages %}
-        <option value="{{ v }}">{{ v }}</option>
-    {% endfor %}
-</select>
+<div style="display:flex; justify-content:space-between; align-items:center; margin:10px 0;">
+
+    <!-- Left side (optional title) -->
+    <div></div>
+
+    <!-- Right side Logout -->
+    <a href="/logout">
+        <button style="
+            background:red;
+            color:white;
+            border:none;
+            padding:8px 15px;
+            border-radius:5px;
+            cursor:pointer;
+        ">
+            Logout
+        </button>
+    </a>
+
+</div>
+
+<div style="text-align:center; margin-top:20px;">
+    <select onchange="goToVillage(this.value)" style="
+        padding:10px;
+        width:250px;
+        border-radius:5px;
+        border:1px solid #ccc;
+    ">
+        <option value="">Select Village</option>
+        {% for v in villages %}
+            <option value="{{ v }}">{{ v }}</option>
+        {% endfor %}
+    </select>
+</div>
 
 <script>
 function goToVillage(v){
