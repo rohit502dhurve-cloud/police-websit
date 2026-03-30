@@ -153,7 +153,22 @@ function saveRow(btn){
 }
 </script>
 
-    <h1>{{ village }} Details</h1>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+    <h1 style="margin:0;">{{ village }} Details</h1>
+
+    <a href="/logout">
+        <button style="
+            background:red;
+            color:white;
+            border:none;
+            padding:8px 15px;
+            border-radius:5px;
+            cursor:pointer;
+        ">
+            Logout
+        </button>
+    </a>
+</div>
 
    <div class="card">
     <h2 style="background:linear-gradient(to right, #2d6cdf, #5a9cff); color:white; padding:10px; border-radius:5px;">
