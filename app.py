@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify, session
+from flask import Flask, render_template, request, redirect, jsonify, session, url_for
 import psycopg2
 import os
 from datetime import datetime, timedelta
@@ -177,6 +177,12 @@ def dashboard():
         villages = village_mapping.get(rank, [])
 
     return render_template('dashboard.html', villages=villages)
+
+@app.route("/logout")
+def logout():
+    session.clear()   # 🔴 login खत्म
+    return redirect(url_for("login"))  # login page पर भेजो
+
 @app.route('/village/<name>')
 def village(name):
     if "user" not in session:
