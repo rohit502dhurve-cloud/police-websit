@@ -176,7 +176,7 @@ def admin_login():
         else:
             return "Invalid Admin Login"
 
-    return render_template("admin_login.html")
+    return render_template("admin_dashboard.html")
 
 @app.route("/admin/dashboard")
 def admin_dashboard():
