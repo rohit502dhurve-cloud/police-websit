@@ -1,0 +1,44 @@
+<h2>Admin Panel</h2>
+
+<h3>Complaints</h3>
+<table border="1" style="width:80%; margin:auto;">
+<tr>
+    <th>Name</th>
+    <th>Message</th>
+    <th>Action</th>
+</tr>
+
+{% for row in complaints %}
+<tr>
+    <td>{{ row[1] }}</td>
+    <td>{{ row[2] }}</td>
+    <td>
+        <a href="/delete/complaint/{{ row[0] }}" onclick="return confirm('Delete?')">
+            <button style="background:red;">Delete</button>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+
+<h3>Queries</h3>
+<table border="1" style="width:80%; margin:auto;">
+<tr>
+    <th>Name</th>
+    <th>Message</th>
+    <th>Action</th>
+</tr>
+
+{% for row in queries %}
+<tr>
+    <td>{{ row[1] }}</td>
+    <td>{{ row[2] }}</td>
+    <td>
+        <a href="/delete/query/{{ row[0] }}" onclick="return confirm('Delete?')">
+            <button style="background:red;">Delete</button>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
