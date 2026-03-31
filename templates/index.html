@@ -276,11 +276,27 @@ button{
 
 <!-- MENU -->
 <nav class="navbar">
+
   <a onclick="showMotto()">Our Motto</a>
   <a onclick="openForm('query')">Queries</a>
   <a onclick="openForm('complaint')">Complaints</a>
-  <a href="/login""/beatbook">Beat Book</a>
+
+  <!-- Beat Book + Admin -->
+  <span>
+    <a href="/login">Beat Book</a>
+
+    <a href="/login" style="
+        margin-left:10px;
+        background:red;
+        padding:6px 12px;
+        border-radius:6px;
+    ">
+      Admin
+    </a>
+  </span>
+
 </nav>
+
 
 <p id="mottoText"></p>
 
