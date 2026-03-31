@@ -101,7 +101,7 @@ def init_db():
         ("Village2","SI Verma","Constable A","1500","General","Mr X","School A"),
         ("Village3","SI Singh","Constable B","1200","OBC","Mr Y","School B"),
         ("Village4","SI Khan","Constable C","1800","SC","Mr Z","School C"),
-        ("Village5","SI Patel","Constable D","1400","ST","Mr K","School D")
+        ("Village5","SI Patel","Constable D","1400","ST","Mr K","School D"),
         ("Village6","SI Patel","Constable D","1400","ST","Mr K","School D")
     ]
 
