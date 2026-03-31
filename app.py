@@ -98,16 +98,10 @@ def init_db():
 
    
     villages_to_add = [
-        ("Bisoni", "SI Sundar Lal Pawar", "Surendra Panche", "Approx 2500", "Lodhi, Kalar, Marar, Gowara", "Smt. Varsha Vare (9424937724)", "Govt. High School Bisoni"),
-        ("Chichtola", "SI Verma", "Constable A", "1500", "General", "Mr Rajesh Yadav", "School Chichtola"),
-        ("Rampura", "SI Singh", "Constable B", "1200", "OBC", "Mr Suresh Patel", "School Rampura"),
-        ("Lanji", "SI Khan", "Constable C", "1800", "SC", "Mr Vijay Sharma", "School Lanji"),
-        ("Sogalpur", "SI Patel", "Constable D", "1400", "ST", "Mr Ramesh Tiwari", "School Sogalpur"),
-        ("Itora", "SI Ram", "Constable E", "1900", "ST", "Mr Anand Kumar", "School Itora"),
-        ("Bhandara", "SI Sharma", "Constable F", "1600", "OBC", "Mr Deepak Singh", "School Bhandara"),
-        ("Kachari", "SI Gupta", "Constable G", "1700", "General", "Mr Manoj Joshi", "School Kachari"),
-        ("Mandwa", "SI Joshi", "Constable H", "1300", "SC", "Mr Sunil Reddy", "School Mandwa"),
-        ("Chandrapur", "SI Reddy", "Constable I", "2000", "ST", "Mr Prakash Rao", "School Chandrapur")
+        ("Village2","SI Verma","Constable A","1500","General","Mr X","School A"),
+        ("Village3","SI Singh","Constable B","1200","OBC","Mr Y","School B"),
+        ("Village4","SI Khan","Constable C","1800","SC","Mr Z","School C"),
+        ("Village5","SI Patel","Constable D","1400","ST","Mr K","School D")
     ]
 
     for v in villages_to_add:
@@ -117,6 +111,7 @@ def init_db():
                 (police_station, village, beat_officer, beat_constable, population, caste, sarpanch, school)
                 VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
             """, ("Lanji", v[0], v[1], v[2], v[3], v[4], v[5], v[6]))
+
 
     conn.commit()
     c.close()
@@ -129,13 +124,12 @@ users = {
     "const_chichtola": {"password": "123", "rank": "CONSTABLE", "village": "Chichtola"},
     "const_rampura": {"password": "123", "rank": "CONSTABLE", "village": "Rampura"},
     "const_lanji": {"password": "123", "rank": "CONSTABLE", "village": "Lanji"},
-    "const_sogalpur": {"password": "123", "rank": "CONSTABLE", "village": "Sogalpur"},
-    "const_itora": {"password": "123", "rank": "CONSTABLE", "village": "Itora"},
+    "const_sogalpur": {"password": "123", "rank": "CONSTABLE", "village": "Sogalpur"}
 }
 
 # 🔹 Rank wise village mapping
 village_mapping = {
-    "SI": ["Bisoni", "Chichtola", "Rampura", "Lanji", "Sogalpur", "Itora"],
+    "SI": ["Bisoni", "Chichtola", "Rampura", "Lanji", "Sogalpur"],
     "CONSTABLE": ["Bisoni"]
     }
 
