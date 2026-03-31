@@ -130,7 +130,7 @@ users = {
 
 # 🔹 Rank wise village mapping
 village_mapping = {
-    "SI": ["Bisoni", "Chichtola", "Rampura", "Lanji", "Sogalpur"],
+    "SI": ["Bisoni", "Chichtola", "Rampura", "Lanji", "Sogalpur","Itora"],
     "CONSTABLE": ["Bisoni"]
     }
 
