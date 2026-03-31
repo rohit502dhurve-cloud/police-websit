@@ -130,7 +130,7 @@ users = {
     "const_rampura": {"password": "123", "rank": "CONSTABLE", "village": "Rampura"},
     "const_lanji": {"password": "123", "rank": "CONSTABLE", "village": "Lanji"},
     "const_sogalpur": {"password": "123", "rank": "CONSTABLE", "village": "Sogalpur"},
-    "const_itora": {"password": "123", "rank": "CONSTABLE", "village": "Itora"}
+    "const_itora": {"password": "123", "rank": "CONSTABLE", "village": "Itora"},
 }
 
 # 🔹 Rank wise village mapping
