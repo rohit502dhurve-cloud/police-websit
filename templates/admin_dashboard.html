@@ -1,4 +1,4 @@
-<h2>Admin Panel</h2>
+<h2 style="text-align:center;">Admin Panel</h2>
 
 <h3>Complaints</h3>
 <table border="1" style="width:80%; margin:auto;">
@@ -13,9 +13,11 @@
     <td>{{ row[1] }}</td>
     <td>{{ row[2] }}</td>
     <td>
-        <a href="/delete/complaint/{{ row[0] }}" onclick="return confirm('Delete?')">
-            <button style="background:red;">Delete</button>
-        </a>
+        <form action="/delete/complaint/{{ row[0] }}" method="POST" onsubmit="return confirm('Delete?')">
+            <button type="submit" style="background:red; color:white;">
+                Delete
+            </button>
+        </form>
     </td>
 </tr>
 {% endfor %}
@@ -35,9 +37,11 @@
     <td>{{ row[1] }}</td>
     <td>{{ row[2] }}</td>
     <td>
-        <a href="/delete/query/{{ row[0] }}" onclick="return confirm('Delete?')">
-            <button style="background:red;">Delete</button>
-        </a>
+        <form action="/delete/query/{{ row[0] }}" method="POST" onsubmit="return confirm('Delete?')">
+            <button type="submit" style="background:red; color:white;">
+                Delete
+            </button>
+        </form>
     </td>
 </tr>
 {% endfor %}
