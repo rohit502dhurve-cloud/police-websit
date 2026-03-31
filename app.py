@@ -164,6 +164,49 @@ def login():
     # GET request के लिए login page render
     return render_template('login.html')
 
+@app.route("/admin", methods=["GET","POST"])
+def admin_login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if username == "admin" and password == "1234":
+            session["admin"] = True
+            return redirect("/admin/dashboard")
+        else:
+            return "Invalid Admin Login"
+
+    return render_template("admin_login.html")
+
+@app.route("/admin/dashboard")
+def admin_dashboard():
+    if not session.get("admin"):
+        return redirect("/admin")
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # 🔹 Complaints
+    cur.execute("SELECT * FROM complaints ORDER BY id DESC")
+    complaints = cur.fetchall()
+
+    # 🔹 Queries
+    cur.execute("SELECT * FROM queries ORDER BY id DESC")
+    queries = cur.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "admin_dashboard.html",
+        complaints=complaints,
+        queries=queries
+    )
+@app.route("/admin/logout")
+def admin_logout():
+    session.pop("admin", None)
+    return redirect("/admin")
+
+    
 @app.route('/dashboard')
 def dashboard():
     if "user" not in session:
@@ -251,21 +294,24 @@ def delete_observation(id):
     except Exception as e:
         return f"Error: {str(e)}"
         
-@app.route('/delete_form/<string:type>/<int:id>', methods=['POST'])
-def delete_form(type, id):
-    try:
-        conn = get_db_connection()
-        c = conn.cursor()
-        if type == "complaint":
-            c.execute("DELETE FROM complaints WHERE id=%s", (id,))
-        elif type == "query":
-            c.execute("DELETE FROM queries WHERE id=%s", (id,))
-        conn.commit()
-        c.close()
-        conn.close()
-        return redirect('/view?success=1')
-    except Exception as e:
-        return f"Error: {str(e)}"
+@app.route("/delete/<string:type>/<int:id>", methods=["POST"])
+def delete(type, id):
+    if not session.get("admin"):
+        return redirect("/admin")
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    if type == "complaint":
+        cur.execute("DELETE FROM complaints WHERE id=%s", (id,))
+    elif type == "query":
+        cur.execute("DELETE FROM queries WHERE id=%s", (id,))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/admin/dashboard")
+
 
 @app.route('/save_observation', methods=['POST'])
 def save_observation():
