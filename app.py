@@ -102,7 +102,7 @@ def init_db():
         ("Village3","SI Singh","Constable B","1200","OBC","Mr Y","School B"),
         ("Village4","SI Khan","Constable C","1800","SC","Mr Z","School C"),
         ("Village5","SI Patel","Constable D","1400","ST","Mr K","School D"),
-        ("Village6","SI Patel","Constable D","1400","ST","Mr K","School D")
+        ("Village6","SI Ram","Constable E","1900","ST","Mr Q","School E")
     ]
 
     for v in villages_to_add:
