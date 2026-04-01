@@ -107,11 +107,11 @@ def init_db():
         ("Village8","SI Rohit","Constable G","1800","ST","Mr C","School G"),
         ("Village9","SI Mohan","Constable H","1900","General","Mr D","School H"),
         ("Village10","SI Suresh","Constable I","2000","OBC","Mr E","School I"),
-        ("Village11","SI Ramesh","Constable J","2100","SC","Mr F","School J"),
-        ("Village12","SI Naresh","Constable K","2200","ST","Mr G","School K"),
-        ("Village13","SI Deepak","Constable L","2300","General","Mr H","School L"),
-        ("Village14","SI Karan","Constable M","2400","OBC","Mr I","School M"),
-        ("Village15","SI Arjun","Constable N","2500","SC","Mr J","School N")
+        ("Itora","SI Ramesh","Constable J","2100","SC","Mr F","School J"),
+        ("Dulhapur","SI Naresh","Constable K","2200","ST","Mr G","School K"),
+        ("Khajri","SI Deepak","Constable L","2300","General","Mr H","School L"),
+        ("Bhimodi","SI Karan","Constable M","2400","OBC","Mr I","School M"),
+        ("Sunarkakodi","SI Arjun","Constable N","2500","SC","Mr J","School N")
     ]
 
     for v in villages_to_add:
