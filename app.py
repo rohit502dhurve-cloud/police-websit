@@ -273,6 +273,19 @@ def village(name):
 @app.route('/')
 def home():    
     return render_template('index.html')
+
+@app.route('/check_db')
+def check_db():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM beatbook")
+    data = c.fetchall()
+
+    c.close()
+    conn.close()
+
+    return str(data)
         
 @app.route('/health')
 def health():
