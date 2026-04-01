@@ -250,7 +250,7 @@ def village(name):
     c = conn.cursor()
 
     # Beatbook data
-    c.execute("SELECT * FROM beatbook WHERE village=%s", (name,))
+    c.execute("SELECT * FROM beatbook WHERE TRIM(LOWER(village)) = TRIM(LOWER(%s))", (name,))
     beat = c.fetchone()
 
     # Observations
