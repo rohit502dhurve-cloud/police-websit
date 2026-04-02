@@ -113,10 +113,6 @@ def init_db_safe():
     except Exception as e:
         print("❌ DB Error:", e)
 
-@app.before_request
-def before_request():
-    init_db_safe()
-
 # 🔹 Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -273,4 +269,5 @@ def update_row(id):
 
 # 🔹 Run
 if __name__ == '__main__':
+    init_db_safe()
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
