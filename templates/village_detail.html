@@ -265,7 +265,7 @@ function saveRow(btn){
         <h2>📝 Add Observation</h2>
         <p><b>Date & Time:</b> {{ now.strftime("%d/%m/%Y %H:%M:%S") }}</p>
         <form method="POST" action="/save_observation">
-            <input type="hidden" name="village" value="{{ village }}">
+            <input type="hidden" name="village" value="{{ village|lower }}">
             <textarea name="observation" placeholder="Enter observation..."></textarea>
             <br>
             <button type="submit">Submit</button>
