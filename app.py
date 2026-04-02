@@ -113,6 +113,10 @@ def init_db_safe():
     except Exception as e:
         print("❌ DB Error:", e)
 
+@app.before_request
+def before_request():
+    init_db_safe()
+
 # 🔹 Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -142,12 +146,10 @@ def dashboard():
     conn = get_db_connection()
     c = conn.cursor()
 
-    if session.get("rank") == "CONSTABLE":
-        villages = [session.get("village")]
-    else:
-        c.execute("SELECT village FROM beatbook")
-        villages = [row[0] for row in c.fetchall()]
+    c.execute("SELECT village FROM beatbook")
+    villages = [row[0] for row in c.fetchall()]
 
+    
     c.close()
     conn.close()
 
@@ -159,7 +161,8 @@ def village(name):
     if "user" not in session:
         return redirect('/login')
 
-    name = unquote(name).strip().lower()
+    original_name = unquote(name).strip()
+    name = original_name.lower()
 
     conn = get_db_connection()
     c = conn.cursor()
@@ -186,7 +189,7 @@ def village(name):
         'village_detail.html',
         beat=beat,
         observations=observations,
-        village=name,
+        village=original_name,
         now=now
     )
 
@@ -216,5 +219,4 @@ def logout():
 
 # 🔹 Run
 if __name__ == '__main__':
-    init_db_safe()
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
