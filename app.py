@@ -93,6 +93,11 @@ def init_db():
 # 🔹 Dummy Users (same)
 users = {
     "si": {"password": "123", "rank": "SI"},
+    "const_bisoni": {"password": "123", "rank": "CONSTABLE", "village": "Bisoni"},
+    "const_rampura": {"password": "123", "rank": "CONSTABLE", "village": "Rampura"},
+    "const_lanji": {"password": "123", "rank": "CONSTABLE", "village": "Lanji"},
+    "const_sogalpur": {"password": "123", "rank": "CONSTABLE", "village": "Sogalpur"},
+    "const_chichtola": {"password": "123", "rank": "CONSTABLE", "village": "Chichtola"},
     "const_itora": {"password": "123", "rank": "CONSTABLE", "village": "Itora"},
     "const_dulhapur": {"password": "123", "rank": "CONSTABLE", "village": "Dulhapur"},
     "const_khajri": {"password": "123", "rank": "CONSTABLE", "village": "Khajri"},
@@ -141,11 +146,12 @@ def dashboard():
 
     conn = get_db_connection()
     c = conn.cursor()
-
-    c.execute("SELECT village FROM beatbook")
-    villages = [row[0] for row in c.fetchall()]
-
-    
+    if session.get("rank") == "CONSTABLE":
+        villages = [session.get("village")]   # 🔥 सिर्फ अपना village
+    else:
+        c.execute("SELECT village FROM beatbook")
+        villages = [row[0] for row in c.fetchall()]
+   
     c.close()
     conn.close()
 
