@@ -117,6 +117,19 @@ def init_db_safe():
 def before_request():
     init_db_safe()
 
+@app.route('/delete_dummy')
+def delete_dummy():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("DELETE FROM beatbook WHERE village LIKE 'Village%'")
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return "Deleted ✅"
+
 # 🔹 Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
