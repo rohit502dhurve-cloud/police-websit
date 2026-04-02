@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, jsonify, session, url_for
 import psycopg2
 import os
+import csv
 from datetime import datetime, timedelta
 from urllib.parse import unquote   # ✅ NEW (URL fix)
 
@@ -88,6 +89,42 @@ def init_db():
     conn.commit()
     c.close()
     conn.close()
+
+def bulk_insert_villages():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    with open('villages.csv', 'r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            village_name = row['village'].strip().lower()
+
+            # 🔍 check already exists
+            c.execute("SELECT 1 FROM beatbook WHERE LOWER(TRIM(village))=%s", (village_name,))
+            exists = c.fetchone()
+
+            if not exists:
+                c.execute("""
+                    INSERT INTO beatbook 
+                    (police_station, village, beat_officer, beat_constable, population, caste, sarpanch, school)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+                """, (
+                    "Lanji",
+                    row['village'],
+                    row['beat_officer'],
+                    row['beat_constable'],
+                    row['population'],
+                    row['caste'],
+                    row['sarpanch'],
+                    row['school']
+                ))
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    print("✅ All new villages inserted successfully")
 
 
 # 🔹 Dummy Users (same)
@@ -357,4 +394,5 @@ def delete(type, id):
 # 🔹 Run
 if __name__ == '__main__':
     init_db_safe()
+    bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
