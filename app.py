@@ -217,6 +217,60 @@ def logout():
     session.clear()
     return redirect(url_for("login"))
 
+@app.route('/save_observation', methods=['POST'])
+def save_observation():
+    observation = request.form.get('observation')
+    village = request.form.get('village')
+
+    if not observation:
+        return "Observation required ❗"
+
+    village = village.strip().lower()   # 🔥 FIX
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("""
+        INSERT INTO observations (text, created_at, village) 
+        VALUES (%s, NOW() + INTERVAL '5 hours 30 minutes', %s)
+    """, (observation, village))
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return redirect(request.referrer)
+@app.route("/update_row/<int:id>", methods=["POST"])
+def update_row(id):
+    try:
+        data = request.get_json()
+        field = data.get("field")
+        value = data.get("value")
+
+        allowed_fields = [
+            "police_station","village","beat_officer",
+            "beat_constable","population","caste",
+            "sarpanch","school"
+        ]
+
+        if field not in allowed_fields:
+            return jsonify({"status": "error"}), 400
+
+        conn = get_db_connection()
+        c = conn.cursor()
+
+        c.execute(f"UPDATE beatbook SET {field}=%s WHERE id=%s", (value, id))
+
+        conn.commit()
+        c.close()
+        conn.close()
+
+        return jsonify({"status": "success"})
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+
 # 🔹 Run
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
