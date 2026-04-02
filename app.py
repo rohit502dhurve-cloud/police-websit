@@ -242,6 +242,29 @@ def save_observation():
     conn.close()
 
     return redirect(request.referrer)
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    name = request.form.get('name')
+    message = request.form.get('message')
+    form_type = request.form.get('type')  # "complaint" या "query"
+
+    if not name or not message:
+        return "Please fill all fields ❗"
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    if form_type == "complaint":
+        c.execute("INSERT INTO complaints (name, message) VALUES (%s, %s)", (name, message))
+    elif form_type == "query":
+        c.execute("INSERT INTO queries (name, message) VALUES (%s, %s)", (name, message))
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return redirect('/?success=1')  # या अपनी पसंद का page
 @app.route("/update_row/<int:id>", methods=["POST"])
 def update_row(id):
     try:
