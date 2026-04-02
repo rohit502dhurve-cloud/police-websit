@@ -392,7 +392,7 @@ def delete(type, id):
 
 
 # 🔹 Run
-if __name__ == '__main__':
-    init_db_safe()
-    bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
+init_db_safe()
+bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
+if __name__ == '__main__':    
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
