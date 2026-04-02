@@ -332,7 +332,7 @@ def admin_dashboard():
 @app.route("/admin/logout")
 def admin_logout():
     session.pop("admin", None)
-    return redirect("/admin")
+    return redirect("/")
 
 @app.route("/delete/<string:type>/<int:id>", methods=["POST"])
 def delete(type, id):
