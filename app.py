@@ -272,6 +272,64 @@ def update_row(id):
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)})
 
+@app.route("/admin", methods=["GET","POST"])
+def admin_login():
+    admins = {"admin": "1234"}  # future-proof
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if username in admins and password == admins[username]:
+            session["admin"] = True
+            return redirect("/admin/dashboard")
+        else:
+            return render_template("admin_login.html", error="Invalid Admin Login")
+
+    return render_template("admin_login.html")
+
+@app.route("/admin/dashboard")
+def admin_dashboard():
+    if not session.get("admin"):
+        return redirect("/admin")
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM complaints ORDER BY id DESC")
+    complaints = cur.fetchall()
+
+    cur.execute("SELECT * FROM queries ORDER BY id DESC")
+    queries = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template("admin_dashboard.html", complaints=complaints, queries=queries)
+
+@app.route("/admin/logout")
+def admin_logout():
+    session.pop("admin", None)
+    return redirect("/admin")
+
+@app.route("/delete/<string:type>/<int:id>", methods=["POST"])
+def delete(type, id):
+    if not session.get("admin"):
+        return redirect("/admin")
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    if type == "complaint":
+        cur.execute("DELETE FROM complaints WHERE id=%s", (id,))
+    elif type == "query":
+        cur.execute("DELETE FROM queries WHERE id=%s", (id,))
+
+    conn.commit()
+    cur.close()   # ✅ cursor close जरूरी
+    conn.close()
+
+    return redirect("/admin/dashboard")
+
 
 # 🔹 Run
 if __name__ == '__main__':
