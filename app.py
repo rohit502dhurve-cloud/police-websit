@@ -217,7 +217,7 @@ def health():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for("login"))
+    return redirect(url_for("/"))
 
 @app.route('/save_observation', methods=['POST'])
 def save_observation():
