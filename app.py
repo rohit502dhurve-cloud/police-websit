@@ -100,7 +100,10 @@ def bulk_insert_villages():
     conn = get_db_connection()
     c = conn.cursor()
 
-    with open('villages.csv', 'r', encoding='utf-8') as file:
+   file_path = os.path.join(os.path.dirname(__file__), 'villages.csv')
+
+    with open(file_path, 'r', encoding='utf-8') as file:
+
         reader = csv.DictReader(file)
 
         for row in reader:
@@ -400,6 +403,7 @@ def delete(type, id):
 
 # 🔹 Run
 init_db_safe()
-# bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
+if os.path.exists("villages.csv"):
+    bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
 if __name__ == '__main__':    
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
