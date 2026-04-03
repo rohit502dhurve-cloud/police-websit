@@ -267,6 +267,9 @@ function saveRow(btn){
         <form method="POST" action="/save_observation">
             <input type="hidden" name="village" value="{{ village|lower }}">
             <textarea name="observation" placeholder="Enter observation..."></textarea>
+            <label>Apna Naam:</label>
+            <input type="text" name="submitted_by" placeholder="Apna naam likhe" required>
+            
             <br>
             <button type="submit">Submit</button>
         </form>
@@ -279,8 +282,10 @@ function saveRow(btn){
     <div class="obs-box">
         <div>{{ obs[1] }}</div>
         <div class="time">
-            {{ obs[2].strftime("%d/%m/%Y %H:%M") }}
+            {{ obs[2].strftime("%d/%m/%Y %H:%M") }}            
         </div>
+        
+        <p><b>By:</b> {{ obs[4] }}</p>
     </div>
 {% endfor %}
 
