@@ -56,7 +56,7 @@ def init_db():
         id SERIAL PRIMARY KEY,
         text TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        village TEXT
+        village TEXT,
         submitted_by TEXT
     )
     ''')
@@ -272,7 +272,7 @@ def save_observation():
     c = conn.cursor()
 
     c.execute("""
-        INSERT INTO observations (text, created_at, village) 
+        INSERT INTO observations (text, created_at, village, submitted_by) 
         VALUES (%s, NOW() + INTERVAL '5 hours 30 minutes', %s)
     """, (observation, village, submitted_by))
 
@@ -395,6 +395,6 @@ def delete(type, id):
 
 # 🔹 Run
 init_db_safe()
-bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
+# bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
 if __name__ == '__main__':    
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
