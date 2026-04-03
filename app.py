@@ -214,7 +214,7 @@ users = {
     "c_pawan": {
         "password": "123",
         "rank": "CONSTABLE",
-        "villages": ["itora","kakodi","khajri","kalpathri","pathargaon","badhgaon","pondi"]
+        "villages": ["itora","sunarkakodi","khajri","kalpathri","pathargaon","badhgaon","pondi"]
     },
 }
 
