@@ -57,6 +57,7 @@ def init_db():
         text TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         village TEXT
+        submitted_by TEXT
     )
     ''')
 
@@ -260,6 +261,7 @@ def logout():
 def save_observation():
     observation = request.form.get('observation')
     village = request.form.get('village')
+    submitted_by = request.form.get('submitted_by')
 
     if not observation:
         return "Observation required ❗"
@@ -272,7 +274,7 @@ def save_observation():
     c.execute("""
         INSERT INTO observations (text, created_at, village) 
         VALUES (%s, NOW() + INTERVAL '5 hours 30 minutes', %s)
-    """, (observation, village))
+    """, (observation, village, submitted_by))
 
     conn.commit()
     c.close()
