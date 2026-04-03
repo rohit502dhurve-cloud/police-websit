@@ -62,8 +62,10 @@ def init_db():
     ''')
     try:
         c.execute("ALTER TABLE observations ADD COLUMN submitted_by TEXT")
+        conn.commit()
     except:
-        pass
+        conn.rollback()
+
 
 
     # 🔥 FIX: existing villages (clean)
@@ -100,7 +102,7 @@ def bulk_insert_villages():
     conn = get_db_connection()
     c = conn.cursor()
 
-   file_path = os.path.join(os.path.dirname(__file__), 'villages.csv')
+    file_path = os.path.join(os.path.dirname(__file__), 'villages.csv')
 
     with open(file_path, 'r', encoding='utf-8') as file:
 
