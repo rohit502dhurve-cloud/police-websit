@@ -144,7 +144,7 @@ users = {
      "hc_narendra": {
         "password": "123",
         "rank": "CONSTABLE",
-        "villages": ["manpur","tekri","thanegaon","poorvatola","khandafari"]
+        "villages": ["manpur","tekri","thanegaon","purvatola","khandafari"]
     },
      "hc_dhanlal": {
         "password": "123",
@@ -159,7 +159,7 @@ users = {
      "c_surendra": {
         "password": "123",
         "rank": "CONSTABLE",
-        "villages": ["pipalgaonkhurd","pouni","kosmara","kholmara","kosamdehi"]
+        "villages": ["peepalgaon khurd","pouni","kosmara","kholmara","kosamdehi"]
     },
      "c_nemichand": {
         "password": "123",
@@ -184,7 +184,7 @@ users = {
     "c_vijay": {
         "password": "123",
         "rank": "CONSTABLE",
-        "villages": ["kumarikhurd","kumarikalan","singola","dighori","sanvarikalan","umri"]
+        "villages": ["kumhari khurd","kumhari kala","singola","dighori","savrikala","umri"]
     },
     "c_dilip": {
         "password": "123",
@@ -194,12 +194,12 @@ users = {
     "c_ashutosh": {
         "password": "123",
         "rank": "CONSTABLE",
-        "villages": ["bolegaon","benegaon","ghotighusmara","kochewahi","bhimodi"]
+        "villages": ["bolegaon","benegaon","ghoti-ghusmara","kochewahi","bhimodi"]
     },
     "c_sujeet": {
         "password": "123",
         "rank": "CONSTABLE",
-        "villages": ["mohara","mohjhari","manegaon","temni","chikhlamali"]
+        "villages": ["mohara","mohjhari","manegaon","temni (choundhatola)","chikhlamali"]
     },
     "c_roopsingh": {
         "password": "123",
@@ -209,12 +209,12 @@ users = {
     "c_jitendra": {
         "password": "123",
         "rank": "CONSTABLE",
-        "villages": ["pipalgaonkalan","sirri","atariya","mendra","bhakkutola","borikala"]
+        "villages": ["pipalgaon kala","sirri","atariya","mendra","bhakkutola","borikala"]
     },
     "c_pawan": {
         "password": "123",
         "rank": "CONSTABLE",
-        "villages": ["itora","kakodi","khajri","kalpathri","pathargaon","badgaon","pondi"]
+        "villages": ["itora","kakodi","khajri","kalpathri","pathargaon","badhgaon","pondi"]
     },
 }
 
