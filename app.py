@@ -60,6 +60,11 @@ def init_db():
         submitted_by TEXT
     )
     ''')
+    try:
+        c.execute("ALTER TABLE observations ADD COLUMN submitted_by TEXT")
+    except:
+        pass
+
 
     # 🔥 FIX: existing villages (clean)
     c.execute("SELECT LOWER(TRIM(village)) FROM beatbook")
