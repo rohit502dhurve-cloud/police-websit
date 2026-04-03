@@ -145,7 +145,77 @@ users = {
         "password": "123",
         "rank": "CONSTABLE",
         "villages": ["manpur","tekri","thanegaon","poorvatola","khandafari"]
-    }
+    },
+     "hc_dhanlal": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["lanji","bisoni","katangi","rampura","sogalpur"]
+    },
+     "c_mohshin": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["dulhapur","satitola","chichtola","saheki","bagdi"]
+    },
+     "c_surendra": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["pipalgaonkhurd","pouni","kosmara","kholmara","kosamdehi"]
+    },
+     "c_nemichand": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["kashitola","bakramundi","neemtola","kalimati"]
+    },
+     "hc_pawan": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["paldongri","ameda","sadra","borikhurd"]
+    },
+     "c_anil": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["fofsa","siregaon","ladsa"]
+    },
+     "c_manohar": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["jivnara","dahegaon","keregaon","kharegaon","kareja","devalgaon"]
+    },
+    "c_vijay": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["kumarikhurd","kumarikalan","singola","dighori","sanvarikalan","umri"]
+    },
+    "c_dilip": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["kulpa","karanja","bapdi","parsodi","paraswada","chichamtola"]
+    },
+    "c_ashutosh": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["bolegaon","benegaon","ghotighusmara","kochewahi","bhimodi"]
+    },
+    "c_sujeet": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["mohara","mohjhari","manegaon","temni","chikhlamali"]
+    },
+    "c_roopsingh": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["sihari","aava","churli","dorli","tedwa","binjhalgaon"]
+    },
+    "c_jitendra": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["pipalgaonkalan","sirri","atariya","mendra","bhakkutola","borikala"]
+    },
+    "c_pawan": {
+        "password": "123",
+        "rank": "CONSTABLE",
+        "villages": ["itora","kakodi","khajri","kalpathri","pathargaon","badgaon","pondi"]
+    },
 }
 
 village_mapping = {
