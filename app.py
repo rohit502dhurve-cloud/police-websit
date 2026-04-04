@@ -257,8 +257,8 @@ def login():
             session["user"] = username
             session["rank"] = users[username]["rank"]
 
-            if users[username]["rank"] == "CONSTABLE":
-                session["assigned_villages"] = users[username]["villages"]
+            if users[username]["rank"] in ["CONSTABLE", "SI"]:
+                session["assigned_villages"] = users[username].get("villages", [])
 
             return redirect('/dashboard')
 
@@ -274,11 +274,12 @@ def dashboard():
 
     conn = get_db_connection()
     c = conn.cursor()
-    if session.get("rank") == "CONSTABLE":
+    if session.get("rank") in ["CONSTABLE", "SI"]:
         villages = session.get("assigned_villages", [])
     else:
         c.execute("SELECT village FROM beatbook")
         villages = [row[0] for row in c.fetchall()]
+
    
     c.close()
     conn.close()
