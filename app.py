@@ -140,7 +140,22 @@ def bulk_insert_villages():
 
 # 🔹 Dummy Users (same)
 users = {
-    "si": {"password": "123", "rank": "SI"},
+    "si_sundarlal": {
+    "password": "123",
+    "rank": "SI",
+    "villages": ["lanji", "bisoni", "katangi", "rampura", "sogalpur","manpur","tekri","thanegaon","poorvatola","khandafari","dulhapur","satitola","chichtola","saheki","bagdi","peepalgaon khurd","pouni","kosmara","kholmara","kosamdehi","kashitola","bakramundi","neemtola","kalimati",]   # example
+},
+"si_2": {
+    "password": "123",
+    "rank": "SI",
+    "villages": ["bhimodi", "sunarkakodi"]       # example
+},
+"si_3": {
+    "password": "123",
+    "rank": "SI",
+    "villages": ["lanji", "bisoni"]              # example
+},
+
      "hc_narendra": {
         "password": "123",
         "rank": "CONSTABLE",
