@@ -167,18 +167,18 @@ def bulk_insert_personnel():
             if not exists:
                 c.execute("""
                     INSERT INTO personnel 
-                    (sr_no, ps_outpost, rank, name, posting_date, posting_tenure, work_profile, mobile_number, remark)
+                    (Sr_no, Ps_Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
                     VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 """, (
-                    row['sr_no'],
-                    row['ps_outpost'],
-                    row['rank'],
-                    row['name'],
-                    row['posting_date'],
-                    row['posting_tenure'],
-                    row['work_profile'],
-                    row['mobile_number'],
-                    row['remark']
+                    row['Sr_no'],
+                    row['Ps_Outpost'],
+                    row['Rank'],
+                    row['Name'],
+                    row['Posting_Date'],
+                    row['Posting_Tenure'],
+                    row['Work_Profile'],
+                    row['Mobile_number'],
+                    row['Remark']
                 ))
 
     conn.commit()
