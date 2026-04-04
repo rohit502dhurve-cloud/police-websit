@@ -145,10 +145,10 @@ users = {
     "rank": "SI",
     "villages": ["lanji", "bisoni", "katangi", "rampura", "sogalpur","manpur","tekri","thanegaon","poorvatola","khandafari","dulhapur","satitola","chichtola","saheki","bagdi","peepalgaon khurd","pouni","kosmara","kholmara","kosamdehi","kashitola","bakramundi","neemtola","kalimati",]   # example
 },
-"si_2": {
+"si_vidhi": {
     "password": "123",
     "rank": "SI",
-    "villages": ["bhimodi", "sunarkakodi"]       # example
+    "villages": ["paldongri", "ameda", "sadra", "borikhurd", "fofsa", "siregaon", "ladsa", "jivnara", "dahegaon", "keregaon", "kareja", "devalgaon", "kumarikhurd", "kumarikalan", "singola", "dighori", "savrikala", "umri", "kulpa", "karanja", "bapdi", "parsodi", "paraswada", "chichamtola",]       # example
 },
 "si_3": {
     "password": "123",
