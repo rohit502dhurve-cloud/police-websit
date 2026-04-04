@@ -1,0 +1,40 @@
+<h2>Officer / Personnel Management</h2>
+
+<form method="GET">
+    <label>Rank:</label>
+    <select name="rank">
+        <option value="ALL">All</option>
+        <option value="SI">SI</option>
+        <option value="ASI">ASI</option>
+        <option value="HC">HC</option>
+        <option value="Constable">Constable</option>
+    </select>
+
+    <button type="submit">Filter</button>
+</form>
+
+<table border="1">
+<tr>
+    <th>Sr No</th>
+    <th>Thana</th>
+    <th>Rank</th>
+    <th>Name</th>
+    <th>Posting Date</th>
+    <th>Tenure</th>
+    <th>Work Profile</th>
+    <th>Remark</th>
+</tr>
+
+{% for row in data %}
+<tr>
+    <td>{{ row[1] }}</td>
+    <td>{{ row[2] }}</td>
+    <td>{{ row[3] }}</td>
+    <td>{{ row[4] }}</td>
+    <td>{{ row[5] }}</td>
+    <td>{{ row[6] }}</td>
+    <td>{{ row[7] }}</td>
+    <td>{{ row[8] }}</td>
+</tr>
+{% endfor %}
+</table>
