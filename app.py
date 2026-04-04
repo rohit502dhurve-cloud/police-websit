@@ -36,6 +36,21 @@ def init_db():
             message TEXT NOT NULL
         )
     ''')
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS personnel (
+        id SERIAL PRIMARY KEY,
+        sr_no TEXT,
+        ps_outpost TEXT,
+        rank TEXT,
+        name TEXT,
+        posting_date DATE,
+        posting_tenure TEXT,
+        work_profile TEXT,
+        mobile_number TEXT,
+        remark TEXT
+)
+''')
+
 
     c.execute('''
         CREATE TABLE IF NOT EXISTS beatbook (
@@ -136,6 +151,39 @@ def bulk_insert_villages():
     conn.close()
 
     print("✅ All new villages inserted successfully")
+def bulk_insert_personnel():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    file_path = os.path.join(os.path.dirname(__file__), 'personnel.csv')
+
+    with open(file_path, 'r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            c.execute("SELECT 1 FROM personnel WHERE name=%s", (row['name'],))
+            exists = c.fetchone()
+
+            if not exists:
+                c.execute("""
+                    INSERT INTO personnel 
+                    (sr_no, ps_outpost, rank, name, posting_date, posting_tenure, work_profile, mobile_number, remark)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                """, (
+                    row['sr_no'],
+                    row['ps_outpost'],
+                    row['rank'],
+                    row['name'],
+                    row['posting_date'],
+                    row['posting_tenure'],
+                    row['work_profile'],
+                    row['mobile_number'],
+                    row['remark']
+                ))
+
+    conn.commit()
+    c.close()
+    conn.close()
 
 
 # 🔹 Dummy Users (same)
@@ -285,6 +333,29 @@ def dashboard():
     conn.close()
 
     return render_template('dashboard.html', villages=villages)
+
+@app.route('/personnel')
+def personnel():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    rank = request.args.get('rank')
+
+    query = "SELECT * FROM personnel WHERE 1=1"
+    params = []
+
+    if rank and rank != "ALL":
+        query += " AND rank = %s"
+        params.append(rank)
+
+    c.execute(query, params)
+    data = c.fetchall()
+
+    c.close()
+    conn.close()
+
+    return render_template('personnel.html', data=data)
+
 
 # 🔹 Village page (🔥 FIXED)
 @app.route('/village/<name>')
@@ -488,5 +559,9 @@ def delete(type, id):
 init_db_safe()
 if os.path.exists("villages.csv"):
     bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
+
+if os.path.exists("personnel.csv"):
+    bulk_insert_personnel()
+
 if __name__ == '__main__':    
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
