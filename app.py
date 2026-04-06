@@ -537,6 +537,7 @@ def admin_logout():
 
 @app.route('/load-personnel')
 def load_personnel():
+    init_db()
     bulk_insert_personnel()
     return "Personnel Loaded ✅"
 
