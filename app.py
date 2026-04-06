@@ -185,6 +185,11 @@ def bulk_insert_personnel_safe():
             exists = c.fetchone()
 
             if not exists:
+                from datetime import datetime
+
+                raw_date = row['Posting_Date']
+                date_obj = datetime.strptime(raw_date, "%d/%m/%Y").date()
+                
                 c.execute("""
                     INSERT INTO personnel 
                     (Sr_no, Ps_Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
@@ -194,7 +199,7 @@ def bulk_insert_personnel_safe():
                     row['Ps_Outpost'],
                     row['Rank'],
                     row['Name'],
-                    row['Posting_Date'],
+                    date_obj,
                     row['Posting_Tenure'],
                     row['Work_Profile'],
                     row['Mobile_number'],
