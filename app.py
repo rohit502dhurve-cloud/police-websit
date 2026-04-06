@@ -20,6 +20,21 @@ def init_db():
     conn = get_db_connection()
     c = conn.cursor()
 
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS personnel (
+        id SERIAL PRIMARY KEY,
+        Sr_no TEXT,
+        Ps_Outpost TEXT,
+        Rank TEXT,
+        Name TEXT,
+        Posting_Date DATE,
+        Posting_Tenure TEXT,
+        Work_Profile TEXT,
+        Mobile_number TEXT,
+        Remark TEXT
+)
+''')
+
     # Tables
     c.execute('''
         CREATE TABLE IF NOT EXISTS complaints (
@@ -36,22 +51,7 @@ def init_db():
             message TEXT NOT NULL
         )
     ''')
-    c.execute('''
-    CREATE TABLE IF NOT EXISTS personnel (
-        id SERIAL PRIMARY KEY,
-        Sr_no TEXT,
-        Ps_Outpost TEXT,
-        Rank TEXT,
-        Name TEXT,
-        Posting_Date DATE,
-        Posting_Tenure TEXT,
-        Work_Profile TEXT,
-        Mobile_number TEXT,
-        Remark TEXT
-)
-''')
-
-
+    
     c.execute('''
         CREATE TABLE IF NOT EXISTS beatbook (
             id SERIAL PRIMARY KEY,
