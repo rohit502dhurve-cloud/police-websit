@@ -39,15 +39,15 @@ def init_db():
     c.execute('''
     CREATE TABLE IF NOT EXISTS personnel (
         id SERIAL PRIMARY KEY,
-        sr_no TEXT,
-        ps_outpost TEXT,
-        rank TEXT,
-        name TEXT,
-        posting_date DATE,
-        posting_tenure TEXT,
-        work_profile TEXT,
-        mobile_number TEXT,
-        remark TEXT
+        Sr_no TEXT,
+        Ps_Outpost TEXT,
+        Rank TEXT,
+        Name TEXT,
+        Posting_Date DATE,
+        Posting_Tenure TEXT,
+        Work_Profile TEXT,
+        Mobile_number TEXT,
+        Remark TEXT
 )
 ''')
 
