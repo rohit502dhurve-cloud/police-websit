@@ -154,6 +154,21 @@ def bulk_insert_villages():
 def bulk_insert_personnel():
     conn = get_db_connection()
     c = conn.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS personnel (
+            id SERIAL PRIMARY KEY,
+            Sr_no TEXT,
+            Ps_Outpost TEXT,
+            Rank TEXT,
+            Name TEXT,
+            Posting_Date DATE,
+            Posting_Tenure TEXT,
+            Work_Profile TEXT,
+            Mobile_number TEXT,
+            Remark TEXT
+        )
+    """)
+    conn.commit()
 
     file_path = os.path.join(os.path.dirname(__file__), 'personnel.csv')
 
@@ -161,7 +176,7 @@ def bulk_insert_personnel():
         reader = csv.DictReader(file)
 
         for row in reader:
-            c.execute("SELECT 1 FROM personnel WHERE name=%s", (row['Name'],))
+            c.execute("SELECT 1 FROM personnel WHERE Name=%s", (row['Name'],))
             exists = c.fetchone()
 
             if not exists:
@@ -570,9 +585,6 @@ def delete(type, id):
 init_db_safe()
 if os.path.exists("villages.csv"):
     bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
-
-if os.path.exists("personnel.csv"):
-    bulk_insert_personnel()
 
 if __name__ == '__main__':    
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
