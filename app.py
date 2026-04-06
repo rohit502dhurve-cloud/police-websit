@@ -188,7 +188,7 @@ def bulk_insert_personnel_safe():
                 from datetime import datetime
 
                 raw_date = row['Posting_Date']
-                date_obj = datetime.strptime(raw_date, "%d/%m/%Y").date()
+                date_obj = datetime.strptime(raw_date.strip(), "%d-%m-%Y").date()
                 
                 c.execute("""
                     INSERT INTO personnel 
