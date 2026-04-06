@@ -176,6 +176,10 @@ def bulk_insert_personnel():
         reader = csv.DictReader(file)
 
         for row in reader:
+            name = row.get('Name')
+
+            if not name:
+               continue
             c.execute("SELECT 1 FROM personnel WHERE Name=%s", (row['Name'],))
             exists = c.fetchone()
 
