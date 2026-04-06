@@ -356,25 +356,65 @@ def dashboard():
 
 @app.route('/personnel')
 def personnel():
+@app.route('/add_personnel', methods=['POST'])
+def add_personnel():
+    Sr_no = request.form.get('Sr_no')
+    Ps_Outpost = request.form.get('Ps_Outpost')
+    Rank = request.form.get('Rank')
+    Name = request.form.get('Name')
+    Posting_Date = request.form.get('Posting_Date')
+    Posting_Tenure = request.form.get('Posting_Tenure')
+    Work_Profile = request.form.get('Work_Profile')
+    Mobile_number = request.form.get('Mobile_number')
+    Remark = request.form.get('Remark')
+
     conn = get_db_connection()
     c = conn.cursor()
 
-    rank = request.args.get('rank')
+    c.execute("""
+        INSERT INTO personnel 
+        (Sr_no, Ps_Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+    """, (Sr_no, Ps_Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark))
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return redirect('/personnel')
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    search = request.args.get('search', '')
+    rank = request.args.get('rank', '')
+    ps = request.args.get('ps', '')
 
     query = "SELECT * FROM personnel WHERE 1=1"
-    params = []
+    values = []
+
+    if search:
+        query += " AND Name ILIKE %s"
+        values.append(f"%{search}%")
 
     if rank and rank != "ALL":
-        query += " AND rank = %s"
-        params.append(rank)
+        query += " AND Rank = %s"
+        values.append(rank)
 
-    c.execute(query, params)
+    if ps:
+        query += " AND Ps_Outpost = %s"
+        values.append(ps)
+
+    query += " ORDER BY id DESC"
+
+    c.execute(query, values)
     data = c.fetchall()
 
     c.close()
     conn.close()
 
     return render_template('personnel.html', data=data)
+
 
 
 # 🔹 Village page (🔥 FIXED)
