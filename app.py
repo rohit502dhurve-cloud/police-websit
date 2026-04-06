@@ -540,6 +540,11 @@ def load_personnel():
     bulk_insert_personnel()
     return "Personnel Loaded ✅"
 
+@app.route('/init-db')
+def force_init_db():
+    init_db()
+    return "DB Created ✅"
+
 @app.route("/delete/<string:type>/<int:id>", methods=["POST"])
 def delete(type, id):
     if not session.get("admin"):
