@@ -151,7 +151,7 @@ def bulk_insert_villages():
     conn.close()
 
     print("✅ All new villages inserted successfully")
-def bulk_insert_personnel():
+def bulk_insert_personnel_safe():
     conn = get_db_connection()
     c = conn.cursor()
     c.execute("""
@@ -557,7 +557,7 @@ def admin_logout():
 @app.route('/load-personnel')
 def load_personnel():
     init_db()
-    bulk_insert_personnel()
+    bulk_insert_personnel_safe()
     return "Personnel Loaded ✅"
 
 @app.route('/init-db')
