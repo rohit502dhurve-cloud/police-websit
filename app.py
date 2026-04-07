@@ -214,69 +214,62 @@ def bulk_insert_personnel_safe():
 # 🔹 Dummy Users (same)
 users = {
     "beat_1": {
-    "password": "123",
-    "rank": "SI",
-    "villages": ["lanji", "bisoni", "katangi", "rampura", "sogalpur","manpur","tekri","thanegaon","purvatola","khandafari","dulhapur","satitola","chichtola","saheki","bagdi","peepalgaon khurd","pouni","kosmara","kholmara","kosamdehi","kashitola","bakramundi","neemtola","kalimati",]   # example
-},
-"beat_2": {
-    "password": "123",
-    "rank": "SI",
-    "villages": ["paldongri", "ameda", "sadra", "borikhurd", "fofsa", "siregaon", "ladsa", "jivnara", "dahegaon", "keregaon", "kareja", "devalgaon", "kumarikhurd", "kumarikalan", "singola", "dighori", "savrikala", "umri", "kulpa", "karanja", "bapdi", "parsodi", "paraswada", "chichamtola",]       # example
-},
-"beat_3": {
-    "password": "123",
-    "rank": "SI",
-    "villages": ["bolegaon", "benegaon", "ghoti-ghusmara", "kochewahi", "bhimodi", "mohara", "mohjhari", "bhanegaon", "temni (choundhatola)", "chikhlamali", "sihari", "aava", "churli", "dorli", "tedva", "binjhalgaon", "pipalgaon kala", "sirri", "atariya", "mendra", "bhakkutola", "borikala", "itora", "kakodi", "khajri", "kalpathri", "pathargaon", "badhgaon", "pondi",]              # example
-},
-"sho_lanji": {
-     "password": "123",
-     "rank": "SHO",
-     "name": "Sho Lanji"
-    }
-}
-
-     "8225946160": {
+        "password": "123",
+        "rank": "SI",
+        "villages": ["lanji", "bisoni", "katangi", "rampura", "sogalpur","manpur","tekri","thanegaon","purvatola","khandafari","dulhapur","satitola","chichtola","saheki","bagdi","peepalgaon khurd","pouni","kosmara","kholmara","kosamdehi","kashitola","bakramundi","neemtola","kalimati"]
+    },
+    "beat_2": {
+        "password": "123",
+        "rank": "SI",
+        "villages": ["paldongri", "ameda", "sadra", "borikhurd", "fofsa", "siregaon", "ladsa", "jivnara", "dahegaon", "keregaon", "kareja", "devalgaon", "kumarikhurd", "kumarikalan", "singola", "dighori", "savrikala", "umri", "kulpa", "karanja", "bapdi", "parsodi", "paraswada", "chichamtola"]
+    },
+    "beat_3": {
+        "password": "123",
+        "rank": "SI",
+        "villages": ["bolegaon", "benegaon", "ghoti-ghusmara", "kochewahi", "bhimodi", "mohara", "mohjhari", "bhanegaon", "temni (choundhatola)", "chikhlamali", "sihari", "aava", "churli", "dorli", "tedva", "binjhalgaon", "pipalgaon kala", "sirri", "atariya", "mendra", "bhakkutola", "borikala", "itora", "kakodi", "khajri", "kalpathri", "pathargaon", "badhgaon", "pondi"]
+    },
+    "8225946160": {
         "password": "123",
         "rank": "CONSTABLE",
         "name": "Narendra Sonve",
         "villages": ["manpur","tekri","thanegaon","purvatola","khandafari"]
     },
-     "9424943406": {
+    "9424943406": {
         "password": "123",
         "rank": "CONSTABLE",
         "name": "Dhanlal Lilhare",
         "villages": ["lanji","bisoni","katangi","rampura","sogalpur"]
     },
-     "9806644195": {
+    "9806644195": {
         "password": "123",
         "rank": "CONSTABLE",
         "name": "Mohshin Khan",
         "villages": ["dulhapur","satitola","chichtola","saheki","bagdi"]
     },
-     "9669000629": {
+    "9669000629": {
         "password": "123",
         "rank": "CONSTABLE",
         "name": "Surendra Panche",
         "villages": ["peepalgaon khurd","pouni","kosmara","kholmara","kosamdehi"]
     },
-     "9340530959": {
+    "9340530959": {
         "password": "123",
         "rank": "CONSTABLE",
         "name": "Nemichand Sepat",
         "villages": ["kashitola","bakramundi","neemtola","kalimati"]
     },
-     "9425140102": {
+    "9425140102": {
         "password": "123",
         "rank": "CONSTABLE",
         "name": "Pawan Marskole",
         "villages": ["paldongri","ameda","sadra","borikhurd"]
     },
-     "c_anil": {
+    "c_anil": {
         "password": "123",
         "rank": "CONSTABLE",
         "villages": ["fofsa","siregaon","ladsa"]
     },
-     "9691744570": {
+    "9691744570": {
         "password": "123",
         "rank": "CONSTABLE",
         "name": "Manohar Jhadekar",
@@ -323,7 +316,13 @@ users = {
         "name": "Pawan Dhakad",
         "villages": ["itora","sunarkakodi","khajri","kalpathri","pathargaon","badhgaon","pondi"]
     },
+    "sho_lanji": {
+        "password": "123",
+        "rank": "SHO",
+        "name": "Thana Prabhari Lanji"
+    }
 }
+
 
 village_mapping = {
     "SI": [],
