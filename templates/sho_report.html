@@ -11,6 +11,7 @@
     <h1 class="text-center mb-4">All Observations Report</h1>
 
     <form method="get" class="row g-3 mb-4">
+        <!-- Village Filter -->
         <div class="col-md-3">
             <select name="village" class="form-select">
                 <option value="">All Villages</option>
@@ -19,17 +20,24 @@
                 {% endfor %}
             </select>
         </div>
+
+        <!-- Start Date -->
         <div class="col-md-3">
-            <input type="date" name="start_date" class="form-control" value="{{ start_date }}">
+            <input type="text" name="start_date" class="form-control" value="{{ start_date }}" placeholder="DD/MM/YYYY">
         </div>
+
+        <!-- End Date -->
         <div class="col-md-3">
-            <input type="date" name="end_date" class="form-control" value="{{ end_date }}">
+            <input type="text" name="end_date" class="form-control" value="{{ end_date }}" placeholder="DD/MM/YYYY">
         </div>
+
+        <!-- Submit Button -->
         <div class="col-md-3">
             <button type="submit" class="btn btn-primary w-100">Filter</button>
         </div>
     </form>
 
+    <!-- Observations Table -->
     <table class="table table-striped table-bordered">
         <thead class="table-dark">
             <tr>
@@ -45,7 +53,7 @@
                 <td>{{ o[0] }}</td>
                 <td>{{ o[1] }}</td>
                 <td>{{ o[2] }}</td>
-                <td>{{ o[3] }}</td>
+                <td>{{ o[3].strftime("%d/%m/%Y %H:%M:%S") }}</td>
             </tr>
             {% endfor %}
         </tbody>
