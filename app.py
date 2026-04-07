@@ -228,6 +228,12 @@ users = {
     "rank": "SI",
     "villages": ["bolegaon", "benegaon", "ghoti-ghusmara", "kochewahi", "bhimodi", "mohara", "mohjhari", "bhanegaon", "temni (choundhatola)", "chikhlamali", "sihari", "aava", "churli", "dorli", "tedva", "binjhalgaon", "pipalgaon kala", "sirri", "atariya", "mendra", "bhakkutola", "borikala", "itora", "kakodi", "khajri", "kalpathri", "pathargaon", "badhgaon", "pondi",]              # example
 },
+"sho_lanji": {
+     "password": "123",
+     "rank": "SHO",
+     "name": "Sho Lanji"
+    }
+}
 
      "8225946160": {
         "password": "123",
@@ -361,11 +367,19 @@ def dashboard():
 
     conn = get_db_connection()
     c = conn.cursor()
-    if session.get("rank") in ["CONSTABLE", "SI"]:
+    if session.get("rank") == "CONSTABLE":
         villages = session.get("assigned_villages", [])
-    else:
+
+    elif session.get("rank") == "SI":
+        villages = session.get("assigned_villages", [])
+
+    elif session.get("rank") == "SHO":
         c.execute("SELECT village FROM beatbook")
         villages = [row[0] for row in c.fetchall()]
+
+    else:
+        villages = []
+
 
    
     c.close()
