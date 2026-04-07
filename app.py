@@ -407,12 +407,12 @@ def sho_report():
         params.append(village_filter)
 
     if start_date:
-        start_obj = datetime.strptime(start_date, "%Y-%m-%d")
+        start_obj = datetime.strptime(start_date, "%D-%m-%y")
         query += " AND created_at >= %s"
         params.append(start_obj)
 
     if end_date:
-        end_obj = datetime.strptime(end_date, "%Y-%m-%d") + timedelta(hours=23, minutes=59, seconds=59)
+        end_obj = datetime.strptime(end_date, "%D-%m-%y") + timedelta(hours=23, minutes=59, seconds=59)
         query += " AND created_at <= %s"
         params.append(end_obj)
 
