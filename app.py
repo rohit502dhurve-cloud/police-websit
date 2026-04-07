@@ -386,6 +386,48 @@ def dashboard():
 
     return render_template('dashboard.html', villages=villages)
 
+@app.route('/sho/report', methods=['GET'])
+def sho_report():
+    if "user" not in session or session.get("rank") != "SHO":
+        return redirect('/login')
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    # 🔹 Filters
+    village_filter = request.args.get("village", "").strip().lower()
+    start_date = request.args.get("start_date", "")
+    end_date = request.args.get("end_date", "")
+
+    query = "SELECT village, text, submitted_by, created_at FROM observations WHERE 1=1"
+    params = []
+
+    if village_filter:
+        query += " AND LOWER(TRIM(village)) = %s"
+        params.append(village_filter)
+
+    if start_date:
+        query += " AND created_at >= %s"
+        params.append(start_date)
+
+    if end_date:
+        query += " AND created_at <= %s"
+        params.append(end_date)
+
+    query += " ORDER BY created_at DESC"
+
+    c.execute(query, params)
+    observations = c.fetchall()
+
+    # 🔹 Fetch all villages for filter dropdown
+    c.execute("SELECT village FROM beatbook ORDER BY village")
+    villages = [row[0] for row in c.fetchall()]
+
+    c.close()
+    conn.close()
+
+    return render_template('sho_report.html', observations=observations, villages=villages, selected_village=village_filter, start_date=start_date, end_date=end_date)
+
 @app.route('/personnel')
 def personnel():
     conn = get_db_connection()
