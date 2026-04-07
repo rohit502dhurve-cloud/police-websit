@@ -546,8 +546,7 @@ def logout():
 def save_observation():
     observation = request.form.get('observation')
     village = request.form.get('village')
-    submitted_by = request.form.get('submitted_by')
-
+    
     if not observation:
         return "Observation required ❗"
 
