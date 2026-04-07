@@ -406,6 +406,13 @@ def sho_report():
         query += " AND LOWER(TRIM(village)) = %s"
         params.append(village_filter)
 
+    if start_obj:
+        query += " AND created_at >= %s"
+        params.append(start_obj)
+    if end_obj:
+        query += " AND created_at <= %s"
+        params.append(end_obj)
+
     if start_date:
         start_obj = datetime.strptime(start_date, "%d/%m/%Y")
         query += " AND created_at >= %s"
