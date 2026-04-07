@@ -12,6 +12,14 @@
         {% endfor %}
     </select>
 </div>
+{% if session.get('rank') == 'SHO' %}
+<div style="text-align:center; margin-top:20px;">
+    <a href="{{ url_for('sho_report') }}" class="btn btn-primary">
+        View All Observations Report
+    </a>
+</div>
+{% endif %}
+
 
 <script>
 function goToVillage(v){
