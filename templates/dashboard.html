@@ -8,7 +8,7 @@
     ">
         <option value="">Select Village</option>
         {% for v in villages %}
-            <option value="{{ v }}">{{ v }}</option>
+            <option value="{{ v }}">{{ v.capitalize() }}</option>
         {% endfor %}
     </select>
 </div>
