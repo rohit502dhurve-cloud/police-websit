@@ -229,34 +229,40 @@ users = {
     "villages": ["bolegaon", "benegaon", "ghoti-ghusmara", "kochewahi", "bhimodi", "mohara", "mohjhari", "bhanegaon", "temni (choundhatola)", "chikhlamali", "sihari", "aava", "churli", "dorli", "tedva", "binjhalgaon", "pipalgaon kala", "sirri", "atariya", "mendra", "bhakkutola", "borikala", "itora", "kakodi", "khajri", "kalpathri", "pathargaon", "badhgaon", "pondi",]              # example
 },
 
-     "hc_narendra": {
+     "8225946160": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Narendra Sonve",
         "villages": ["manpur","tekri","thanegaon","purvatola","khandafari"]
     },
-     "hc_dhanlal": {
+     "9424943406": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Dhanlal Lilhare",
         "villages": ["lanji","bisoni","katangi","rampura","sogalpur"]
     },
-     "c_mohshin": {
+     "9806644195": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Mohshin Khan",
         "villages": ["dulhapur","satitola","chichtola","saheki","bagdi"]
     },
-     "c_surendra": {
+     "9669000629": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Surendra Panche",
         "villages": ["peepalgaon khurd","pouni","kosmara","kholmara","kosamdehi"]
     },
-     "c_nemichand": {
+     "9340530959": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Nemichand Sepat",
         "villages": ["kashitola","bakramundi","neemtola","kalimati"]
     },
-     "hc_pawan": {
+     "9425140102": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Pawan Marskole",
         "villages": ["paldongri","ameda","sadra","borikhurd"]
     },
      "c_anil": {
@@ -264,34 +270,40 @@ users = {
         "rank": "CONSTABLE",
         "villages": ["fofsa","siregaon","ladsa"]
     },
-     "c_manohar": {
+     "9691744570": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Manohar Jhadekar",
         "villages": ["jivnara","dahegaon","keregaon","kharegaon","kareja","devalgaon"]
     },
-    "c_vijay": {
+    "9340549440": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Vijay Sisodiya",
         "villages": ["kumhari khurd","kumhari kala","singola","dighori","savrikala","umri"]
     },
-    "c_dilip": {
+    "8815001286": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Dilip Yadav",
         "villages": ["kulpa","karanja","bapdi","parsodi","paraswada","chichamtola"]
     },
-    "c_ashutosh": {
+    "7000502578": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Ashutosh Singh",
         "villages": ["bolegaon","benegaon","ghoti-ghusmara","kochewahi","bhimodi"]
     },
-    "c_sujeet": {
+    "7999412916": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Sujeet Pal",
         "villages": ["mohara","mohjhari","manegaon","temni (choundhatola)","chikhlamali"]
     },
-    "c_roopsingh": {
+    "9826336422": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Roopsingh Rawat",
         "villages": ["sihari","aava","churli","dorli","tedwa","binjhalgaon"]
     },
     "c_jitendra": {
@@ -299,9 +311,10 @@ users = {
         "rank": "CONSTABLE",
         "villages": ["pipalgaon kala","sirri","atariya","mendra","bhakkutola","borikala"]
     },
-    "c_pawan": {
+    "7694048643": {
         "password": "123",
         "rank": "CONSTABLE",
+        "name": "Pawan Dhakad",
         "villages": ["itora","sunarkakodi","khajri","kalpathri","pathargaon","badhgaon","pondi"]
     },
 }
@@ -329,6 +342,7 @@ def login():
         if username in users and users[username]["password"] == password:
             session["user"] = username
             session["rank"] = users[username]["rank"]
+            session["name"] = users[username].get("name", username)
 
             if users[username]["rank"] in ["CONSTABLE", "SI"]:
                 session["assigned_villages"] = users[username].get("villages", [])
@@ -551,6 +565,7 @@ def save_observation():
         return "Observation required ❗"
 
     village = village.strip().lower()   # 🔥 FIX
+    submitted_by = session.get("name")
 
     conn = get_db_connection()
     c = conn.cursor()
