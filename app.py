@@ -499,7 +499,7 @@ def add_personnel():
     Rank = request.form.get('Rank')
     Name = request.form.get('Name')
     Posting_Date = request.form.get('Posting_Date')
-    Posting_Tenure = = "" ('Posting_Tenure')
+    Posting_Tenure = "" ('Posting_Tenure')
     Work_Profile = request.form.get('Work_Profile')
     Mobile_number = request.form.get('Mobile_number')
     Remark = request.form.get('Remark')
