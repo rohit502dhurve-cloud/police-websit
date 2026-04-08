@@ -66,7 +66,6 @@ def init_db():
             school TEXT
         )
     ''')
-    c.execute("ALTER TABLE beatbook ADD COLUMN IF NOT EXISTS sector_officer TEXT")
 
     c.execute('''
     CREATE TABLE IF NOT EXISTS observations (
@@ -119,54 +118,28 @@ def bulk_insert_villages():
     conn = get_db_connection()
     c = conn.cursor()
 
-    file_path = os.path.join(os.path.dirname(__file__), 'villages.csv')
+    file_path = os.path.join(os.path.dirname(_file_), 'villages.csv')
 
     with open(file_path, 'r', encoding='utf-8') as file:
+
         reader = csv.DictReader(file)
 
         for row in reader:
             village_name = row['village'].strip().lower()
 
-            # 🔍 check village exists
-            c.execute("SELECT id FROM beatbook WHERE LOWER(TRIM(village))=%s", (village_name,))
+            # 🔍 check already exists
+            c.execute("SELECT 1 FROM beatbook WHERE LOWER(TRIM(village))=%s", (village_name,))
             exists = c.fetchone()
 
-            if exists:
-                # ✅ UPDATE existing village
-                c.execute("""
-                    UPDATE beatbook SET
-                        police_station=%s,
-                        beat_officer=%s,
-                        sector_officer=%s,
-                        beat_constable=%s,
-                        population=%s,
-                        caste=%s,
-                        sarpanch=%s,
-                        school=%s
-                    WHERE LOWER(TRIM(village))=%s
-                """, (
-                    "Lanji",
-                    row['beat_officer'],
-                    row['sector_officer'],
-                    row['beat_constable'],
-                    row['population'],
-                    row['caste'],
-                    row['sarpanch'],
-                    row['school'],
-                    village_name
-                ))
-
-            else:
-                # ✅ INSERT new village
+            if not exists:
                 c.execute("""
                     INSERT INTO beatbook 
-                    (police_station, village, beat_officer, sector_officer, beat_constable, population, caste, sarpanch, school)
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                    (police_station, village, beat_officer, beat_constable, population, caste, sarpanch, school)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
                 """, (
                     "Lanji",
                     row['village'],
                     row['beat_officer'],
-                    row['sector_officer'],
                     row['beat_constable'],
                     row['population'],
                     row['caste'],
@@ -177,9 +150,6 @@ def bulk_insert_villages():
     conn.commit()
     c.close()
     conn.close()
-
-    print("✅ CSV data inserted/updated successfully")
-
 
     print("✅ All new villages inserted successfully")
 def bulk_insert_personnel_safe():
@@ -201,7 +171,7 @@ def bulk_insert_personnel_safe():
     """)
     conn.commit()
 
-    file_path = os.path.join(os.path.dirname(__file__), 'personnel.csv')
+    file_path = os.path.join(os.path.dirname(_file_), 'personnel.csv')
 
     with open(file_path, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
@@ -243,17 +213,17 @@ def bulk_insert_personnel_safe():
 
 # 🔹 Dummy Users (same)
 users = {
-    "beat_lanji": {
+    "beat_Lanji": {
         "password": "123",
         "rank": "SI",
         "villages": ["lanji", "bisoni", "katangi", "rampura", "sogalpur","manpur","tekri","thanegaon","purvatola","khandafari","dulhapur","satitola","chichtola","saheki","bagdi","peepalgaon khurd","pouni","kosmara","kholmara","kosamdehi","kashitola","bakramundi","neemtola","kalimati"]
     },
-    "beat_kulpa.karanja": {
+    "beat_Kulpa-Karanja": {
         "password": "123",
         "rank": "SI",
         "villages": ["paldongri", "ameda", "sadra", "borikhurd", "fofsa", "siregaon", "ladsa", "jivnara", "dahegaon", "keregaon", "kareja", "devalgaon", "kumarikhurd", "kumarikalan", "singola", "dighori", "savrikala", "umri", "kulpa", "karanja", "bapdi", "parsodi", "paraswada", "chichamtola"]
     },
-    "beat_bhanegaon.mohjhari": {
+    "beat_Bhanegaon-Mohjhari": {
         "password": "123",
         "rank": "SI",
         "villages": ["bolegaon", "benegaon", "ghoti-ghusmara", "kochewahi", "bhimodi", "mohara", "mohjhari", "bhanegaon", "temni (choundhatola)", "chikhlamali", "sihari", "aava", "churli", "dorli", "tedva", "binjhalgaon", "pipalgaon kala", "sirri", "atariya", "mendra", "bhakkutola", "borikala", "itora", "kakodi", "khajri", "kalpathri", "pathargaon", "badhgaon", "pondi"]
@@ -595,8 +565,7 @@ def village(name):
     c = conn.cursor()
 
     c.execute("""
-        SELECT police_station, village, beat_officer, sector_officer, beat_constable, population, caste, sarpanch, school 
-        FROM beatbook 
+        SELECT * FROM beatbook 
         WHERE LOWER(TRIM(village)) = %s
     """, (name,))
     beat = c.fetchone()
@@ -701,7 +670,6 @@ def update_row(id):
 
         allowed_fields = [
             "police_station","village","beat_officer",
-            "sector_officer",   # ✅ ADD THIS
             "beat_constable","population","caste",
             "sarpanch","school"
         ]
