@@ -213,17 +213,17 @@ def bulk_insert_personnel_safe():
 
 # 🔹 Dummy Users (same)
 users = {
-    "beat_Lanji": {
+    "beat_lanji": {
         "password": "123",
         "rank": "SI",
         "villages": ["lanji", "bisoni", "katangi", "rampura", "sogalpur","manpur","tekri","thanegaon","purvatola","khandafari","dulhapur","satitola","chichtola","saheki","bagdi","peepalgaon khurd","pouni","kosmara","kholmara","kosamdehi","kashitola","bakramundi","neemtola","kalimati"]
     },
-    "beat_Kulpa-Karanja": {
+    "beat_kulpa.karanja": {
         "password": "123",
         "rank": "SI",
         "villages": ["paldongri", "ameda", "sadra", "borikhurd", "fofsa", "siregaon", "ladsa", "jivnara", "dahegaon", "keregaon", "kareja", "devalgaon", "kumarikhurd", "kumarikalan", "singola", "dighori", "savrikala", "umri", "kulpa", "karanja", "bapdi", "parsodi", "paraswada", "chichamtola"]
     },
-    "beat_Bhanegaon-Mohjhari": {
+    "beat_bhanegaon.mohjhari": {
         "password": "123",
         "rank": "SI",
         "villages": ["bolegaon", "benegaon", "ghoti-ghusmara", "kochewahi", "bhimodi", "mohara", "mohjhari", "bhanegaon", "temni (choundhatola)", "chikhlamali", "sihari", "aava", "churli", "dorli", "tedva", "binjhalgaon", "pipalgaon kala", "sirri", "atariya", "mendra", "bhakkutola", "borikala", "itora", "kakodi", "khajri", "kalpathri", "pathargaon", "badhgaon", "pondi"]
