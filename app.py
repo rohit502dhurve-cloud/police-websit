@@ -3,17 +3,18 @@ import psycopg2
 from datetime import datetime
 
 def calculate_tenure(posting_date):
-    if not posting_date:
-        return ""
+    if isinstance(posting_date, datetime):
+        posting_date = posting_date.date()   # 👈 convert to date
 
-    today = datetime.today()
+    today = datetime.today().date()  # 👈 also convert today to date
+
     diff = today - posting_date
 
     years = diff.days // 365
     months = (diff.days % 365) // 30
     days = (diff.days % 365) % 30
 
-    return f"{years}Y {months}M {days}D"
+    return f"{years} Years {months} Months {days} Days"
 
 import os
 import csv
