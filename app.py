@@ -66,6 +66,7 @@ def init_db():
             school TEXT
         )
     ''')
+    c.execute("ALTER TABLE beatbook ADD COLUMN IF NOT EXISTS sector_officer TEXT")
 
     c.execute('''
     CREATE TABLE IF NOT EXISTS observations (
@@ -121,17 +122,42 @@ def bulk_insert_villages():
     file_path = os.path.join(os.path.dirname(__file__), 'villages.csv')
 
     with open(file_path, 'r', encoding='utf-8') as file:
-
         reader = csv.DictReader(file)
 
         for row in reader:
             village_name = row['village'].strip().lower()
 
-            # 🔍 check already exists
-            c.execute("SELECT 1 FROM beatbook WHERE LOWER(TRIM(village))=%s", (village_name,))
+            # 🔍 check village exists
+            c.execute("SELECT id FROM beatbook WHERE LOWER(TRIM(village))=%s", (village_name,))
             exists = c.fetchone()
 
-            if not exists:
+            if exists:
+                # ✅ UPDATE existing village
+                c.execute("""
+                    UPDATE beatbook SET
+                        police_station=%s,
+                        beat_officer=%s,
+                        sector_officer=%s,
+                        beat_constable=%s,
+                        population=%s,
+                        caste=%s,
+                        sarpanch=%s,
+                        school=%s
+                    WHERE LOWER(TRIM(village))=%s
+                """, (
+                    "Lanji",
+                    row['beat_officer'],
+                    row['sector_officer'],
+                    row['beat_constable'],
+                    row['population'],
+                    row['caste'],
+                    row['sarpanch'],
+                    row['school'],
+                    village_name
+                ))
+
+            else:
+                # ✅ INSERT new village
                 c.execute("""
                     INSERT INTO beatbook 
                     (police_station, village, beat_officer, sector_officer, beat_constable, population, caste, sarpanch, school)
@@ -151,6 +177,9 @@ def bulk_insert_villages():
     conn.commit()
     c.close()
     conn.close()
+
+    print("✅ CSV data inserted/updated successfully")
+
 
     print("✅ All new villages inserted successfully")
 def bulk_insert_personnel_safe():
@@ -566,7 +595,8 @@ def village(name):
     c = conn.cursor()
 
     c.execute("""
-        SELECT * FROM beatbook 
+        SELECT police_station, village, beat_officer, sector_officer, beat_constable, population, caste, sarpanch, school 
+        FROM beatbook 
         WHERE LOWER(TRIM(village)) = %s
     """, (name,))
     beat = c.fetchone()
@@ -671,6 +701,7 @@ def update_row(id):
 
         allowed_fields = [
             "police_station","village","beat_officer",
+            "sector_officer",   # ✅ ADD THIS
             "beat_constable","population","caste",
             "sarpanch","school"
         ]
