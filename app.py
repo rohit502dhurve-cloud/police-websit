@@ -1,5 +1,20 @@
 from flask import Flask, render_template, request, redirect, jsonify, session, url_for
 import psycopg2
+from datetime import datetime
+
+def calculate_tenure(posting_date):
+    if not posting_date:
+        return ""
+
+    today = datetime.today()
+    diff = today - posting_date
+
+    years = diff.days // 365
+    months = (diff.days % 365) // 30
+    days = (diff.days % 365) % 30
+
+    return f"{years}Y {months}M {days}D"
+
 import os
 import csv
 from datetime import datetime, timedelta
@@ -459,6 +474,17 @@ def personnel():
 
     c.execute(query, values)
     data = c.fetchall()
+    
+    new_data = []
+    for row in data:
+        row = list(row)
+        posting_date = row[5]
+
+        if posting_date:
+            row[6] = calculate_tenure(posting_date)  # 👈 MAGIC LINE
+
+        new_data.append(row)
+
 
     c.close()
     conn.close()
@@ -473,7 +499,7 @@ def add_personnel():
     Rank = request.form.get('Rank')
     Name = request.form.get('Name')
     Posting_Date = request.form.get('Posting_Date')
-    Posting_Tenure = request.form.get('Posting_Tenure')
+    Posting_Tenure = = "" ('Posting_Tenure')
     Work_Profile = request.form.get('Work_Profile')
     Mobile_number = request.form.get('Mobile_number')
     Remark = request.form.get('Remark')
