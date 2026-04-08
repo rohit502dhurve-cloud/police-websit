@@ -134,7 +134,7 @@ def bulk_insert_villages():
     conn = get_db_connection()
     c = conn.cursor()
 
-    file_path = os.path.join(os.path.dirname(_file_), 'villages.csv')
+    file_path = os.path.join(os.path.dirname(__file__), 'villages.csv')
 
     with open(file_path, 'r', encoding='utf-8') as file:
 
@@ -187,7 +187,7 @@ def bulk_insert_personnel_safe():
     """)
     conn.commit()
 
-    file_path = os.path.join(os.path.dirname(_file_), 'personnel.csv')
+    file_path = os.path.join(os.path.dirname(__file__), 'personnel.csv')
 
     with open(file_path, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
@@ -500,7 +500,7 @@ def add_personnel():
     Rank = request.form.get('Rank')
     Name = request.form.get('Name')
     Posting_Date = request.form.get('Posting_Date')
-    Posting_Tenure = "" ('Posting_Tenure')
+    Posting_Tenure = ""
     Work_Profile = request.form.get('Work_Profile')
     Mobile_number = request.form.get('Mobile_number')
     Remark = request.form.get('Remark')
