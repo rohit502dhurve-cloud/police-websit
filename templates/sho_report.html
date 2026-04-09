@@ -71,22 +71,28 @@
 </div>
 
 <script>
+<script>
 function deleteObservation(id){
-    if(confirm("Delete sure?")){
+    if(confirm("Are you sure you want to delete?")){
         fetch("/delete_observation/" + id, {
             method: "POST"
         })
         .then(res => res.json())
         .then(data => {
-            if(data.status == "success"){
+            if(data.status === "success"){
                 alert("Deleted ✅");
                 location.reload();
             } else {
-                alert("Error ❌");
+                alert("Delete failed ❌");
             }
+        })
+        .catch(err => {
+            alert("Server error ❌");
+            console.log(err);
         });
     }
 }
+</script>
 </script>
 
 </body>
