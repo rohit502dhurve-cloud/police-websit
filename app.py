@@ -491,7 +491,18 @@ def personnel():
     conn.close()
 
     return render_template('personnel.html', data=data)
+    @app.route('/delete_personnel/<int:id>')
+    def delete_personnel(id):
+        conn = get_db_connection()
+        c = conn.cursor()
 
+        c.execute("DELETE FROM personnel WHERE id=%s", (id,))
+
+        conn.commit()
+        c.close()
+        conn.close()
+
+        return redirect('/personnel')
 
 @app.route('/add_personnel', methods=['POST'])
 def add_personnel():
