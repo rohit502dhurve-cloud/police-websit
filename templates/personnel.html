@@ -119,18 +119,7 @@
             <td>{{ row[7] }}</td>
             <td>{{ row[8] }}</td>
             <td>{{ row[9] }}</td>
-            <td>
-    <!-- 🗑 DELETE BUTTON -->
-    <a href="/delete_personnel/{{ row[0] }}" 
-       onclick="return confirm('Delete sure?')">
-        <button style="background:red;">Delete</button>
-    </a>
-
-    <!-- ✏️ EDIT BUTTON -->
-    <button onclick="editRow('{{ row[0] }}','{{ row[4] }}')">
-        Edit
-    </button>
-</td>
+            
         </tr>
         {% endfor %}
     </table>
