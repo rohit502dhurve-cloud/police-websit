@@ -120,11 +120,51 @@
             <td>{{ row[7] }}</td>
             <td>{{ row[8] }}</td>
             <td>{{ row[9] }}</td>
+            <td>
+    <!-- 🗑 DELETE BUTTON -->
+    <a href="/delete_personnel/{{ row[0] }}" 
+       onclick="return confirm('Delete sure?')">
+        <button style="background:red;">Delete</button>
+    </a>
+
+    <!-- ✏️ EDIT BUTTON -->
+    <button onclick="editRow('{{ row[0] }}','{{ row[4] }}')">
+        Edit
+    </button>
+</td>
         </tr>
         {% endfor %}
     </table>
-</div>
+    </div>
 
+    <!-- ✅ YAHAN SCRIPT ADD KARO -->
+    <script>
+    function editRow(id, name){
+        let newName = prompt("Enter new name:", name);
+
+        if(newName){
+            fetch("/update_personnel/" + id, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                field: "Name",
+                value: newName
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status == "success"){
+                alert("Updated ✅");
+                location.reload();
+            } else {
+                alert("Error ❌");
+            }
+        });
+    }
+}
+</script>
 
 </body>
 </html>
