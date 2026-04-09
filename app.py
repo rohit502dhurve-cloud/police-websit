@@ -471,7 +471,7 @@ def personnel():
         query += " AND Ps_Outpost = %s"
         values.append(ps)
 
-    query += " ORDER BY id DESC"
+    query += " ORDER BY id ASC"
 
     c.execute(query, values)
     data = c.fetchall()
