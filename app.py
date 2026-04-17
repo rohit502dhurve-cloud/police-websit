@@ -41,7 +41,8 @@ def init_db():
     CREATE TABLE IF NOT EXISTS personnel (
         id SERIAL PRIMARY KEY,
         Sr_no TEXT,
-        Ps_Outpost TEXT,
+        Police_Station TEXT,
+        Outpost TEXT,
         Rank TEXT,
         Name TEXT,
         Posting_Date DATE,
@@ -175,7 +176,8 @@ def bulk_insert_personnel_safe():
         CREATE TABLE IF NOT EXISTS personnel (
             id SERIAL PRIMARY KEY,
             Sr_no TEXT,
-            Ps_Outpost TEXT,
+            Police_Station TEXT,
+            Outpost TEXT,
             Rank TEXT,
             Name TEXT,
             Posting_Date DATE,
@@ -208,11 +210,12 @@ def bulk_insert_personnel_safe():
                 
                 c.execute("""
                     INSERT INTO personnel 
-                    (Sr_no, Ps_Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                    (Sr_no, Police_Station, Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 """, (
                     row['Sr_no'],
-                    row['Ps_Outpost'],
+                    row['Police_Station'],
+                    row['Outpost'],
                     row['Rank'],
                     row['Name'],
                     date_obj,
@@ -468,29 +471,30 @@ def personnel():
         values.append(rank)
 
     if ps:
-        query += " AND Ps_Outpost = %s"
+        query += " AND (Police_Station = %s OR Outpost = %s)"
+        values.append(ps)
         values.append(ps)
 
     query += " ORDER BY id ASC"
 
     c.execute(query, values)
     data = c.fetchall()
-    
+
     new_data = []
     for row in data:
         row = list(row)
-        posting_date = row[5]
+        posting_date = row[6]
 
         if posting_date:
-            row[6] = calculate_tenure(posting_date)  # 👈 MAGIC LINE
+            row[7] = calculate_tenure(posting_date)
 
         new_data.append(row)
-
 
     c.close()
     conn.close()
 
-    return render_template('personnel.html', data=data)
+    return render_template('personnel.html', data=new_data)
+
 
 
 @app.route('/delete_personnel/<int:id>')
@@ -509,7 +513,8 @@ def delete_personnel(id):
 @app.route('/add_personnel', methods=['POST'])
 def add_personnel():
     Sr_no = request.form.get('Sr_no')
-    Ps_Outpost = request.form.get('Ps_Outpost')
+    Police_Station = request.form.get('Police_Station')
+    Outpost = request.form.get('Outpost')
     Rank = request.form.get('Rank')
     Name = request.form.get('Name')
     Posting_Date = request.form.get('Posting_Date')
@@ -523,73 +528,19 @@ def add_personnel():
 
     c.execute("""
         INSERT INTO personnel 
-        (Sr_no, Ps_Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
-    """, (Sr_no, Ps_Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark))
+        (Sr_no, Police_Station, Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+    """, (
+        Sr_no, Police_Station, Outpost, Rank, Name,
+        Posting_Date, Posting_Tenure, Work_Profile,
+        Mobile_number, Remark
+    ))
 
     conn.commit()
     c.close()
     conn.close()
 
     return redirect('/personnel')
-
-    Sr_no = request.form.get('Sr_no')
-    Ps_Outpost = request.form.get('Ps_Outpost')
-    Rank = request.form.get('Rank')
-    Name = request.form.get('Name')
-    Posting_Date = request.form.get('Posting_Date')
-    Posting_Tenure = request.form.get('Posting_Tenure')
-    Work_Profile = request.form.get('Work_Profile')
-    Mobile_number = request.form.get('Mobile_number')
-    Remark = request.form.get('Remark')
-
-    conn = get_db_connection()
-    c = conn.cursor()
-
-    c.execute("""
-        INSERT INTO personnel 
-        (Sr_no, Ps_Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
-    """, (Sr_no, Ps_Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark))
-
-    conn.commit()
-    c.close()
-    conn.close()
-
-    return redirect('/personnel')
-
-    conn = get_db_connection()
-    c = conn.cursor()
-
-    search = request.args.get('search', '')
-    rank = request.args.get('rank', '')
-    ps = request.args.get('ps', '')
-
-    query = "SELECT * FROM personnel WHERE 1=1"
-    values = []
-
-    if search:
-        query += " AND Name ILIKE %s"
-        values.append(f"%{search}%")
-
-    if rank and rank != "ALL":
-        query += " AND Rank = %s"
-        values.append(rank)
-
-    if ps:
-        query += " AND Ps_Outpost = %s"
-        values.append(ps)
-
-    query += " ORDER BY id DESC"
-
-    c.execute(query, values)
-    data = c.fetchall()
-
-    c.close()
-    conn.close()
-
-    return render_template('personnel.html', data=data)
-
 
 
 # 🔹 Village page (🔥 FIXED)
@@ -790,10 +741,6 @@ def fix_personnel():
     conn.close()
 
     return "Columns Fixed ✅"
-
-
-@app.route('/load-personnel')
-def load_personnel():
 
 
 @app.route('/load-personnel')
