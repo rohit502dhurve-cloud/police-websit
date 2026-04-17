@@ -206,7 +206,12 @@ def bulk_insert_personnel_safe():
                 from datetime import datetime
 
                 raw_date = row['Posting_Date']
-                date_obj = datetime.strptime(raw_date.strip(), "%d-%m-%Y").date()
+                raw_date = raw_date.strip()
+
+                try:
+                    date_obj = datetime.strptime(raw_date, "%d-%m-%Y").date()
+                except:
+                    date_obj = datetime.strptime(raw_date, "%d-%m-%y").date()
                 
                 c.execute("""
                     INSERT INTO personnel 
@@ -779,7 +784,7 @@ init_db_safe()
 if os.path.exists("villages.csv"):
     bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
 if os.path.exists("personnel.csv"):
-    bulk_insert_personnel_safe()
+    # bulk_insert_personnel_safe()
 
 
 if __name__ == '__main__':    
