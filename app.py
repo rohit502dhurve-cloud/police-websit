@@ -172,22 +172,6 @@ def bulk_insert_villages():
 def bulk_insert_personnel_safe():
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS personnel (
-            id SERIAL PRIMARY KEY,
-            Sr_no TEXT,
-            Police_Station TEXT,
-            Outpost TEXT,
-            Rank TEXT,
-            Name TEXT,
-            Posting_Date DATE,
-            Posting_Tenure TEXT,
-            Work_Profile TEXT,
-            Mobile_number TEXT,
-            Remark TEXT
-        )
-    """)
-    conn.commit()
 
     file_path = os.path.join(os.path.dirname(__file__), 'personnel.csv')
 
@@ -198,21 +182,47 @@ def bulk_insert_personnel_safe():
             name = row.get('Name')
 
             if not name:
-               continue
-            c.execute("SELECT 1 FROM personnel WHERE Name=%s", (row['Name'],))
+                continue
+
+            # 🔥 DATE FIX
+            raw_date = row['Posting_Date'].strip()
+
+            try:
+                date_obj = datetime.strptime(raw_date, "%d-%m-%Y").date()
+            except:
+                date_obj = datetime.strptime(raw_date, "%d-%m-%y").date()
+
+            # 🔍 Check exists
+            c.execute("SELECT 1 FROM personnel WHERE Name=%s", (name,))
             exists = c.fetchone()
 
-            if not exists:
-                from datetime import datetime
+            if exists:
+                # 🔄 UPDATE
+                c.execute("""
+                    UPDATE personnel SET
+                    Sr_no=%s,
+                    Police_Station=%s,
+                    Outpost=%s,
+                    Rank=%s,
+                    Posting_Date=%s,
+                    Work_Profile=%s,
+                    Mobile_number=%s,
+                    Remark=%s
+                    WHERE Name=%s
+                """, (
+                    row['Sr_no'],
+                    row['Police_Station'],
+                    row['Outpost'],
+                    row['Rank'],
+                    date_obj,
+                    row['Work_Profile'],
+                    row['Mobile_number'],
+                    row['Remark'],
+                    name
+                ))
 
-                raw_date = row['Posting_Date']
-                raw_date = raw_date.strip()
-
-                try:
-                    date_obj = datetime.strptime(raw_date, "%d-%m-%Y").date()
-                except:
-                    date_obj = datetime.strptime(raw_date, "%d-%m-%y").date()
-                
+            else:
+                # ➕ INSERT
                 c.execute("""
                     INSERT INTO personnel 
                     (Sr_no, Police_Station, Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
@@ -222,9 +232,9 @@ def bulk_insert_personnel_safe():
                     row['Police_Station'],
                     row['Outpost'],
                     row['Rank'],
-                    row['Name'],
+                    name,
                     date_obj,
-                    row['Posting_Tenure'],
+                    "",
                     row['Work_Profile'],
                     row['Mobile_number'],
                     row['Remark']
@@ -233,6 +243,9 @@ def bulk_insert_personnel_safe():
     conn.commit()
     c.close()
     conn.close()
+
+    print("✅ Personnel Updated Successfully")
+
 
 
 # 🔹 Dummy Users (same)
@@ -784,7 +797,7 @@ init_db_safe()
 if os.path.exists("villages.csv"):
     bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
 if os.path.exists("personnel.csv"):
-    # bulk_insert_personnel_safe()
+    bulk_insert_personnel_safe()
 
 
 if __name__ == '__main__':    
