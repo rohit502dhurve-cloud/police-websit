@@ -770,6 +770,32 @@ def admin_logout():
     session.pop("admin", None)
     return redirect("/")
 
+@app.route('/fix-personnel')
+def fix_personnel():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    try:
+        c.execute("ALTER TABLE personnel ADD COLUMN Police_Station TEXT;")
+    except:
+        pass
+
+    try:
+        c.execute("ALTER TABLE personnel ADD COLUMN Outpost TEXT;")
+    except:
+        pass
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return "Columns Fixed ✅"
+
+
+@app.route('/load-personnel')
+def load_personnel():
+
+
 @app.route('/load-personnel')
 def load_personnel():
     init_db()
