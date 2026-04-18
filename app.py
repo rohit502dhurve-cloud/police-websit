@@ -507,7 +507,21 @@ def personnel():
     rank = request.args.get('rank', '')
     ps = request.args.get('ps', '')
 
-    query = "SELECT * FROM personnel WHERE 1=1"
+    query = """
+    SELECT 
+        Sr_no,
+        Police_Station,
+        Outpost,
+        Rank,
+        Name,
+        Posting_Date,
+        Posting_Tenure,
+        Work_Profile,
+        Mobile_number,
+        Remark
+    FROM personnel
+    WHERE 1=1
+    """
     values = []
 
     if search:
