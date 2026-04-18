@@ -98,7 +98,8 @@
     <table>
         <tr>
             <th>Sr_no</th>
-            <th>Ps_Outpost</th>
+            <th>Police_Station</th>           
+            <th>Outpost</th>
             <th>Rank</th>
             <th>Name</th>
             <th>Posting_Date</th>
@@ -114,11 +115,18 @@
             <td>{{ row[2] }}</td>
             <td>{{ row[3] }}</td>
             <td>{{ row[4] }}</td>
-            <td>{{ row[5].strftime('%d/%m/%Y') }}</td>
-            <td>{{ row[6] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>
+                {% if row[6] %}
+                    {{ row[6].strftime('%d/%m/%Y') }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
             <td>{{ row[7] }}</td>
             <td>{{ row[8] }}</td>
             <td>{{ row[9] }}</td>
+            <td>{{ row[10] }}</td>
             
         </tr>
         {% endfor %}
