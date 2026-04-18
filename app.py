@@ -796,9 +796,6 @@ def delete(type, id):
 init_db_safe()
 if os.path.exists("villages.csv"):
     bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
-if os.path.exists("personnel.csv"):
-    # bulk_insert_personnel_safe()
-
 
 if __name__ == '__main__':    
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
