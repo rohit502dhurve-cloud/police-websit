@@ -179,18 +179,29 @@ def bulk_insert_personnel_safe():
         reader = csv.DictReader(file)
 
         for row in reader:
-            name = row.get('Name')
+            try:
+                name = row.get('Name', '').strip()
 
-            if not name:
-                continue
+                if not name:
+                    continue
 
             # 🔥 DATE FIX
-            raw_date = row['Posting_Date'].strip()
+            raw_date = row.get('Posting_Date', '').strip()
 
-            try:
-                date_obj = datetime.strptime(raw_date, "%d-%m-%Y").date()
-            except:
-                date_obj = datetime.strptime(raw_date, "%d-%m-%y").date()
+            if raw_date == "":
+                date_obj = None   # 👈 empty date handle
+            else:
+                try:
+                    date_obj = datetime.strptime(raw_date, "%d-%m-%Y").date()
+                except:
+                    try:
+                        date_obj = datetime.strptime(raw_date, "%d-%m-%y").date()
+                    except:
+                        try:
+                            date_obj = datetime.strptime(raw_date, "%Y-%m-%d").date()
+                        except:
+                            date_obj = None   # 👈 fallback
+
 
             # 🔍 Check exists
             c.execute("SELECT 1 FROM personnel WHERE Name=%s", (name,))
