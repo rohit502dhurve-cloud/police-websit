@@ -202,18 +202,19 @@ def bulk_insert_personnel_safe():
 
                 raw_date = row.get('Posting_Date', '').strip()
 
-                if raw_date == "":
-                    date_obj = None
-                else:
+                date_obj = None
+
+                if raw_date:
                     try:
-                        date_obj = datetime.strptime(raw_date, "%d-%m-%Y").date()
+                        date_obj = datetime.strptime(raw_date, "%Y-%m-%d").date()
                     except:
                         try:
-                            date_obj = datetime.strptime(raw_date, "%d-%m-%y").date()
+                            date_obj = datetime.strptime(raw_date, "%d-%m-%Y").date()
                         except:
                             try:
-                                date_obj = datetime.strptime(raw_date, "%Y-%m-%d").date()
+                                date_obj = datetime.strptime(raw_date, "%d/%m/%Y").date()
                             except:
+                                print("❌ Invalid Date Format:", raw_date)
                                 date_obj = None
 
                 # 🔍 Check exists
@@ -529,8 +530,14 @@ def personnel():
         row = list(row)
         posting_date = row[6]
 
-        if posting_date:
-            row[7] = calculate_tenure(posting_date)
+        try:
+            if posting_date:
+                row[7] = calculate_tenure(posting_date)
+            else:
+                row[7] = ""
+        except Exception as e:
+            print("Tenure Error:", e, posting_date)
+            row[7] = "Invalid"
 
         new_data.append(row)
 
