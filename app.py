@@ -3,11 +3,25 @@ import psycopg2
 from datetime import datetime
 
 def calculate_tenure(posting_date):
+
+    if not posting_date:
+        return ""
+
+    # 🔥 अगर string है तो convert करो
+    if isinstance(posting_date, str):
+        try:
+            posting_date = datetime.strptime(posting_date, "%Y-%m-%d").date()
+        except:
+            try:
+                posting_date = datetime.strptime(posting_date, "%d-%m-%Y").date()
+            except:
+                return "Invalid Date"
+
+    # अगर datetime है तो date बनाओ
     if isinstance(posting_date, datetime):
-        posting_date = posting_date.date()   # 👈 convert to date
+        posting_date = posting_date.date()
 
-    today = datetime.today().date()  # 👈 also convert today to date
-
+    today = datetime.today().date()
     diff = today - posting_date
 
     years = diff.days // 365
@@ -15,6 +29,7 @@ def calculate_tenure(posting_date):
     days = (diff.days % 365) % 30
 
     return f"{years} Years {months} Months {days} Days"
+
 
 import os
 import csv
@@ -547,6 +562,11 @@ def add_personnel():
     Rank = request.form.get('Rank')
     Name = request.form.get('Name')
     Posting_Date = request.form.get('Posting_Date')
+
+    if Posting_Date:
+        Posting_Date = datetime.strptime(Posting_Date, "%Y-%m-%d").date()
+    else:
+        Posting_Date = None
     Posting_Tenure = ""
     Work_Profile = request.form.get('Work_Profile')
     Mobile_number = request.form.get('Mobile_number')
