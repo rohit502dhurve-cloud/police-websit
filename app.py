@@ -214,8 +214,11 @@ def bulk_insert_personnel_safe():
                             try:
                                 date_obj = datetime.strptime(raw_date, "%d/%m/%Y").date()
                             except:
-                                print("❌ Invalid Date Format:", raw_date)
-                                date_obj = None
+                                try:
+                                    date_obj = datetime.strptime(raw_date, "%d-%m-%y").date()   # ✅ ADD THIS
+                                except:
+                                    print("❌ Invalid Date Format:", raw_date)
+                                    date_obj = None
 
                 # 🔍 Check exists
                 c.execute("SELECT 1 FROM personnel WHERE Name=%s", (name,))
