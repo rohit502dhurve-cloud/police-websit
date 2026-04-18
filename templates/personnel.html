@@ -111,22 +111,22 @@
 
         {% for row in data %}
         <tr>
-            <td>{{ row['sr_no'] }}</td>
-            <td>{{ row['police_station'] }}</td>
-            <td>{{ row['outpost'] }}</td>
-            <td>{{ row['rank'] }}</td>
-            <td>{{ row['name'] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
             <td>
-                {% if row['posting_date'] %}
-                    {{ row['posting_date'].strftime('%d/%m/%Y') }}
+                {% if row[6] %}
+                    {{ row[6].strftime('%d/%m/%Y') }}
                 {% else %}
                     -
                 {% endif %}
             </td>
-            <td>{{ row['posting_tenure'] }}</td>
-            <td>{{ row['work_profile'] }}</td>
-            <td>{{ row['mobile_number'] }}</td>
-            <td>{{ row['remark'] }}</td>            
+            <td>{{ row[7] }}</td>
+            <td>{{ row[8] }}</td>
+            <td>{{ row[9] }}</td>
+            <td>{{ row[10] }}</td>            
         </tr>
         {% endfor %}
     </table>
