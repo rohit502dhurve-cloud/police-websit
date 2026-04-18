@@ -178,84 +178,84 @@ def bulk_insert_personnel_safe():
     with open(file_path, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
 
-        for row in reader:
+        for row in reader:   # ✅ FIX: अंदर लाओ
             try:
                 name = row.get('Name', '').strip()
 
                 if not name:
                     continue
 
-            # 🔥 DATE FIX
-            raw_date = row.get('Posting_Date', '').strip()
+                raw_date = row.get('Posting_Date', '').strip()
 
-            if raw_date == "":
-                date_obj = None   # 👈 empty date handle
-            else:
-                try:
-                    date_obj = datetime.strptime(raw_date, "%d-%m-%Y").date()
-                except:
+                if raw_date == "":
+                    date_obj = None
+                else:
                     try:
-                        date_obj = datetime.strptime(raw_date, "%d-%m-%y").date()
+                        date_obj = datetime.strptime(raw_date, "%d-%m-%Y").date()
                     except:
                         try:
-                            date_obj = datetime.strptime(raw_date, "%Y-%m-%d").date()
+                            date_obj = datetime.strptime(raw_date, "%d-%m-%y").date()
                         except:
-                            date_obj = None   # 👈 fallback
+                            try:
+                                date_obj = datetime.strptime(raw_date, "%Y-%m-%d").date()
+                            except:
+                                date_obj = None
 
+                # 🔍 Check exists
+                c.execute("SELECT 1 FROM personnel WHERE Name=%s", (name,))
+                exists = c.fetchone()
 
-            # 🔍 Check exists
-            c.execute("SELECT 1 FROM personnel WHERE Name=%s", (name,))
-            exists = c.fetchone()
+                if exists:
+                    c.execute("""
+                        UPDATE personnel SET
+                        Sr_no=%s,
+                        Police_Station=%s,
+                        Outpost=%s,
+                        Rank=%s,
+                        Posting_Date=%s,
+                        Work_Profile=%s,
+                        Mobile_number=%s,
+                        Remark=%s
+                        WHERE Name=%s
+                    """, (
+                        row['Sr_no'],
+                        row['Police_Station'],
+                        row['Outpost'],
+                        row['Rank'],
+                        date_obj,
+                        row['Work_Profile'],
+                        row['Mobile_number'],
+                        row['Remark'],
+                        name
+                    ))
+                else:
+                    c.execute("""
+                        INSERT INTO personnel 
+                        (Sr_no, Police_Station, Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
+                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                    """, (
+                        row['Sr_no'],
+                        row['Police_Station'],
+                        row['Outpost'],
+                        row['Rank'],
+                        name,
+                        date_obj,
+                        "",
+                        row['Work_Profile'],
+                        row['Mobile_number'],
+                        row['Remark']
+                    ))
 
-            if exists:
-                # 🔄 UPDATE
-                c.execute("""
-                    UPDATE personnel SET
-                    Sr_no=%s,
-                    Police_Station=%s,
-                    Outpost=%s,
-                    Rank=%s,
-                    Posting_Date=%s,
-                    Work_Profile=%s,
-                    Mobile_number=%s,
-                    Remark=%s
-                    WHERE Name=%s
-                """, (
-                    row['Sr_no'],
-                    row['Police_Station'],
-                    row['Outpost'],
-                    row['Rank'],
-                    date_obj,
-                    row['Work_Profile'],
-                    row['Mobile_number'],
-                    row['Remark'],
-                    name
-                ))
-
-            else:
-                # ➕ INSERT
-                c.execute("""
-                    INSERT INTO personnel 
-                    (Sr_no, Police_Station, Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                """, (
-                    row['Sr_no'],
-                    row['Police_Station'],
-                    row['Outpost'],
-                    row['Rank'],
-                    name,
-                    date_obj,
-                    "",
-                    row['Work_Profile'],
-                    row['Mobile_number'],
-                    row['Remark']
-                ))
+            except Exception as e:
+                print("Row Error:", e)
+                continue
 
     conn.commit()
     c.close()
     conn.close()
 
     print("✅ Personnel Updated Successfully")
+
 
 
 
