@@ -798,6 +798,19 @@ def load_personnel():
     bulk_insert_personnel_safe()
     return "Personnel Loaded ✅"
 
+@app.route('/delete-all-personnel')
+def delete_all_personnel():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("DELETE FROM personnel")
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return "All Personnel Deleted ✅"
+
 @app.route('/init-db')
 def force_init_db():
     init_db()
