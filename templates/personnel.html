@@ -3,7 +3,6 @@
 <head>
     <title>Personnel Management</title>
 
-    <!-- ✅ YAHAN CSS ADD KIYA HAI -->
     <style>
     body {
         font-family: Arial, sans-serif;
@@ -44,6 +43,26 @@
         background: #2980b9;
     }
 
+    .edit-btn {
+        background: #27ae60;
+    }
+
+    .edit-btn:hover {
+        background: #1e8449;
+    }
+
+    .delete-btn {
+        background: #e74c3c;
+    }
+
+    .delete-btn:hover {
+        background: #c0392b;
+    }
+
+    .add-btn {
+        margin-bottom: 15px;
+    }
+
     table {
         width: 100%;
         border-collapse: collapse;
@@ -60,14 +79,13 @@
     table td {
         padding: 10px;
         border-bottom: 1px solid #ddd;
-        text-align: center;  
+        text-align: center;
     }
 
     table tr:hover {
         background: #f1f1f1;
     }
     </style>
-
 </head>
 
 <body>
@@ -95,10 +113,15 @@
 <div class="card">
     <h2>📋 Personnel List</h2>
 
+    <!-- ➕ Add Button -->
+    <a href="/add_personnel_page">
+        <button class="add-btn">➕ Add Personnel</button>
+    </a>
+
     <table>
         <tr>
             <th>Sr_no</th>
-            <th>Police_Station</th>           
+            <th>Police_Station</th>
             <th>Outpost</th>
             <th>Rank</th>
             <th>Name</th>
@@ -107,7 +130,8 @@
             <th>Work_Profile</th>
             <th>Mobile</th>
             <th>Remark</th>
-           </tr>
+            <th>Action</th>
+        </tr>
 
         {% for row in data %}
         <tr>
@@ -127,39 +151,22 @@
             <td>{{ row[7] }}</td>
             <td>{{ row[8] }}</td>
             <td>{{ row[9] }}</td>
+
+            <!-- ✏️ Edit + Delete -->
+            <td>
+                <a href="/edit_personnel/{{ row[0] }}">
+                    <button class="edit-btn">Edit</button>
+                </a>
+
+                <a href="/delete_personnel/{{ row[0] }}"
+                   onclick="return confirm('Are you sure to delete?')">
+                    <button class="delete-btn">Delete</button>
+                </a>
+            </td>
         </tr>
         {% endfor %}
     </table>
-    </div>
-
-    <!-- ✅ YAHAN SCRIPT ADD KARO -->
-    <script>
-    function editRow(id, name){
-        let newName = prompt("Enter new name:", name);
-
-        if(newName){
-            fetch("/update_personnel/" + id, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                field: "Name",
-                value: newName
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.status == "success"){
-                alert("Updated ✅");
-                location.reload();
-            } else {
-                alert("Error ❌");
-            }
-        });
-    }
-}
-</script>
+</div>
 
 </body>
 </html>
