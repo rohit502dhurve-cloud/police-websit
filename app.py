@@ -148,7 +148,7 @@ def bulk_insert_villages():
     conn = get_db_connection()
     c = conn.cursor()
 
-    file_path = os.path.join(os.path.dirname(__file__), 'villages.csv')
+    file_path = "villages.csv"
 
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -898,6 +898,10 @@ def delete(type, id):
 
     return redirect("/admin/dashboard")
 
+import os
+
+print("📂 Current Directory:", os.getcwd())
+print("📁 Files in directory:", os.listdir())
 
 # 🔹 Run
 init_db_safe()
