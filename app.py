@@ -98,8 +98,7 @@ def init_db():
             school TEXT
         )
     ''')
-    conn.commit()
-
+    
     c.execute('''
     CREATE TABLE IF NOT EXISTS observations (
         id SERIAL PRIMARY KEY,
@@ -109,12 +108,7 @@ def init_db():
         submitted_by TEXT
     )
     ''')
-    try:
-        c.execute("ALTER TABLE observations ADD COLUMN submitted_by TEXT")
-        conn.commit()
-    except:
-        conn.rollback()
-
+    conn.commit()
 
 
     # 🔥 FIX: existing villages (clean)
@@ -638,12 +632,15 @@ def village(name):
     """, (name,))
     beat = c.fetchone()
 
-    c.execute("""
-        SELECT * FROM observations 
-        WHERE LOWER(TRIM(village)) = %s 
-        ORDER BY id DESC
-    """, (name,))
-    observations = c.fetchall()
+    try:
+        c.execute("""
+            SELECT * FROM observations 
+            WHERE LOWER(TRIM(village)) = %s 
+            ORDER BY id DESC
+        """, (name,))
+        observations = c.fetchall()
+    except:
+        observations = []
 
     c.close()
     conn.close()
