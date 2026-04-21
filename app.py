@@ -901,8 +901,14 @@ def delete(type, id):
 
 # 🔹 Run
 init_db_safe()
-if os.path.exists("villages.csv"):
+
+# 🔥 FORCE CSV LOAD (no condition)
+try:
+    print("🚀 Loading villages from CSV...")
     bulk_insert_villages()
+    print("✅ CSV LOAD DONE")
+except Exception as e:
+    print("❌ CSV ERROR:", e)
    
 # if os.path.exists("personnel.csv"):
     # bulk_insert_personnel_safe()
