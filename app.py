@@ -90,6 +90,7 @@ def init_db():
             police_station TEXT,
             village TEXT,
             beat_officer TEXT,
+            sector_officer TEXT,  
             beat_constable TEXT,
             population TEXT,
             caste TEXT,
@@ -669,6 +670,22 @@ def check_db():
     c.close()
     conn.close()
     return str(data)
+
+@app.route('/fix-beatbook')
+def fix_beatbook():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    try:
+        c.execute("ALTER TABLE beatbook ADD COLUMN sector_officer TEXT;")
+    except:
+        pass
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return "Sector Officer Column Added ✅"
 
 @app.route('/load-villages')
 def load_villages():
