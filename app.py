@@ -670,6 +670,11 @@ def check_db():
     conn.close()
     return str(data)
 
+@app.route('/load-villages')
+def load_villages():
+    bulk_insert_villages()
+    return "Villages Loaded ✅"
+
 @app.route('/health')
 def health():
     return "OK", 200
@@ -863,6 +868,7 @@ def delete(type, id):
 
 # 🔹 Run
 init_db_safe()
+
 if os.path.exists("villages.csv"):
     bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
 
