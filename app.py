@@ -150,39 +150,54 @@ def bulk_insert_villages():
 
     file_path = os.path.join(os.path.dirname(__file__), 'villages.csv')
 
-    with open(file_path, 'r', encoding='utf-8') as file:
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
 
-        reader = csv.DictReader(file)
+            for row in reader:
+                try:
+                    village_name = row.get('village', '').strip().lower()
 
-        for row in reader:
-            village_name = row['village'].strip().lower()
+                    if not village_name:
+                        continue
 
-            # 🔍 check already exists
-            c.execute("SELECT 1 FROM beatbook WHERE LOWER(TRIM(village))=%s", (village_name,))
-            exists = c.fetchone()
+                    # 🔍 Already exists check
+                    c.execute(
+                        "SELECT 1 FROM beatbook WHERE LOWER(TRIM(village))=%s",
+                        (village_name,)
+                    )
+                    exists = c.fetchone()
 
-            if not exists:
-                c.execute("""
-                    INSERT INTO beatbook 
-                    (police_station, village, beat_officer, sector_officer, beat_constable, population, caste, sarpanch, school)
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                """, (
-                    "Lanji",
-                    row['village'],
-                    row['beat_officer'],
-                    row['sector_officer'],
-                    row['beat_constable'],
-                    row['population'],
-                    row['caste'],
-                    row['sarpanch'],
-                    row['school']
-                ))
+                    if not exists:
+                        c.execute("""
+                            INSERT INTO beatbook 
+                            (police_station, village, beat_officer, sector_officer, beat_constable, population, caste, sarpanch, school)
+                            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                        """, (
+                            "Lanji",
+                            row.get('village', '').strip(),
+                            row.get('beat_officer', '').strip(),
+                            row.get('sector_officer', '').strip(),   # ✅ NEW
+                            row.get('beat_constable', '').strip(),
+                            row.get('population', '').strip(),
+                            row.get('caste', '').strip(),
+                            row.get('sarpanch', '').strip(),
+                            row.get('school', '').strip()
+                        ))
 
-    conn.commit()
-    c.close()
-    conn.close()
+                except Exception as row_error:
+                    print("❌ Row Error:", row_error)
+                    continue
 
-    print("✅ All new villages inserted successfully")
+        conn.commit()
+        print("✅ Villages inserted successfully")
+
+    except Exception as e:
+        print("❌ File Error:", e)
+
+    finally:
+        c.close()
+        conn.close()
 def bulk_insert_personnel_safe():
     conn = get_db_connection()
     c = conn.cursor()
