@@ -164,12 +164,13 @@ def bulk_insert_villages():
             if not exists:
                 c.execute("""
                     INSERT INTO beatbook 
-                    (police_station, village, beat_officer, beat_constable, population, caste, sarpanch, school)
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+                    (police_station, village, beat_officer, sector_officer, beat_constable, population, caste, sarpanch, school)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 """, (
                     "Lanji",
                     row['village'],
                     row['beat_officer'],
+                    row['sector_officer'],
                     row['beat_constable'],
                     row['population'],
                     row['caste'],
