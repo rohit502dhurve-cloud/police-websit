@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, jsonify, session, url_for
 import psycopg2
-from datetime import datetime
 
 def calculate_tenure(posting_date):
 
@@ -563,7 +562,7 @@ def personnel():
 
 
 
-@app.route('/delete_personnel/<int:id>')
+@app.route('/delete_personnel/<int:id>', methods=['POST'])
 def delete_personnel(id):
     conn = get_db_connection()
     c = conn.cursor()
@@ -639,7 +638,8 @@ def village(name):
             ORDER BY id DESC
         """, (name,))
         observations = c.fetchall()
-    except:
+    except Exception as e:
+        print("Observation Error:", e)
         observations = []
 
     c.close()
