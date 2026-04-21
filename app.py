@@ -861,9 +861,9 @@ def delete(type, id):
 
 
 # 🔹 Run
-init_db_safe()
-if os.path.exists("villages.csv"):
-    bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
+init_db()
+# if os.path.exists("villages.csv"):
+    # bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
 
 # if os.path.exists("personnel.csv"):
     # bulk_insert_personnel_safe()
