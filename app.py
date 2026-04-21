@@ -98,6 +98,7 @@ def init_db():
             school TEXT
         )
     ''')
+    conn.commit()
 
     c.execute('''
     CREATE TABLE IF NOT EXISTS observations (
@@ -117,8 +118,11 @@ def init_db():
 
 
     # 🔥 FIX: existing villages (clean)
-    c.execute("SELECT LOWER(TRIM(village)) FROM beatbook")
-    existing = [row[0] for row in c.fetchall()]
+    try:
+        c.execute("SELECT LOWER(TRIM(village)) FROM beatbook")
+        existing = [row[0] for row in c.fetchall()]
+    except:
+        existing = []
 
     # 🔹 Villages list
     villages_to_add = [
@@ -837,7 +841,7 @@ def delete_all_personnel():
 
 @app.route('/init-db')
 def force_init_db():
-    init_db()
+    init_db_safe()
     return "DB Created ✅"
 
 @app.route("/delete/<string:type>/<int:id>", methods=["POST"])
@@ -861,7 +865,7 @@ def delete(type, id):
 
 
 # 🔹 Run
-init_db()
+init_db_safe()
 # if os.path.exists("villages.csv"):
     # bulk_insert_villages()   # 🔥 IMPORTANT (1 बार चलाना है)
 
