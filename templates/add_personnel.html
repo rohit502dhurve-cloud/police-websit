@@ -1,16 +1,87 @@
-<h2>Add Personnel</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Personnel</title>
 
-<form method="POST" action="/add_personnel">
-    <input name="Sr_no" placeholder="Sr No"><br>
-    <input name="Police_Station" placeholder="Police Station"><br>
-    <input name="Outpost" placeholder="Outpost"><br>
-    <input name="Rank" placeholder="Rank"><br>
-    <input name="Batch_No" placeholder="Batch No"><br>
-    <input name="Name" placeholder="Name"><br>
-    <input type="date" name="Posting_Date"><br>
-    <input name="Work_Profile" placeholder="Work Profile"><br>
-    <input name="Mobile_number" placeholder="Mobile"><br>
-    <input name="Remark" placeholder="Remark"><br>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
 
-    <button type="submit">Save</button>
-</form>
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        .back-btn {
+            margin-top: 10px;
+            background: #7f8c8d;
+        }
+
+        .back-btn:hover {
+            background: #616a6b;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>➕ Add Personnel</h2>
+
+    <form method="POST" action="/add_personnel">
+        <input name="Sr_no" placeholder="Sr No">
+        <input name="Police_Station" placeholder="Police Station">
+        <input name="Outpost" placeholder="Outpost">
+        <input name="Rank" placeholder="Rank">
+        <input name="Batch_No" placeholder="Batch No">
+        <input name="Name" placeholder="Name">
+        <input type="date" name="Posting_Date">
+        <input name="Work_Profile" placeholder="Work Profile">
+        <input name="Mobile_number" placeholder="Mobile Number">
+        <input name="Remark" placeholder="Remark">
+
+        <button type="submit">💾 Save</button>
+    </form>
+
+    <a href="/personnel">
+        <button class="back-btn">⬅ Back</button>
+    </a>
+</div>
+
+</body>
+</html>
