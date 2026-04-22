@@ -491,6 +491,10 @@ def personnel():
     search = request.args.get('search', '')
     rank = request.args.get('rank', '')
     ps = request.args.get('ps', '')
+    outpost = request.args.get('outpost', '')
+    work = request.args.get('work', '')
+    tenure = request.args.get('tenure', '')
+
 
     query = """
     SELECT 
@@ -522,10 +526,37 @@ def personnel():
         values.append(ps)
         values.append(ps)
 
+    if outpost:
+        query += " AND Outpost = %s"
+        values.append(outpost)
+
+    if work:
+        query += " AND Work_Profile = %s"
+        values.append(work)
+
+    if tenure:
+        query += " AND Posting_Date <= %s"
+        values.append(tenure)
+
+
     query += " ORDER BY id ASC"
 
     c.execute(query, values)
     data = c.fetchall()
+
+    # 🔽 Dropdown lists
+    c.execute("SELECT DISTINCT Police_Station FROM personnel ORDER BY Police_Station")
+    ps_list = [row[0] for row in c.fetchall()]
+
+    c.execute("SELECT DISTINCT Outpost FROM personnel ORDER BY Outpost")
+    outpost_list = [row[0] for row in c.fetchall()]
+
+    c.execute("SELECT DISTINCT Work_Profile FROM personnel ORDER BY Work_Profile")
+    work_list = [row[0] for row in c.fetchall()]
+
+    c.execute("SELECT DISTINCT Rank FROM personnel ORDER BY Rank")
+    rank_list = [row[0] for row in c.fetchall()]
+
 
     new_data = []
     for row in data:
@@ -546,7 +577,15 @@ def personnel():
     c.close()
     conn.close()
 
-    return render_template('personnel.html', data=new_data)
+    return render_template(
+        'personnel.html',
+        data=new_data,
+        ps_list=ps_list,
+        outpost_list=outpost_list,
+        work_list=work_list,
+        rank_list=rank_list
+    )
+
 
 
 
