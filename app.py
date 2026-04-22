@@ -59,6 +59,7 @@ def init_db():
         Police_Station TEXT,
         Outpost TEXT,
         Rank TEXT,
+        Batch_No TEXT,
         Name TEXT,
         Posting_Date DATE,
         Posting_Tenure TEXT,
@@ -238,13 +239,14 @@ def bulk_insert_personnel_safe():
                                
                 c.execute("""
                     INSERT INTO personnel 
-                    (Sr_no, Police_Station, Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
+                    (Sr_no, Police_Station, Outpost, Rank, Batch_No, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
                     VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 """, (
                     row['Sr_no'],
                     row['Police_Station'],
                     row['Outpost'],
                     row['Rank'],
+                    row['Batch_No'],
                     name,
                     date_obj,
                     "",
@@ -503,6 +505,7 @@ def personnel():
         Police_Station,
         Outpost,
         Rank,
+        Batch_No,
         Name,
         Posting_Date,
         Posting_Tenure,
