@@ -881,6 +881,22 @@ def load_personnel():
     bulk_insert_personnel_safe()
     return "Personnel Loaded ✅"
 
+@app.route('/fix-personnel-batch')
+def fix_personnel_batch():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    try:
+        c.execute("ALTER TABLE personnel ADD COLUMN batch_no TEXT;")
+        conn.commit()
+    except Exception as e:
+        print("Error:", e)
+
+    c.close()
+    conn.close()
+
+    return "Batch_No column added ✅"
+
 @app.route('/delete-all-personnel')
 def delete_all_personnel():
     conn = get_db_connection()
