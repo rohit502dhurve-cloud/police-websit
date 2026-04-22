@@ -601,8 +601,6 @@ def personnel():
     )
 
 
-
-
 @app.route('/delete_personnel/<int:id>', methods=['POST'])
 def delete_personnel(id):
     conn = get_db_connection()
@@ -615,6 +613,10 @@ def delete_personnel(id):
     conn.close()
 
     return redirect('/personnel')
+
+@app.route('/add_personnel_page')
+def add_personnel_page():
+    return render_template('add_personnel.html')
 
 @app.route('/add_personnel', methods=['POST'])
 def add_personnel():
