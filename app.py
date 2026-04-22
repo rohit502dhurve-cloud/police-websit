@@ -561,7 +561,11 @@ def personnel():
     c.execute("SELECT DISTINCT Outpost FROM personnel ORDER BY Outpost")
     outpost_list = [row[0] for row in c.fetchall()]
 
-    c.execute("SELECT DISTINCT Work_Profile FROM personnel ORDER BY Work_Profile")
+    c.execute("""
+    SELECT DISTINCT TRIM(Work_Profile) 
+    FROM personnel 
+    ORDER BY TRIM(Work_Profile)
+    """)
     work_list = [row[0] for row in c.fetchall()]
 
     c.execute("SELECT DISTINCT Rank FROM personnel ORDER BY Rank")
