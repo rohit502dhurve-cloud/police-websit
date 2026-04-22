@@ -618,6 +618,7 @@ def add_personnel():
     Police_Station = request.form.get('Police_Station')
     Outpost = request.form.get('Outpost')
     Rank = request.form.get('Rank')
+    Batch_No = request.form.get('Batch_No')
     Name = request.form.get('Name')
     Posting_Date = request.form.get('Posting_Date')
 
@@ -635,10 +636,10 @@ def add_personnel():
 
     c.execute("""
         INSERT INTO personnel 
-        (Sr_no, Police_Station, Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        (Sr_no, Police_Station, Outpost, Rank, Batch_No, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
     """, (
-        Sr_no, Police_Station, Outpost, Rank, Name,
+        Sr_no, Police_Station, Outpost, Rank, Batch_No, Name,
         Posting_Date, Posting_Tenure, Work_Profile,
         Mobile_number, Remark
     ))
