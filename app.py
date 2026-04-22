@@ -708,6 +708,16 @@ def check_db():
     conn.close()
     return str(data)
 
+@app.route('/debug-personnel')
+def debug():
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("SELECT COUNT(*) FROM personnel")
+    count = c.fetchone()
+    c.close()
+    conn.close()
+    return str(count)
+
 @app.route('/fix-beatbook')
 def fix_beatbook():
     conn = get_db_connection()
@@ -950,9 +960,17 @@ try:
     print("✅ CSV LOAD DONE")
 except Exception as e:
     print("❌ CSV ERROR:", e)
+
+# 🔥 LOAD PERSONNEL CSV
+try:
+    print("🚀 Loading Personnel...")
+    bulk_insert_personnel_safe()
+    print("✅ Personnel CSV Loaded")
+except Exception as e:
+    print("❌ Personnel CSV Error:", e)
    
-# if os.path.exists("personnel.csv"):
-    # bulk_insert_personnel_safe()
+if os.path.exists("personnel.csv"):
+    bulk_insert_personnel_safe()
 
 if __name__ == '__main__':    
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
