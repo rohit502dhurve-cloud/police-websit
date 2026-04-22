@@ -571,7 +571,7 @@ def personnel():
     new_data = []
     for row in data:
         row = list(row)
-        posting_date = row[5]
+        posting_date = row[6]
 
         try:
             if posting_date:
