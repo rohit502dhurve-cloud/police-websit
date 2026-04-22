@@ -746,6 +746,22 @@ def load_villages():
 @app.route('/health')
 def health():
     return "OK", 200
+@app.route('/fix-cctns')
+def fix_cctns():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("""
+        UPDATE personnel
+        SET Work_Profile = 'CCTNS'
+        WHERE LOWER(TRIM(Work_Profile)) = 'cctns duty'
+    """)
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return "CCTNS Fixed ✅"
 
 @app.route('/logout')
 def logout():
