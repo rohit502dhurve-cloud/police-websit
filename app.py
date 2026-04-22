@@ -575,12 +575,12 @@ def personnel():
 
         try:
             if posting_date:
-                row[6] = calculate_tenure(posting_date)
+                row[7] = calculate_tenure(posting_date)
             else:
-                row[6] = ""
+                row[7] = ""
         except Exception as e:
             print("Tenure Error:", e, posting_date)
-            row[6] = "Invalid"
+            row[7] = "Invalid"
 
         new_data.append(row)
 
