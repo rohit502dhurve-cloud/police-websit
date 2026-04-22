@@ -234,50 +234,23 @@ def bulk_insert_personnel_safe():
                                     print("❌ Invalid Date Format:", raw_date)
                                     date_obj = None
 
-                # 🔍 Check exists
-                c.execute("SELECT 1 FROM personnel WHERE Name=%s", (name,))
-                exists = c.fetchone()
-
-                if exists:
-                    c.execute("""
-                        UPDATE personnel SET
-                        Sr_no=%s,
-                        Police_Station=%s,
-                        Outpost=%s,
-                        Rank=%s,
-                        Posting_Date=%s,
-                        Work_Profile=%s,
-                        Mobile_number=%s,
-                        Remark=%s
-                        WHERE Name=%s
-                    """, (
-                        row['Sr_no'],
-                        row['Police_Station'],
-                        row['Outpost'],
-                        row['Rank'],
-                        date_obj,
-                        row['Work_Profile'],
-                        row['Mobile_number'],
-                        row['Remark'],
-                        name
-                    ))
-                else:
-                    c.execute("""
-                        INSERT INTO personnel 
-                        (Sr_no, Police_Station, Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
-                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                    """, (
-                        row['Sr_no'],
-                        row['Police_Station'],
-                        row['Outpost'],
-                        row['Rank'],
-                        name,
-                        date_obj,
-                        "",
-                        row['Work_Profile'],
-                        row['Mobile_number'],
-                        row['Remark']
-                    ))
+                               
+                c.execute("""
+                    INSERT INTO personnel 
+                    (Sr_no, Police_Station, Outpost, Rank, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                """, (
+                    row['Sr_no'],
+                    row['Police_Station'],
+                    row['Outpost'],
+                    row['Rank'],
+                    name,
+                    date_obj,
+                    "",
+                    row['Work_Profile'],
+                    row['Mobile_number'],
+                    row['Remark']
+                ))
 
             except Exception as e:
                 print("Row Error:", e)
@@ -288,8 +261,6 @@ def bulk_insert_personnel_safe():
     conn.close()
 
     print("✅ Personnel Updated Successfully")
-
-
 
 
 # 🔹 Dummy Users (same)
