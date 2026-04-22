@@ -535,8 +535,8 @@ def personnel():
         values.append(outpost)
 
     if work:
-        query += " AND Work_Profile = %s"
-        values.append(work)
+        query += " AND LOWER(TRIM(Work_Profile)) = %s"
+        values.append(work.strip().lower())
 
     if tenure == "0-1":
         query += " AND Posting_Date >= CURRENT_DATE - INTERVAL '1 year'"
