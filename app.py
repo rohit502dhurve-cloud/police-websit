@@ -240,7 +240,7 @@ def bulk_insert_personnel_safe():
                 c.execute("""
                     INSERT INTO personnel 
                     (Sr_no, Police_Station, Outpost, Rank, Batch_No, Name, Posting_Date, Posting_Tenure, Work_Profile, Mobile_number, Remark)
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 """, (
                     row['Sr_no'],
                     row['Police_Station'],
