@@ -951,8 +951,8 @@ try:
 except Exception as e:
     print("❌ CSV ERROR:", e)
    
-if os.path.exists("personnel.csv"):
-    bulk_insert_personnel_safe()
+# if os.path.exists("personnel.csv"):
+    # bulk_insert_personnel_safe()
 
 if __name__ == '__main__':    
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
