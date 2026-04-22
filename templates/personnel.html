@@ -98,13 +98,40 @@
 
         <select name="rank">
             <option value="">All Rank</option>
-            <option value="SI">SI</option>
-            <option value="ASI">ASI</option>
-            <option value="HC">HC</option>
-            <option value="Constable">Constable</option>
+            {% for r in rank_list %}
+                <option value="{{ r }}">{{ r }}</option>
+            {% endfor %}
         </select>
 
-        <input type="text" name="ps" placeholder="Police Station">
+        </select>
+
+        <select name="ps">
+            <option value="">All Police Station</option>
+            {% for ps in ps_list %}
+                <option value="{{ ps }}">{{ ps }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="outpost">
+            <option value="">All Outpost</option>
+            {% for o in outpost_list %}
+                <option value="{{ o }}">{{ o }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="work">
+            <option value="">All Work Profile</option>
+            {% for w in work_list %}
+                <option value="{{ w }}">{{ w }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="tenure">
+            <option value="">All Tenure</option>
+            <option value="0-1">0-1 Year</option>
+            <option value="1-2">1-2 Year</option>
+            <option value="3+">3+ Year</option>
+        </select>
 
         <button type="submit">Filter</button>
     </form>
