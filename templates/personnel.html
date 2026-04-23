@@ -167,17 +167,18 @@
             <td>{{ row[3] }}</td>
             <td>{{ row[4] }}</td>
             <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
             <td>
-                {% if row[6] %}
-                    {{ row[6].strftime('%d/%m/%Y') }}
+                {% if row[7] %}
+                    {{ row[7].strftime('%d/%m/%Y') }}
                 {% else %}
                     -
                 {% endif %}
             </td>
-            <td>{{ row[7] }}</td>
             <td>{{ row[8] }}</td>
             <td>{{ row[9] }}</td>
             <td>{{ row[10] }}</td>
+            <td>{{ row[11] }}</td>
 
             <!-- ✏️ Edit + Delete -->
             <td>
