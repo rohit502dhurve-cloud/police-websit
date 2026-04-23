@@ -553,7 +553,27 @@ def personnel():
     query += " ORDER BY id ASC"
 
     c.execute(query, values)
-    data = c.fetchall()
+
+    rows = c.fetchall()
+
+    columns = [desc[0] for desc in c.description]
+
+    data = []
+    for row in rows:
+        row_dict = dict(zip(columns, row))
+
+        posting_date = row_dict.get("Posting_Date")
+
+        try:
+            if posting_date:
+                row_dict["Posting_Tenure"] = calculate_tenure(posting_date)
+            else:
+                row_dict["Posting_Tenure"] = ""
+        except:
+            row_dict["Posting_Tenure"] = "Invalid"
+
+        data.append(row_dict)
+
 
     # 🔽 Dropdown lists
     c.execute("SELECT DISTINCT Police_Station FROM personnel ORDER BY Police_Station")
@@ -572,29 +592,12 @@ def personnel():
     c.execute("SELECT DISTINCT Rank FROM personnel ORDER BY Rank")
     rank_list = [row[0] for row in c.fetchall()]
 
-
-    new_data = []
-    for row in data:
-        row = list(row)
-        posting_date = row[7]
-
-        try:
-            if posting_date:
-                row[8] = calculate_tenure(posting_date)
-            else:
-                row[8] = ""
-        except Exception as e:
-            print("Tenure Error:", e, posting_date)
-            row[8] = "Invalid"
-
-        new_data.append(row)
-
     c.close()
     conn.close()
 
     return render_template(
         'personnel.html',
-        data=new_data,
+        data=data,
         ps_list=ps_list,
         outpost_list=outpost_list,
         work_list=work_list,
