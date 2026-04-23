@@ -603,6 +603,56 @@ def personnel():
 
 @app.route('/delete_personnel/<int:id>', methods=['POST'])
 def delete_personnel(id):
+
+    @app.route('/edit_personnel/<int:id>', methods=['GET', 'POST'])
+def edit_personnel(id):
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    if request.method == 'POST':
+        Sr_no = request.form['Sr_no']
+        Police_Station = request.form['Police_Station']
+        Outpost = request.form['Outpost']
+        Rank = request.form['Rank']
+        Batch_No = request.form['Batch_No']
+        Name = request.form['Name']
+        Posting_Date = request.form['Posting_Date']
+        Work_Profile = request.form['Work_Profile']
+        Mobile_number = request.form['Mobile_number']
+        Remark = request.form['Remark']
+
+        c.execute("""
+            UPDATE personnel SET
+            Sr_no=%s,
+            Police_Station=%s,
+            Outpost=%s,
+            Rank=%s,
+            Batch_No=%s,
+            Name=%s,
+            Posting_Date=%s,
+            Work_Profile=%s,
+            Mobile_number=%s,
+            Remark=%s
+            WHERE id=%s
+        """, (
+            Sr_no, Police_Station, Outpost, Rank, Batch_No,
+            Name, Posting_Date, Work_Profile, Mobile_number, Remark, id
+        ))
+
+        conn.commit()
+        c.close()
+        conn.close()
+
+        return redirect('/personnel')
+
+    c.execute("SELECT * FROM personnel WHERE id=%s", (id,))
+    row = c.fetchone()
+
+    c.close()
+    conn.close()
+
+    return render_template('edit_personnel.html', row=row)
+
     conn = get_db_connection()
     c = conn.cursor()
 
