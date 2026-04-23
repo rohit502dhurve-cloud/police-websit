@@ -601,10 +601,7 @@ def personnel():
     )
 
 
-@app.route('/delete_personnel/<int:id>', methods=['POST'])
-def delete_personnel(id):
-
-    @app.route('/edit_personnel/<int:id>', methods=['GET', 'POST'])
+@app.route('/edit_personnel/<int:id>', methods=['GET', 'POST'])
 def edit_personnel(id):
     conn = get_db_connection()
     c = conn.cursor()
@@ -653,6 +650,8 @@ def edit_personnel(id):
 
     return render_template('edit_personnel.html', row=row)
 
+@app.route('/delete_personnel/<int:id>', methods=['POST'])
+def delete_personnel(id):
     conn = get_db_connection()
     c = conn.cursor()
 
