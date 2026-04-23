@@ -55,34 +55,34 @@
         <!-- ID hidden नहीं है लेकिन backend already URL से ले रहा है -->
 
         <label>Sr No</label>
-        <input type="text" name="Sr_no" value="{{ row[1] }}">
+        <input type="text" name="Sr_no" value="{{ row['sr_no'] }}">
 
         <label>Police Station</label>
-        <input type="text" name="Police_Station" value="{{ row[2] }}">
+        <input type="text" name="Police_Station" value="{{ row['police_station'] }}">
 
         <label>Outpost</label>
-        <input type="text" name="Outpost" value="{{ row[3] }}">
+        <input type="text" name="Outpost" value="{{ row['outpost'] }}">
 
         <label>Rank</label>
-        <input type="text" name="Rank" value="{{ row[4] }}">
+        <input type="text" name="Rank" value="{{ row['rank'] }}">
 
         <label>Batch No</label>
-        <input type="text" name="Batch_No" value="{{ row[5] }}">
+        <input type="text" name="Batch_No" value="{{ row['batch_no'] }}">
 
         <label>Name</label>
-        <input type="text" name="Name" value="{{ row[6] }}">
+        <input type="text" name="Name" value="{{ row['name'] }}">
 
         <label>Posting Date</label>
-        <input type="date" name="Posting_Date" value="{{ row[7] }}">
+        <input type="date" name="Posting_Date" value="{{ row['posting_date'] }}">
 
         <label>Work Profile</label>
-        <input type="text" name="Work_Profile" value="{{ row[9] }}">
+        <input type="text" name="Work_Profile" value="{{ row['tenure'] }}">
 
         <label>Mobile Number</label>
-        <input type="text" name="Mobile_number" value="{{ row[10] }}">
+        <input type="text" name="Mobile_number" value="{{ row['work_profile'] }}">
 
         <label>Remark</label>
-        <textarea name="Remark">{{ row[11] }}</textarea>
+        <textarea name="Remark">{{ row['remark'] }}</textarea>
 
         <button type="submit">Update</button>
 
