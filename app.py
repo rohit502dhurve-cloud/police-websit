@@ -618,6 +618,12 @@ def edit_personnel(id):
         Batch_No = request.form['Batch_No']
         Name = request.form['Name']
         Posting_Date = request.form['Posting_Date']
+
+        if Posting_Date:
+            Posting_Date = datetime.strptime(Posting_Date, "%d/%m/%Y").date()
+        else:
+            Posting_Date = None
+
         Work_Profile = request.form['Work_Profile']
         Mobile_number = request.form['Mobile_number']
         Remark = request.form['Remark']
@@ -631,13 +637,14 @@ def edit_personnel(id):
             Batch_No=%s,
             Name=%s,
             Posting_Date=%s,
+            Posting_Tenure=%s,
             Work_Profile=%s,
             Mobile_number=%s,
             Remark=%s
             WHERE id=%s
         """, (
             Sr_no, Police_Station, Outpost, Rank, Batch_No,
-            Name, Posting_Date, Work_Profile, Mobile_number, Remark, id
+            Name, Posting_Date, tenure, Work_Profile, Mobile_number, Remark, id
         ))
 
         conn.commit()
