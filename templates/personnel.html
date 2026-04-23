@@ -185,10 +185,11 @@
                     <button class="edit-btn">Edit</button>
                 </a>
 
-                <a href="/delete_personnel/{{ row[0] }}"
-                   onclick="return confirm('Are you sure to delete?')">
-                    <button class="delete-btn">Delete</button>
-                </a>
+                <form action="/delete_personnel/{{ row[0] }}" method="POST" style="display:inline;">
+                    <button class="delete-btn" onclick="return confirm('Are you sure to delete?')">
+                        Delete
+                    </button>
+                </form>
             </td>
         </tr>
         {% endfor %}
