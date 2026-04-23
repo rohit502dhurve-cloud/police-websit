@@ -77,6 +77,9 @@
         placeholder="dd/mm/yyyy"
         value="{{ row['posting_date'].strftime('%d/%m/%Y') if row['posting_date'] else '' }}">
 
+        <label>Tenure</label>
+        <input type="text" value="{{ row['posting_tenure'] }}" readonly>
+
         <label>Work Profile</label>
         <input type="text" name="Work_Profile" value="{{ row['work_profile'] }}">
 
