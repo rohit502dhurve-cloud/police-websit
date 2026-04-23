@@ -73,7 +73,9 @@
         <input type="text" name="Name" value="{{ row['name'] }}">
 
         <label>Posting Date</label>
-        <input type="date" name="Posting_Date" value="{{ row['posting_date'] }}">
+        <input type="text" name="Posting_Date"
+        placeholder="dd/mm/yyyy"
+        value="{{ row['posting_date'].strftime('%d/%m/%Y') if row['posting_date'] else '' }}">
 
         <label>Work Profile</label>
         <input type="text" name="Work_Profile" value="{{ row['work_profile'] }}">
