@@ -702,7 +702,7 @@ def add_personnel():
     Posting_Date = request.form.get('Posting_Date')
 
     if Posting_Date:
-        Posting_Date = datetime.strptime(Posting_Date, "%Y-%m-%d").date()
+        Posting_Date = datetime.strptime(Posting_Date, "%d/%m/%Y").date()
     else:
         Posting_Date = None
     Posting_Tenure = ""
