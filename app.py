@@ -646,8 +646,28 @@ def edit_personnel(id):
 
         return redirect('/personnel')
 
-    c.execute("SELECT * FROM personnel WHERE id=%s", (id,))
+    c.execute("""
+    SELECT
+        id,
+        Sr_no,
+        Police_Station,
+        Outpost,
+        Rank,
+        Batch_No,
+        Name,
+        Posting_Date,
+        Work_Profile,
+        Mobile,
+        Remark
+    FROM personnel
+    WHERE id=%s
+    """, (id,))
+
     row = c.fetchone()
+
+    columns = [desc[0].lower() for desc in c.description]
+    row = dict(zip(columns, row))
+
 
     c.close()
     conn.close()
