@@ -162,31 +162,31 @@
         {% for row in data %}
         <tr>
             <td>{{ loop.index }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
-            <td>{{ row[5] }}</td>
-            <td>{{ row[6] }}</td>
+            <td>{{ row['Sr_no'] }}</td>
+            <td>{{ row['Police_Station'] }}</td>
+            <td>{{ row['Outpost'] }}</td>
+            <td>{{ row['Rank'] }}</td>
+            <td>{{ row['Batch_No'] }}</td>
+            <td>{{ row['Name'] }}</td>
             <td>
-                {% if row[7] %}
-                    {{ row[7].strftime('%d/%m/%Y') }}
+                {% if row['Posting_Date'] %}
+                    {{ row['Posting_Date'].strftime('%d/%m/%Y') }}
                 {% else %}
                     -
                 {% endif %}
             </td>
-            <td>{{ row[8] }}</td>
-            <td>{{ row[9] }}</td>
-            <td>{{ row[10] }}</td>
-            <td>{{ row[11] }}</td>
+            <td>{{ row['Tenure'] }}</td>
+            <td>{{ row['Work_Profile'] }}</td>
+            <td>{{ row['Mobile'] }}</td>
+            <td>{{ row['Remark'] }}</td>
 
             <!-- ✏️ Edit + Delete -->
             <td>
-                <a href="/edit_personnel/{{ row[0] }}">
+                <a href="/edit_personnel/{{ row['id'] }}">
                     <button type="button" class="edit-btn">Edit</button>
                 </a>
 
-                <form action="/delete_personnel/{{ row[0] }}" method="POST" style="display:inline;">
+                <form action="/delete_personnel/{{ row['id'] }}" method="POST" style="display:inline;">
                     <button type="submit" class="delete-btn" onclick="return confirm('Are you sure to delete?')">
                         Delete
                     </button>
