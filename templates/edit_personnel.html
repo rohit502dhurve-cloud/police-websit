@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Personnel</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        .container {
+            width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Edit Personnel</h2>
+
+    <form method="POST">
+
+        <!-- ID hidden नहीं है लेकिन backend already URL से ले रहा है -->
+
+        <label>Sr No</label>
+        <input type="text" name="Sr_no" value="{{ row[1] }}">
+
+        <label>Police Station</label>
+        <input type="text" name="Police_Station" value="{{ row[2] }}">
+
+        <label>Outpost</label>
+        <input type="text" name="Outpost" value="{{ row[3] }}">
+
+        <label>Rank</label>
+        <input type="text" name="Rank" value="{{ row[4] }}">
+
+        <label>Batch No</label>
+        <input type="text" name="Batch_No" value="{{ row[5] }}">
+
+        <label>Name</label>
+        <input type="text" name="Name" value="{{ row[6] }}">
+
+        <label>Posting Date</label>
+        <input type="date" name="Posting_Date" value="{{ row[7] }}">
+
+        <label>Work Profile</label>
+        <input type="text" name="Work_Profile" value="{{ row[9] }}">
+
+        <label>Mobile Number</label>
+        <input type="text" name="Mobile_number" value="{{ row[10] }}">
+
+        <label>Remark</label>
+        <textarea name="Remark">{{ row[11] }}</textarea>
+
+        <button type="submit">Update</button>
+
+    </form>
+
+    <a href="/personnel">⬅ Back to Personnel</a>
+
+</div>
+
+</body>
+</html>
