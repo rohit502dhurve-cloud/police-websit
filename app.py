@@ -204,7 +204,7 @@ def bulk_insert_personnel_safe():
     conn = get_db_connection()
     c = conn.cursor()
 
-    file_path = os.path.join(os.path.dirname(__file__), 'personnel.csv')
+    file_path = os.path.join(os.path.dirname(_file_), 'personnel.csv')
 
     with open(file_path, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
@@ -500,8 +500,7 @@ def personnel():
 
 
     query = """
-    SELECT
-        id,
+    SELECT 
         Sr_no,
         Police_Station,
         Outpost,
