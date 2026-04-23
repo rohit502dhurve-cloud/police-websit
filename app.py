@@ -500,7 +500,8 @@ def personnel():
 
 
     query = """
-    SELECT 
+    SELECT
+        id,
         Sr_no,
         Police_Station,
         Outpost,
