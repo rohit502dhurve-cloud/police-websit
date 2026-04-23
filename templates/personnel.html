@@ -162,23 +162,23 @@
         {% for row in data %}
         <tr>
             <td>{{ loop.index }}</td>
-            <td>{{ row['Sr_no'] }}</td>
-            <td>{{ row['Police_Station'] }}</td>
-            <td>{{ row['Outpost'] }}</td>
-            <td>{{ row['Rank'] }}</td>
-            <td>{{ row['Batch_No'] }}</td>
-            <td>{{ row['Name'] }}</td>
+            <td>{{ row['sr_no'] }}</td>
+            <td>{{ row['police_station'] }}</td>
+            <td>{{ row['outpost'] }}</td>
+            <td>{{ row['rank'] }}</td>
+            <td>{{ row['batch_no'] }}</td>
+            <td>{{ row['name'] }}</td>
             <td>
-                {% if row['Posting_Date'] %}
-                    {{ row['Posting_Date'].strftime('%d/%m/%Y') }}
+                {% if row['posting_date'] %}
+                    {{ row['posting_date'].strftime('%d/%m/%Y') }}
                 {% else %}
                     -
                 {% endif %}
             </td>
-            <td>{{ row['Tenure'] }}</td>
-            <td>{{ row['Work_Profile'] }}</td>
-            <td>{{ row['Mobile'] }}</td>
-            <td>{{ row['Remark'] }}</td>
+            <td>{{ row['tenure'] }}</td>
+            <td>{{ row['work_profile'] }}</td>
+            <td>{{ row['mobile'] }}</td>
+            <td>{{ row['remark'] }}</td>
 
             <!-- ✏️ Edit + Delete -->
             <td>
