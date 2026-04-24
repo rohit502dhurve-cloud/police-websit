@@ -139,7 +139,19 @@
     <h2>📋 Personnel List</h2>
 
 <div style="text-align: right; margin-bottom: 10px;">
-    {% if session.get('admin') %}
+    {% if session.get('personnel_admin') %}
+        <a href="/personnel-admin/logout">
+            <button>🔓 Personnel Logout</button>
+        </a>
+    {% else %}
+        <a href="/personnel-admin">
+            <button>🔐 Personnel Admin Login</button>
+        </a>
+    {% endif %}
+</div>
+
+<div style="text-align: right; margin-bottom: 10px;">
+    {% if session.get('personnel_admin') %}
         <a href="/admin/logout">
             <button>🔓 Admin Logout</button>
         </a>
@@ -152,7 +164,7 @@
 
     <!-- ➕ Add Button -->
 <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-    {% if session.get('admin') %}
+    {% if session.get('personnel_admin') %}
     <a href="/add_personnel_page">
         <button class="add-btn">➕ Add Personnel</button>
     </a>
@@ -205,7 +217,7 @@
 
             <!-- ✏️ Edit + Delete -->
             <td>
-                {% if session.get('admin') %}
+                {% if session.get('personnel_admin') %}
                 <form action="/delete_personnel/{{ row['id'] }}" method="POST" style="display:inline;">
                     <button type="submit" class="delete-btn" onclick="return confirm('Are you sure to delete?')">
                         Delete
