@@ -181,10 +181,6 @@
 
             <!-- ✏️ Edit + Delete -->
             <td>
-                <a href="/edit_personnel/{{ row['id'] }}">
-                    <button type="button" class="edit-btn">Edit</button>
-                </a>
-
                 <form action="/delete_personnel/{{ row['id'] }}" method="POST" style="display:inline;">
                     <button type="submit" class="delete-btn" onclick="return confirm('Are you sure to delete?')">
                         Delete
