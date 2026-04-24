@@ -728,7 +728,10 @@ def personnel_history(id):
     c.close()
     conn.close()
 
-    return render_template('personnel_history.html', history=history)
+    return render_template('personnel_history.html', history=history, personnel_id=id)
+@app.route('/add_posting/<int:personnel_id>', methods=['GET', 'POST'])
+def add_posting(personnel_id):
+    return render_template('add_posting.html', personnel_id=personnel_id)
 
 @app.route('/add_posting/<int:personnel_id>', methods=['GET', 'POST'])
 def add_posting(personnel_id):
