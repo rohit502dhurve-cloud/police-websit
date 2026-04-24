@@ -639,6 +639,8 @@ def export_personnel_excel():
 
 @app.route('/edit_personnel/<int:id>', methods=['GET', 'POST'])
 def edit_personnel(id):
+    if not session.get("admin"):
+        return redirect("/personnel")
     conn = get_db_connection()
     c = conn.cursor()
 
@@ -717,8 +719,10 @@ def edit_personnel(id):
 
 @app.route('/delete_personnel/<int:id>', methods=['POST'])
 def delete_personnel(id):
+    if not session.get("admin"):
+        return redirect("/personnel")
+
     conn = get_db_connection()
-    c = conn.cursor()
 
     c.execute("DELETE FROM personnel WHERE id=%s", (id,))
 
@@ -730,6 +734,9 @@ def delete_personnel(id):
 
 @app.route('/add_personnel_page')
 def add_personnel_page():
+    if not session.get("admin"):
+        return redirect("/personnel")
+
     return render_template('add_personnel.html')
 
 @app.route('/personnel_history/<int:id>')
@@ -779,6 +786,8 @@ def add_posting(personnel_id):
 
 @app.route('/add_personnel', methods=['POST'])
 def add_personnel():
+    if not session.get("admin"):
+        return redirect("/personnel")
     Sr_no = request.form.get('Sr_no')
     Police_Station = request.form.get('Police_Station')
     Outpost = request.form.get('Outpost')
