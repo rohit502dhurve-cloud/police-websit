@@ -162,18 +162,6 @@
     {% endif %}
 </div>
 
-<div style="text-align: right; margin-bottom: 10px;">
-    {% if session.get('personnel_admin') %}
-        <a href="/admin/logout">
-            <button>🔓 Admin Logout</button>
-        </a>
-    {% else %}
-        <a href="/admin">
-            <button>🔐 Admin Login</button>
-        </a>
-    {% endif %}
-</div>
-
     <!-- ➕ Add Button -->
 <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
     {% if session.get('personnel_admin') %}
