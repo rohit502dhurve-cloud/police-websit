@@ -123,9 +123,7 @@ def init_db():
     )
     ''')
     conn.commit()
-    c.close()
-    conn.close()
-
+   
     # 🔥 FIX: existing villages (clean)
     try:
         c.execute("SELECT LOWER(TRIM(village)) FROM beatbook")
