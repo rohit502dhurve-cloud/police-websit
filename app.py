@@ -700,6 +700,26 @@ def delete_personnel(id):
 def add_personnel_page():
     return render_template('add_personnel.html')
 
+@app.route('/personnel_history/<int:id>')
+def personnel_history(id):
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("""
+        SELECT posting_station, outpost, rank, from_date, to_date
+        FROM personnel_history
+        WHERE personnel_id = %s
+        ORDER BY from_date DESC
+    """, (id,))
+
+    history = c.fetchall()
+
+    c.close()
+    conn.close()
+
+    return render_template('personnel_history.html', history=history)
+
+
 @app.route('/add_personnel', methods=['POST'])
 def add_personnel():
     Sr_no = request.form.get('Sr_no')
