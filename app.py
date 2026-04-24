@@ -712,7 +712,7 @@ def add_personnel_page():
     return render_template('add_personnel.html')
 
 @app.route('/personnel_history/<int:id>')
-def personnel_history(id):
+def personnel_history(id):    
     conn = get_db_connection()
     c = conn.cursor()
 
@@ -730,6 +730,31 @@ def personnel_history(id):
 
     return render_template('personnel_history.html', history=history)
 
+@app.route('/add_posting/<int:personnel_id>', methods=['GET', 'POST'])
+def add_posting(personnel_id):
+    if request.method == 'POST':
+        station = request.form.get('station')
+        outpost = request.form.get('outpost')
+        rank = request.form.get('rank')
+        from_date = request.form.get('from_date')
+        to_date = request.form.get('to_date')
+
+        conn = get_db_connection()
+        c = conn.cursor()
+
+        c.execute("""
+            INSERT INTO personnel_history
+            (personnel_id, posting_station, outpost, rank, from_date, to_date)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (personnel_id, station, outpost, rank, from_date, to_date))
+
+        conn.commit()
+        c.close()
+        conn.close()
+
+        return redirect(f'/personnel_history/{personnel_id}')
+
+    return render_template('add_posting.html', personnel_id=personnel_id)
 
 @app.route('/add_personnel', methods=['POST'])
 def add_personnel():
