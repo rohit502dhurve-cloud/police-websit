@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posting History</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+
+        .back {
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .back a {
+            text-decoration: none;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>📜 Posting History</h2>
+
+<div class="back">
+    <a href="/personnel">⬅ Back</a>
+</div>
+
+<table>
+    <tr>
+        <th>Posting Station</th>
+        <th>Outpost</th>
+        <th>Rank</th>
+        <th>From Date</th>
+        <th>To Date</th>
+    </tr>
+
+    {% for h in history %}
+    <tr>
+        <td>{{ h[0] }}</td>
+        <td>{{ h[1] }}</td>
+        <td>{{ h[2] }}</td>
+        <td>{{ h[3] }}</td>
+        <td>{{ h[4] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
