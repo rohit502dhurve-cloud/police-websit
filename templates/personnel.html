@@ -166,7 +166,12 @@
             <td>{{ row['outpost'] }}</td>
             <td>{{ row['rank'] }}</td>
             <td>{{ row['batch_no'] }}</td>
-            <td>{{ row['name'] }}</td>
+            <td>
+                <a href="/personnel_history/{{ row['id'] }}" style="color:#2c3e50; text-decoration: none; font-weight: bold;">
+                    {{ row['name'] }}
+                </a>
+            </td>
+
             <td>
                 {% if row['posting_date'] %}
                     {{ row['posting_date'].strftime('%d/%m/%Y') }}
