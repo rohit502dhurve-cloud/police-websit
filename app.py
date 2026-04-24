@@ -721,7 +721,8 @@ def add_personnel():
     else:
         Posting_Date = None
 
-    Posting_Tenure = ""
+    Posting_Tenure = calculate_tenure(Posting_Date) if Posting_Date else ""
+
     Work_Profile = request.form.get('Work_Profile')
     Mobile_number = request.form.get('Mobile_number')
     Remark = request.form.get('Remark')
