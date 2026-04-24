@@ -93,6 +93,18 @@
 <div class="card">
     <h2>🔍 Filter Personnel</h2>
 
+<div style="text-align: right; margin-bottom: 10px;">
+    {% if session.get('personnel_admin') %}
+        <a href="/personnel-admin/logout">
+            <button>🔓 Personnel Logout</button>
+        </a>
+    {% else %}
+        <a href="/personnel-admin">
+            <button>🔐 Personnel Admin Login</button>
+        </a>
+    {% endif %}
+</div>
+
     <form method="GET">
         <input type="text" name="search" placeholder="Search Name">
 
