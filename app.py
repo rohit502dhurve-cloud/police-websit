@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, jsonify, session, url_for
+from flask import Flask, render_template, request, redirect, jsonify, session, url_for, send_file
 import psycopg2
+import pandas as pd
 from datetime import datetime, timedelta
 
 def calculate_tenure(posting_date):
@@ -614,6 +615,26 @@ def personnel():
         work_list=work_list,
         rank_list=rank_list
     )
+
+@app.route('/export_personnel_excel')
+def export_personnel_excel():
+    conn = get_db_connection()
+
+    query = """
+        SELECT Sr_no, Police_Station, Outpost, Rank,
+               Batch_No, Name, Posting_Date,
+               Work_Profile, Mobile_number, Remark
+        FROM personnel
+        ORDER BY id ASC
+    """
+
+    df = pd.read_sql(query, conn)
+    conn.close()
+
+    file_name = "personnel_data.xlsx"
+    df.to_excel(file_name, index=False)
+
+    return send_file(file_name, as_attachment=True)
 
 
 @app.route('/edit_personnel/<int:id>', methods=['GET', 'POST'])
