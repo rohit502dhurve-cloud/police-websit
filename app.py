@@ -624,6 +624,8 @@ def edit_personnel(id):
         else:
             Posting_Date = None
 
+        tenure = calculate_tenure(Posting_Date) if Posting_Date else ""
+
         Work_Profile = request.form['Work_Profile']
         Mobile_number = request.form['Mobile_number']
         Remark = request.form['Remark']
