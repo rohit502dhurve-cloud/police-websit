@@ -568,9 +568,9 @@ def personnel():
             if posting_date:
                 row_dict["posting_tenure"] = calculate_tenure(posting_date)
             else:
-                row_dict["Posting_Tenure"] = ""
+                row_dict["posting_tenure"] = ""
         except:
-            row_dict["Posting_Tenure"] = "Invalid"
+            row_dict["posting_tenure"] = "Invalid"
 
         data.append(row_dict)
 
