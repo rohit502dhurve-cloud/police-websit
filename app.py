@@ -746,6 +746,38 @@ def add_personnel():
 
     return redirect('/personnel')
 
+@app.route('/fix-all-ranks')
+def fix_all_ranks():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    # 🔹 HEAD CONSTABLE → HC
+    c.execute("""
+        UPDATE personnel
+        SET Rank = 'HC'
+        WHERE Rank = 'HEAD CONSTABLE'
+    """)
+
+    # 🔹 CONSTABLE → Constable
+    c.execute("""
+        UPDATE personnel
+        SET Rank = 'Constable'
+        WHERE Rank = 'CONSTABLE'
+    """)
+
+    # 🔹 INSPECTOR → Inspector
+    c.execute("""
+        UPDATE personnel
+        SET Rank = 'Inspector'
+        WHERE Rank = 'INSPECTOR'
+    """)
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return "All Ranks Standardized Successfully ✅"
+
 
 # 🔹 Village page (🔥 FIXED)
 @app.route('/village/<name>')
