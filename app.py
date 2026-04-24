@@ -566,7 +566,7 @@ def personnel():
 
         try:
             if posting_date:
-                row_dict["Posting_Tenure"] = calculate_tenure(posting_date)
+                row_dict["posting_tenure"] = calculate_tenure(posting_date)
             else:
                 row_dict["Posting_Tenure"] = ""
         except:
