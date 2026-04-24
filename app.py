@@ -85,6 +85,18 @@ def init_db():
             message TEXT NOT NULL
         )
     ''')
+
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS personnel_history (
+        id SERIAL PRIMARY KEY,
+        personnel_id INT,
+        posting_station TEXT,
+        outpost TEXT,
+        rank TEXT,
+        from_date DATE,
+        to_date DATE
+    )
+    """)
     
     c.execute('''
         CREATE TABLE IF NOT EXISTS beatbook (
@@ -111,7 +123,8 @@ def init_db():
     )
     ''')
     conn.commit()
-
+    c.close()
+    conn.close()
 
     # 🔥 FIX: existing villages (clean)
     try:
