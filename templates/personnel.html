@@ -138,11 +138,25 @@
 <div class="card">
     <h2>📋 Personnel List</h2>
 
+<div style="text-align: right; margin-bottom: 10px;">
+    {% if session.get('admin') %}
+        <a href="/admin/logout">
+            <button>🔓 Admin Logout</button>
+        </a>
+    {% else %}
+        <a href="/admin">
+            <button>🔐 Admin Login</button>
+        </a>
+    {% endif %}
+</div>
+
     <!-- ➕ Add Button -->
 <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+    {% if session.get('admin') %}
     <a href="/add_personnel_page">
         <button class="add-btn">➕ Add Personnel</button>
     </a>
+    {% endif %}
 
     <a href="/export_personnel_excel">
         <button class="add-btn">📊 Export Excel</button>
@@ -191,11 +205,13 @@
 
             <!-- ✏️ Edit + Delete -->
             <td>
+                {% if session.get('admin') %}
                 <form action="/delete_personnel/{{ row['id'] }}" method="POST" style="display:inline;">
                     <button type="submit" class="delete-btn" onclick="return confirm('Are you sure to delete?')">
                         Delete
                     </button>
                 </form>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
