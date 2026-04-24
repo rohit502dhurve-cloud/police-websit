@@ -639,7 +639,7 @@ def export_personnel_excel():
 
 @app.route('/edit_personnel/<int:id>', methods=['GET', 'POST'])
 def edit_personnel(id):
-    if not session.get("admin"):
+    if not session.get("personnel_admin"):
         return redirect("/personnel")
     conn = get_db_connection()
     c = conn.cursor()
@@ -719,7 +719,7 @@ def edit_personnel(id):
 
 @app.route('/delete_personnel/<int:id>', methods=['POST'])
 def delete_personnel(id):
-    if not session.get("admin"):
+    if not session.get("personnel_admin"):
         return redirect("/personnel")
 
     conn = get_db_connection()
@@ -734,7 +734,7 @@ def delete_personnel(id):
 
 @app.route('/add_personnel_page')
 def add_personnel_page():
-    if not session.get("admin"):
+    if not session.get("personnel_admin"):
         return redirect("/personnel")
 
     return render_template('add_personnel.html')
@@ -1093,6 +1093,27 @@ def admin_dashboard():
 def admin_logout():
     session.pop("admin", None)
     return redirect("/")
+
+@app.route("/personnel-admin", methods=["GET", "POST"])
+def personnel_admin_login():
+    admins = {"personnel_admin": "1234"}
+
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if username in admins and admins[username] == password:
+            session["personnel_admin"] = True
+            return redirect("/personnel")
+
+        return render_template("personnel_admin_login.html", error="Invalid Login")
+
+    return render_template("personnel_admin_login.html")
+
+@app.route("/personnel-admin/logout")
+def personnel_admin_logout():
+    session.pop("personnel_admin", None)
+    return redirect("/personnel")
 
 @app.route('/fix-personnel')
 def fix_personnel():
