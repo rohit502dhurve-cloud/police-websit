@@ -631,6 +631,14 @@ def export_personnel_excel():
     df = pd.read_sql(query, conn)
     conn.close()
 
+    # ✅ Auto generate Sr_no for all rows
+    df.insert(0, "Sr_no", range(1, len(df) + 1))
+
+    file_name = "personnel_data.xlsx"
+    df.to_excel(file_name, index=False)
+
+    return send_file(file_name, as_attachment=True)
+
     file_name = "personnel_data.xlsx"
     df.to_excel(file_name, index=False)
 
