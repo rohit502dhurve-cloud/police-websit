@@ -622,7 +622,7 @@ def export_personnel_excel():
 
     query = """
         SELECT Police_Station, Outpost, Rank,
-               Batch_No, Name, Posting_Date, Posting_Tenure,
+               Batch_No, Name, Posting_Date,
                Work_Profile, Mobile_number, Remark
         FROM personnel
         ORDER BY id ASC
@@ -631,13 +631,38 @@ def export_personnel_excel():
     df = pd.read_sql(query, conn)
     conn.close()
 
-    # ✅ Auto generate Sr_no for all rows
+    # ✅ Auto serial number
     df.insert(0, "Sr_no", range(1, len(df) + 1))
 
-    file_name = "personnel_data.xlsx"
-    df.to_excel(file_name, index=False)
+    # ✅ Date format dd/mm/yyyy
+    df["posting_date"] = pd.to_datetime(df["posting_date"]).dt.strftime("%d/%m/%Y")
 
-    return send_file(file_name, as_attachment=True)
+    # ✅ Calculate posting tenure
+    def get_tenure(date_str):
+        try:
+            date_obj = datetime.strptime(date_str, "%d/%m/%Y").date()
+            return calculate_tenure(date_obj)
+        except:
+            return ""
+
+    df["posting_tenure"] = df["posting_date"].apply(get_tenure)
+
+    # ✅ Column order
+    df = df[
+        [
+            "Sr_no",
+            "police_station",
+            "outpost",
+            "rank",
+            "batch_no",
+            "name",
+            "posting_date",
+            "posting_tenure",
+            "work_profile",
+            "mobile_number",
+            "remark"
+        ]
+    ]
 
     file_name = "personnel_data.xlsx"
     df.to_excel(file_name, index=False)
