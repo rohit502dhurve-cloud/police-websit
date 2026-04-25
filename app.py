@@ -857,19 +857,29 @@ def fix_all_ranks():
         SET Rank = 'Inspector'
         WHERE Rank = 'INSPECTOR'
     """)
-
-    cursor.execute("""
-        UPDATE personnel
-        SET Police_Station = 'SDOP Office Lanji'
-        WHERE Police_Station = 'Sdop Office Lanji'
-    """)
-   
+ 
     conn.commit()
     c.close()
     conn.close()
 
     return "All Ranks Standardized Successfully ✅"
 
+@app.route('/update_station_name')
+def update_station_name():
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE personnel
+        SET police_station = 'SDOP Office Lanji'
+        WHERE police_station = 'Sdop Office Lanji'
+    """)
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return "Updated Successfully"
 
 # 🔹 Village page (🔥 FIXED)
 @app.route('/village/<name>')
