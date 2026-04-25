@@ -562,7 +562,7 @@ def personnel():
 
 
 
-    query += " ORDER BY Police_Station ASC, Name ASC"
+    query += " ORDER BY Police_Station ASC, id ASC"
 
     c.execute(query, values)
 
