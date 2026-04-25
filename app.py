@@ -621,8 +621,8 @@ def export_personnel_excel():
     conn = get_db_connection()
 
     query = """
-        SELECT Sr_no, Police_Station, Outpost, Rank,
-               Batch_No, Name, Posting_Date,
+        SELECT Police_Station, Outpost, Rank,
+               Batch_No, Name, Posting_Date, Tenure,
                Work_Profile, Mobile_number, Remark
         FROM personnel
         ORDER BY id ASC
