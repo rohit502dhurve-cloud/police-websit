@@ -466,7 +466,7 @@ def sho_report():
     start_date = request.args.get("start_date", "")
     end_date = request.args.get("end_date", "")
 
-    query = "SELECT village, text, submitted_by, created_at FROM observations WHERE 1=1"
+    query = "SELECT id, village, text, submitted_by, created_at FROM observations WHERE 1=1"
     params = []
 
     if village_filter:
