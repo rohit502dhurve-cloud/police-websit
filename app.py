@@ -622,7 +622,7 @@ def export_personnel_excel():
 
     query = """
         SELECT Police_Station, Outpost, Rank,
-               Batch_No, Name, Posting_Date,
+               Batch_No, Name, Posting_Date, Posting_Tenure,
                Work_Profile, Mobile_number, Remark
         FROM personnel
         ORDER BY id ASC
