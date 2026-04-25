@@ -858,6 +858,12 @@ def fix_all_ranks():
         WHERE Rank = 'INSPECTOR'
     """)
 
+    cursor.execute("""
+        UPDATE personnel
+        SET police_station = 'SDOP Office Lanji'
+        WHERE police_station = 'Sdop Office Lanji'
+    """)
+   
     conn.commit()
     c.close()
     conn.close()
