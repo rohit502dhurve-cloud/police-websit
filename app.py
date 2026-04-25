@@ -820,7 +820,7 @@ def add_posting(personnel_id):
 
 @app.route('/add_personnel', methods=['POST'])
 def add_personnel():
-    if not session.get("admin"):
+    if not session.get("personnel_admin"):
         return redirect("/personnel")
     Sr_no = request.form.get('Sr_no')
     Police_Station = request.form.get('Police_Station')
