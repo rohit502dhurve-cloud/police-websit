@@ -960,6 +960,7 @@ def village(name):
 # 🔹 बाकी routes SAME (no change)
 @app.route('/')
 def home():
+    session.pop("personnel_admin", None)
     return render_template('index.html')
 
 @app.route('/check_db')
