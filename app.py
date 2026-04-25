@@ -1052,6 +1052,22 @@ def save_observation():
 
     return redirect(request.referrer)
 
+@app.route('/delete_observation/<int:id>', methods=['POST'])
+def delete_observation(id):
+    if "user" not in session:
+        return jsonify({"status": "error", "message": "Unauthorized"})
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    c.execute("DELETE FROM observations WHERE id=%s", (id,))
+
+    conn.commit()
+    c.close()
+    conn.close()
+
+    return jsonify({"status": "success"})
+
 @app.route('/submit', methods=['POST'])
 def submit():
     name = request.form.get('name')
