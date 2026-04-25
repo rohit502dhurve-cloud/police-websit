@@ -756,6 +756,7 @@ def delete_personnel(id):
         return redirect("/personnel")
 
     conn = get_db_connection()
+    c = conn.cursor()
 
     c.execute("DELETE FROM personnel WHERE id=%s", (id,))
 
