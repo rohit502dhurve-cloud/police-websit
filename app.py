@@ -1113,7 +1113,7 @@ def personnel_admin_login():
 @app.route("/personnel-admin/logout")
 def personnel_admin_logout():
     session.pop("personnel_admin", None)
-    return redirect("/personnel")
+    return redirect(url_for('home'))
 
 @app.route('/fix-personnel')
 def fix_personnel():
