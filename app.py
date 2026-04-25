@@ -574,7 +574,7 @@ def personnel():
     for row in rows:
         row_dict = dict(zip(columns, row))
 
-        posting_date = row_dict.get("Posting_Date")
+        posting_date = row_dict.get("posting_date")
 
         try:
             if posting_date:
