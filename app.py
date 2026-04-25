@@ -871,11 +871,11 @@ def update_station_name():
 
     cursor.execute("""
         UPDATE personnel
-        SET police_station = 'SDOP Office Lanji'
-        WHERE police_station = 'Sdop Office Lanji'
+        SET Police_Station = 'SDOP Office Lanji'
+        WHERE Police_Station = 'Sdop Office Lanji'
     """)
+    
     conn.commit()
-
     cursor.close()
     conn.close()
 
