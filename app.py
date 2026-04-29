@@ -668,24 +668,48 @@ def export_personnel_excel():
 
     file_name = "personnel_data.xlsx"
 
-    # Excel formatting
-    with pd.ExcelWriter(file_name, engine="openpyxl") as writer:
-        df.to_excel(writer, index=False, sheet_name="Personnel")
+    from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
-        ws = writer.sheets["Personnel"]
+with pd.ExcelWriter(file_name, engine="openpyxl") as writer:
+    df.to_excel(writer, index=False, sheet_name="Personnel")
 
-        # Auto column width
-        for column_cells in ws.columns:
-            max_length = 0
-            column_letter = column_cells[0].column_letter
+    ws = writer.sheets["Personnel"]
 
-            for cell in column_cells:
-                if cell.value:
-                    max_length = max(max_length, len(str(cell.value)))
+    # ✅ Header Style
+    header_fill = PatternFill(start_color="3498DB", end_color="3498DB", fill_type="solid")
+    header_font = Font(bold=True, color="FFFFFF")
+    center_align = Alignment(horizontal="center", vertical="center")
 
-            ws.column_dimensions[column_letter].width = max_length + 2
+    # Apply header style
+    for cell in ws[1]:
+        cell.fill = header_fill
+        cell.font = header_font
+        cell.alignment = center_align
 
-    return send_file(file_name, as_attachment=True)
+    # ✅ Border style
+    thin_border = Border(
+        left=Side(style="thin"),
+        right=Side(style="thin"),
+        top=Side(style="thin"),
+        bottom=Side(style="thin")
+    )
+
+    # Apply border + alignment to all cells
+    for row in ws.iter_rows():
+        for cell in row:
+            cell.border = thin_border
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+
+    # ✅ Auto column width
+    for column_cells in ws.columns:
+        max_length = 0
+        col_letter = column_cells[0].column_letter
+
+        for cell in column_cells:
+            if cell.value:
+                max_length = max(max_length, len(str(cell.value)))
+
+        ws.column_dimensions[col_letter].width = max_length + 3
 
 @app.route('/edit_personnel/<int:id>', methods=['GET', 'POST'])
 def edit_personnel(id):
