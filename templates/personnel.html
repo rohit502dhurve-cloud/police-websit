@@ -151,16 +151,20 @@
     <h2>📋 Personnel List</h2>
 
     <!-- ➕ Add Button -->
-<div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+<div style="display:flex; margin-bottom:15px;">
+
     {% if session.get('personnel_admin') %}
     <a href="/add_personnel_page">
         <button class="add-btn">➕ Add Personnel</button>
     </a>
     {% endif %}
 
-    <a href="/export_personnel_excel">
-        <button class="add-btn">📊 Export Excel</button>
-    </a>
+    <div style="margin-left:auto;">
+        <a href="/export_personnel_excel">
+            <button class="add-btn">📊 Export Excel</button>
+        </a>
+    </div>
+
 </div>
     <table>
         <tr>
