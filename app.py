@@ -620,15 +620,46 @@ def personnel():
 def export_personnel_excel():
     conn = get_db_connection()
 
+    search = request.args.get("search", "")
+    rank = request.args.get("rank", "")
+    ps = request.args.get("ps", "")
+    outpost = request.args.get("outpost", "")
+    work = request.args.get("work", "")
+    tenure = request.args.get("tenure", "")
+
     query = """
         SELECT Police_Station, Outpost, Rank,
                Batch_No, Name, Posting_Date,
                Work_Profile, Mobile_number, Remark
         FROM personnel
-        ORDER BY id ASC
+        WHERE 1=1
     """
 
-    df = pd.read_sql(query, conn)
+    params = []
+
+    if search:
+        query += " AND name ILIKE %s"
+        params.append(f"%{search}%")
+
+    if rank:
+        query += " AND rank = %s"
+        params.append(rank)
+
+    if ps:
+        query += " AND police_station = %s"
+        params.append(ps)
+
+    if outpost:
+        query += " AND outpost = %s"
+        params.append(outpost)
+
+    if work:
+        query += " AND work_profile = %s"
+        params.append(work)
+
+    query += " ORDER BY id ASC"
+
+    df = pd.read_sql(query, conn, params=params)
     conn.close()
 
     # Serial number
@@ -648,6 +679,15 @@ def export_personnel_excel():
             return ""
 
     df["posting_tenure"] = df["posting_date"].apply(get_tenure)
+    # Tenure filter
+    if tenure == "0-1":
+        df = df[df["posting_tenure"].str.contains("0 Year|1 Year", na=False)]
+
+    elif tenure == "1-2":
+        df = df[df["posting_tenure"].str.contains("1 Year|2 Year", na=False)]
+
+    elif tenure == "3+":
+        df = df[df["posting_tenure"].str.contains("3 Year|4 Year|5 Year", na=False)]
 
     # Final column order
     df = df[
