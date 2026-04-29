@@ -679,15 +679,29 @@ def export_personnel_excel():
             return ""
 
     df["posting_tenure"] = df["posting_date"].apply(get_tenure)
-    # Tenure filter
+    # ✅ Tenure filter
     if tenure == "0-1":
-        df = df[df["posting_tenure"].str.contains("0 Year|1 Year", na=False)]
+        df = df[
+            df["posting_tenure"].str.extract(r"(\d+)")[0]
+            .fillna(0)
+            .astype(int)
+            .between(0, 1)
+        ]
 
     elif tenure == "1-2":
-        df = df[df["posting_tenure"].str.contains("1 Year|2 Year", na=False)]
+        df = df[
+            df["posting_tenure"].str.extract(r"(\d+)")[0]
+            .fillna(0)
+            .astype(int)
+            .between(1, 2)
+        ]
 
     elif tenure == "3+":
-        df = df[df["posting_tenure"].str.contains("3 Year|4 Year|5 Year", na=False)]
+        df = df[
+            df["posting_tenure"].str.extract(r"(\d+)")[0]
+            .fillna(0)
+            .astype(int) >= 3
+        ]    
 
     # Final column order
     df = df[
