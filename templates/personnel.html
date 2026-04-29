@@ -160,7 +160,7 @@
     {% endif %}
 
     <div style="margin-left:auto;">
-        <a href="/export_personnel_excel">
+        <a href="/export_personnel_excel?search={{ request.args.get('search','') }}&rank={{ request.args.get('rank','') }}&ps={{ request.args.get('ps','') }}&outpost={{ request.args.get('outpost','') }}&work={{ request.args.get('work','') }}&tenure={{ request.args.get('tenure','') }}">
             <button class="add-btn">📊 Export Excel</button>
         </a>
     </div>
