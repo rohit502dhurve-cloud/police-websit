@@ -696,7 +696,7 @@ if tenure == "0-1":
 elif tenure == "1-2":
     df = df[df["years_only"].between(1, 2)]
 
-elif tenure == "3+":
+elif "3" in tenure:
     df = df[df["years_only"] >= 3]
 
     # Final column order
