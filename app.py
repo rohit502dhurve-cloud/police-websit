@@ -631,13 +631,15 @@ def export_personnel_excel():
     df = pd.read_sql(query, conn)
     conn.close()
 
-    # ✅ Auto serial number
+    # Serial number
     df.insert(0, "Sr_no", range(1, len(df) + 1))
 
-    # ✅ Date format dd/mm/yyyy
-    df["posting_date"] = pd.to_datetime(df["posting_date"]).dt.strftime("%d/%m/%Y")
+    # Date format
+    df["posting_date"] = pd.to_datetime(
+        df["posting_date"], errors="coerce"
+    ).dt.strftime("%d/%m/%Y")
 
-    # ✅ Calculate posting tenure
+    # Tenure calculate
     def get_tenure(date_str):
         try:
             date_obj = datetime.strptime(date_str, "%d/%m/%Y").date()
@@ -647,7 +649,7 @@ def export_personnel_excel():
 
     df["posting_tenure"] = df["posting_date"].apply(get_tenure)
 
-    # ✅ Column order
+    # Final column order
     df = df[
         [
             "Sr_no",
@@ -665,10 +667,25 @@ def export_personnel_excel():
     ]
 
     file_name = "personnel_data.xlsx"
-    df.to_excel(file_name, index=False)
+
+    # Excel formatting
+    with pd.ExcelWriter(file_name, engine="openpyxl") as writer:
+        df.to_excel(writer, index=False, sheet_name="Personnel")
+
+        ws = writer.sheets["Personnel"]
+
+        # Auto column width
+        for column_cells in ws.columns:
+            max_length = 0
+            column_letter = column_cells[0].column_letter
+
+            for cell in column_cells:
+                if cell.value:
+                    max_length = max(max_length, len(str(cell.value)))
+
+            ws.column_dimensions[column_letter].width = max_length + 2
 
     return send_file(file_name, as_attachment=True)
-
 
 @app.route('/edit_personnel/<int:id>', methods=['GET', 'POST'])
 def edit_personnel(id):
