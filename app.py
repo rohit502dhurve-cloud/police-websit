@@ -670,21 +670,21 @@ def export_personnel_excel():
 
     from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
-with pd.ExcelWriter(file_name, engine="openpyxl") as writer:
-    df.to_excel(writer, index=False, sheet_name="Personnel")
+    with pd.ExcelWriter(file_name, engine="openpyxl") as writer:
+        df.to_excel(writer, index=False, sheet_name="Personnel")
 
-    ws = writer.sheets["Personnel"]
+        ws = writer.sheets["Personnel"]
 
-    # ✅ Header Style
-    header_fill = PatternFill(start_color="3498DB", end_color="3498DB", fill_type="solid")
-    header_font = Font(bold=True, color="FFFFFF")
-    center_align = Alignment(horizontal="center", vertical="center")
+        # ✅ Header Style
+        header_fill = PatternFill(start_color="3498DB", end_color="3498DB", fill_type="solid")
+        header_font = Font(bold=True, color="FFFFFF")
+        center_align = Alignment(horizontal="center", vertical="center")
 
-    # Apply header style
-    for cell in ws[1]:
-        cell.fill = header_fill
-        cell.font = header_font
-        cell.alignment = center_align
+        # Apply header style
+        for cell in ws[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+            cell.alignment = center_align
 
     # ✅ Border style
     thin_border = Border(
