@@ -557,6 +557,9 @@ def personnel():
     elif tenure == "1-2":
         query += " AND Posting_Date BETWEEN CURRENT_DATE - INTERVAL '2 year' AND CURRENT_DATE - INTERVAL '1 year'"
 
+    elif tenure == "2-3":
+    query += " AND Posting_Date BETWEEN CURRENT_DATE - INTERVAL '3 year' AND CURRENT_DATE - INTERVAL '2 year'"
+
     elif tenure == "3+":
         query += " AND Posting_Date <= CURRENT_DATE - INTERVAL '3 year'"
 
