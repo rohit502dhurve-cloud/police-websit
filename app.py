@@ -666,7 +666,7 @@ def export_personnel_excel():
     conn.close()
 
     # Serial number
-    df.insert(0, "Sr_no", range(1, len(df) + 1))
+    
 
     # Date format
     df["posting_date"] = pd.to_datetime(
@@ -712,6 +712,9 @@ def export_personnel_excel():
         df = df[
             df["posting_date_obj"] < (today - timedelta(days=1095))
     ]
+
+    df = df.reset_index(drop=True)
+    df.insert(0, "Sr_no", range(1, len(df) + 1))
     # Final column order
     df = df[
         [
