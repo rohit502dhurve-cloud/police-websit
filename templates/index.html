@@ -116,10 +116,29 @@ nav a{
 }
 
 #mottoText{
-  text-align:center;
-  font-size:22px;
-  color:blue;
-  margin-top:10px;
+  display: none;
+  width: 85%;
+  max-width: 1100px;
+  margin: 20px auto;
+  background: white;
+  padding: 25px 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  text-align: justify;
+  font-size: 20px;
+  line-height: 1.8;
+  color: #333;
+  transition: 0.3s;
+}
+
+#mottoText.show{
+  display: block;
+}
+
+#mottoText h2{
+  text-align: center;
+  color: #1d3c8f;
+  margin-bottom: 15px;
 }
 
 /* MAIN LAYOUT */
@@ -304,7 +323,7 @@ button{
 </nav>
 
 
-<p id="mottoText"></p>
+<div id="mottoText"></div>
 
 <!-- MAIN -->
 <div class="main">
@@ -755,9 +774,31 @@ function closeForm(){
 function showMotto(){
   let text = document.getElementById("mottoText");
 
-  text.innerHTML = text.innerHTML === "" 
-    ? "“With unwavering dedication, courage, and integrity, we stand committed to protecting the lives, rights, and dignity of every citizen. Our mission is to uphold law and order, ensure public safety, and deliver justice with fairness and honesty. We serve society with discipline, respect, and compassion, building trust between the police and the community. Through vigilance, professionalism, and quick response, we strive to create a safe and secure environment where every individual can live without fear. We believe in duty before self, service before recognition, and justice above all. Our strength lies in our commitment to truth, our courage in times of crisis, and our responsibility to protect the nation and its people. Together, we work to maintain peace, prevent crime, and uphold the values of justice, security, and public trust.”"
-    : "";
+  if(text.classList.contains("show")){
+    text.classList.remove("show");
+    text.innerHTML = "";
+  } else {
+    text.classList.add("show");
+    text.innerHTML = `
+      <h2>Our Motto</h2>
+      <p>
+        "With unwavering dedication, courage, and integrity, we stand committed
+        to protecting the lives, rights, and dignity of every citizen.
+        Our mission is to uphold law and order, ensure public safety,
+        and deliver justice with fairness and honesty.
+        We serve society with discipline, respect, and compassion,
+        building trust between the police and the community.
+        Through vigilance, professionalism, and quick response,
+        we strive to create a safe and secure environment where every
+        individual can live without fear. We believe in duty before self, 
+        service before recognition, and justice above all. 
+        Our strength lies in our commitment to truth, our courage in times of crisis, 
+        and our responsibility to protect the nation and its people.
+        Together, we work to maintain peace, prevent crime, 
+        and uphold the values of justice, security, and public trust.”
+      </p>
+    `;
+  }
 }
 
 
