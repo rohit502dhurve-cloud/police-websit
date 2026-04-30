@@ -808,10 +808,12 @@ width="80%" height="300" style="border:0;">
 
 <script>
 function openForm(type){
-  document.getElementById("popup").style.display="block";
-  document.getElementById("overlay").style.display="block";
+  document.getElementById("popup").style.display = "block";
+  document.getElementById("overlay").style.display = "block";
   document.getElementById("formTitle").innerText = type;
-  document.getElementById("formType").value = type;
+
+  // 🔥 backend ke according lowercase bhejo
+  document.getElementById("formType").value = type.toLowerCase();
 }
 
 function closeForm(){
