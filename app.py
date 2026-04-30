@@ -699,6 +699,9 @@ def export_personnel_excel():
     elif tenure == "1-2":
         df = df[df["years_only"].between(1, 2)]
 
+    elif tenure == "2-3":
+        df = df[df["years_only"].between(2, 3)]
+
     elif "3" in tenure:
         df = df[df["years_only"] >= 3]
 
