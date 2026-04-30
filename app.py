@@ -684,27 +684,34 @@ def export_personnel_excel():
     df["posting_tenure"] = df["posting_date"].apply(get_tenure)
  
     # ✅ Extract only years number
-    df["years_only"] = (
-        df["posting_tenure"]
-        .astype(str)
-        .str.extract(r"(\d+)")[0]
-        .fillna(0)
-        .astype(int)
-    )
+    # ✅ Tenure filter based on posting_date
+    today = datetime.today()
 
-    # ✅ Tenure filter
+    df["posting_date_obj"] = pd.to_datetime(
+        df["posting_date"], format="%d/%m/%Y", errors="coerce"
+)
+
     if tenure == "0-1":
-        df = df[df["years_only"].between(0, 1)]
+        df = df[
+            df["posting_date_obj"] >= (today - timedelta(days=365))
+        ]
 
     elif tenure == "1-2":
-        df = df[df["years_only"].between(1, 2)]
+        df = df[
+            (df["posting_date_obj"] >= (today - timedelta(days=730))) &
+            (df["posting_date_obj"] < (today - timedelta(days=365)))
+        ]
 
     elif tenure == "2-3":
-        df = df[df["years_only"].between(2, 3)]
+        df = df[
+            (df["posting_date_obj"] >= (today - timedelta(days=1095))) &
+            (df["posting_date_obj"] < (today - timedelta(days=730)))
+        ]
 
-    elif "3" in tenure:
-        df = df[df["years_only"] >= 3]
-
+    elif tenure == "3+":
+        df = df[
+            df["posting_date_obj"] < (today - timedelta(days=1095))
+    ]
     # Final column order
     df = df[
         [
