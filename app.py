@@ -628,7 +628,7 @@ def export_personnel_excel():
     ps = request.args.get("ps", "")
     outpost = request.args.get("outpost", "")
     work = request.args.get("work", "")
-    tenure = request.args.get("tenure", "")
+    tenure = request.args.get("tenure", "").strip()
 
     query = """
         SELECT Police_Station, Outpost, Rank,
