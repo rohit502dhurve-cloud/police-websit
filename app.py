@@ -609,6 +609,14 @@ def personnel():
 
     c.close()
     conn.close()
+    session["filters"] = {
+        "search": search,
+        "rank": rank,
+        "ps": ps,
+        "outpost": outpost,
+        "work": work,
+        "tenure": tenure
+    }
 
     return render_template(
         'personnel.html',
@@ -623,12 +631,14 @@ def personnel():
 def export_personnel_excel():
     conn = get_db_connection()
 
-    search = request.args.get("search", "")
-    rank = request.args.get("rank", "")
-    ps = request.args.get("ps", "")
-    outpost = request.args.get("outpost", "")
-    work = request.args.get("work", "")
-    tenure = request.args.get("tenure", "").strip()
+    filters = session.get("filters", {})
+
+    search = filters.get("search", "")
+    rank = filters.get("rank", "")
+    ps = filters.get("ps", "")
+    outpost = filters.get("outpost", "")
+    work = filters.get("work", "")
+    tenure = filters.get("tenure", "").strip()
 
     query = """
         SELECT Police_Station, Outpost, Rank,
