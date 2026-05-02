@@ -677,24 +677,24 @@ elif tenure == "3+":
 query += " ORDER BY id ASC"
 
     
-    df = pd.read_sql(query, conn, params=params)
-    conn.close()
+df = pd.read_sql(query, conn, params=params)
+conn.close()
 
-    # Serial number
+# Serial number
     
 
-    # Date format
-    df["posting_date"] = pd.to_datetime(
-        df["posting_date"], errors="coerce"
-    ).dt.strftime("%d/%m/%Y")
+# Date format
+df["posting_date"] = pd.to_datetime(
+    df["posting_date"], errors="coerce"
+).dt.strftime("%d/%m/%Y")
 
-    # Tenure calculate
-    def get_tenure(date_str):
-        try:
-            date_obj = datetime.strptime(date_str, "%d/%m/%Y").date()
-            return calculate_tenure(date_obj)
-        except:
-            return ""
+# Tenure calculate
+def get_tenure(date_str):
+    try:
+        date_obj = datetime.strptime(date_str, "%d/%m/%Y").date()
+        return calculate_tenure(date_obj)
+    except:
+        return ""
 
     df["posting_tenure"] = df["posting_date"].apply(get_tenure)
  
