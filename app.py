@@ -657,8 +657,8 @@ def export_personnel_excel():
         params.append(outpost)
 
     if work:
-    query += " AND work_profile = %s"
-    params.append(work)
+        query += " AND work_profile = %s"
+        params.append(work)
 
 # ✅ 🔥 YAHAN ADD KARO (IMPORTANT)
 if tenure == "0-1":
@@ -676,8 +676,7 @@ elif tenure == "3+":
 # 👇 iske baad ORDER BY rahega
 query += " ORDER BY id ASC"
 
-    query += " ORDER BY id ASC"
-
+    
     df = pd.read_sql(query, conn, params=params)
     conn.close()
 
