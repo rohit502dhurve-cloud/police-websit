@@ -710,6 +710,7 @@ def export_personnel_excel():
 
     elif tenure == "3+":
         df = df[
+            (df["posting_date_obj"].notna()) &
             df["posting_date_obj"] < (today - timedelta(days=1095))
     ]
 
