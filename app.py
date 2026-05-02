@@ -216,7 +216,7 @@ def bulk_insert_personnel_safe():
     conn = get_db_connection()
     c = conn.cursor()
 
-    file_path = os.path.join(os.path.dirname(_file_), 'personnel.csv')
+    file_path = os.path.join(os.path.dirname(__file__), 'personnel.csv')
 
     with open(file_path, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
@@ -661,40 +661,39 @@ def export_personnel_excel():
         params.append(work)
 
 # ✅ 🔥 YAHAN ADD KARO (IMPORTANT)
-if tenure == "0-1":
-    query += " AND Posting_Date >= CURRENT_DATE - INTERVAL '1 year'"
+    if tenure == "0-1":
+        query += " AND Posting_Date >= CURRENT_DATE - INTERVAL '1 year'"
 
-elif tenure == "1-2":
-    query += " AND Posting_Date BETWEEN CURRENT_DATE - INTERVAL '2 year' AND CURRENT_DATE - INTERVAL '1 year'"
+    elif tenure == "1-2":
+        query += " AND Posting_Date BETWEEN CURRENT_DATE - INTERVAL '2 year' AND CURRENT_DATE - INTERVAL '1 year'"
 
-elif tenure == "2-3":
-    query += " AND Posting_Date BETWEEN CURRENT_DATE - INTERVAL '3 year' AND CURRENT_DATE - INTERVAL '2 year'"
+    elif tenure == "2-3":
+        query += " AND Posting_Date BETWEEN CURRENT_DATE - INTERVAL '3 year' AND CURRENT_DATE - INTERVAL '2 year'"
 
-elif tenure == "3+":
-    query += " AND Posting_Date <= CURRENT_DATE - INTERVAL '3 year'"
+    elif tenure == "3+":
+        query += " AND Posting_Date <= CURRENT_DATE - INTERVAL '3 year'"
 
 # 👇 iske baad ORDER BY rahega
-query += " ORDER BY id ASC"
+    query += " ORDER BY id ASC"
 
     
-df = pd.read_sql(query, conn, params=params)
-conn.close()
+    df = pd.read_sql(query, conn, params=params)
+    conn.close()
 
-# Serial number
-    
 
-# Date format
-df["posting_date"] = pd.to_datetime(
-    df["posting_date"], errors="coerce"
-).dt.strftime("%d/%m/%Y")
 
-# Tenure calculate
-def get_tenure(date_str):
-    try:
-        date_obj = datetime.strptime(date_str, "%d/%m/%Y").date()
-        return calculate_tenure(date_obj)
-    except:
-        return ""
+    # Date format
+    df["posting_date"] = pd.to_datetime(
+        df["posting_date"], errors="coerce"
+    ).dt.strftime("%d/%m/%Y")
+
+    # Tenure calculate
+    def get_tenure(date_str):
+        try:
+            date_obj = datetime.strptime(date_str, "%d/%m/%Y").date()
+            return calculate_tenure(date_obj)
+        except:
+            return ""
 
     df["posting_tenure"] = df["posting_date"].apply(get_tenure)
  
