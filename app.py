@@ -881,7 +881,28 @@ def add_personnel_page():
     if not session.get("personnel_admin"):
         return redirect("/personnel")
 
-    return render_template('add_personnel.html')
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    # 🔽 Dropdown data
+    c.execute("SELECT DISTINCT Police_Station FROM personnel ORDER BY Police_Station")
+    ps_list = [row[0] for row in c.fetchall()]
+
+    c.execute("SELECT DISTINCT Outpost FROM personnel ORDER BY Outpost")
+    outpost_list = [row[0] for row in c.fetchall()]
+
+    c.execute("SELECT DISTINCT Rank FROM personnel ORDER BY Rank")
+    rank_list = [row[0] for row in c.fetchall()]
+
+    c.close()
+    conn.close()
+
+    return render_template(
+        'add_personnel.html',
+        ps_list=ps_list,
+        outpost_list=outpost_list,
+        rank_list=rank_list
+    )
 
 @app.route('/personnel_history/<int:id>')
 def personnel_history(id):    
