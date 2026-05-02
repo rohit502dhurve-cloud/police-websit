@@ -671,7 +671,7 @@ def export_personnel_excel():
     # Date format
     df["posting_date"] = pd.to_datetime(
         df["posting_date"], errors="coerce"
-    ).dt.strftime("%d/%m/%Y")
+    )
 
     # Tenure calculate
     def get_tenure(date_str):
@@ -714,6 +714,7 @@ def export_personnel_excel():
     ]
 
     df = df.reset_index(drop=True)
+    df["posting_date"] = df["posting_date_obj"].dt.strftime("%d/%m/%Y")
     df.insert(0, "Sr_no", range(1, len(df) + 1))
     # Final column order
     df = df[
