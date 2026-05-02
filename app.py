@@ -657,8 +657,24 @@ def export_personnel_excel():
         params.append(outpost)
 
     if work:
-        query += " AND work_profile = %s"
-        params.append(work)
+    query += " AND work_profile = %s"
+    params.append(work)
+
+# ✅ 🔥 YAHAN ADD KARO (IMPORTANT)
+if tenure == "0-1":
+    query += " AND Posting_Date >= CURRENT_DATE - INTERVAL '1 year'"
+
+elif tenure == "1-2":
+    query += " AND Posting_Date BETWEEN CURRENT_DATE - INTERVAL '2 year' AND CURRENT_DATE - INTERVAL '1 year'"
+
+elif tenure == "2-3":
+    query += " AND Posting_Date BETWEEN CURRENT_DATE - INTERVAL '3 year' AND CURRENT_DATE - INTERVAL '2 year'"
+
+elif tenure == "3+":
+    query += " AND Posting_Date <= CURRENT_DATE - INTERVAL '3 year'"
+
+# 👇 iske baad ORDER BY rahega
+query += " ORDER BY id ASC"
 
     query += " ORDER BY id ASC"
 
@@ -685,35 +701,7 @@ def export_personnel_excel():
  
     # ✅ Extract only years number
     # ✅ Tenure filter based on posting_date
-    today = datetime.today()
-
-    df["posting_date_obj"] = pd.to_datetime(
-        df["posting_date"], format="%d/%m/%Y", errors="coerce"
-)
-
-    if tenure == "0-1":
-        df = df[
-            df["posting_date_obj"] >= (today - timedelta(days=365))
-        ]
-
-    elif tenure == "1-2":
-        df = df[
-            (df["posting_date_obj"] >= (today - timedelta(days=730))) &
-            (df["posting_date_obj"] < (today - timedelta(days=365)))
-        ]
-
-    elif tenure == "2-3":
-        df = df[
-            (df["posting_date_obj"] >= (today - timedelta(days=1095))) &
-            (df["posting_date_obj"] < (today - timedelta(days=730)))
-        ]
-
-    elif tenure == "3+":
-        df = df[
-            (df["posting_date_obj"].notna()) &
-            df["posting_date_obj"] < (today - timedelta(days=1095))
-    ]
-
+    
     df = df.reset_index(drop=True)
     df.insert(0, "Sr_no", range(1, len(df) + 1))
     # Final column order
