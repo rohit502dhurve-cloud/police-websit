@@ -684,7 +684,7 @@ def export_personnel_excel():
         query += " AND Posting_Date <= CURRENT_DATE - INTERVAL '3 year'"
 
 # 👇 iske baad ORDER BY rahega
-    query += " ORDER BY id ASC"
+    query += " ORDER BY Police_Station ASC, Outpost ASC, Rank ASC, Name ASC"
 
     
     df = pd.read_sql(query, conn, params=params)
