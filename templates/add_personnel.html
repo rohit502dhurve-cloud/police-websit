@@ -24,7 +24,7 @@
             color: #2c3e50;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             margin: 8px 0;
@@ -64,9 +64,26 @@
     <h2>➕ Add Personnel</h2>
 
     <form method="POST" action="/add_personnel">
-        <input name="Police_Station" placeholder="Police Station">
-        <input name="Outpost" placeholder="Outpost">
-        <input name="Rank" placeholder="Rank">
+    <select name="Police_Station" required>
+        <option value="">Select Police Station</option>
+        {% for ps in ps_list %}
+            <option value="{{ ps }}">{{ ps }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="Outpost">
+        <option value="">Select Outpost</option>
+        {% for op in outpost_list %}
+            <option value="{{ op }}">{{ op }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="Rank" required>
+        <option value="">Select Rank</option>
+        {% for r in rank_list %}
+            <option value="{{ r }}">{{ r }}</option>
+        {% endfor %}
+    </select>
         <input name="Batch_No" placeholder="Batch No">
         <input name="Name" placeholder="Name">
         <input type="date" name="Posting_Date">
