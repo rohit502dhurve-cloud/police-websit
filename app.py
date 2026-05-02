@@ -671,7 +671,7 @@ def export_personnel_excel():
     # Date format
     df["posting_date"] = pd.to_datetime(
         df["posting_date"], errors="coerce"
-    )
+    ).dt.strftime("%d/%m/%Y")
 
     # Tenure calculate
     def get_tenure(date_str):
@@ -681,7 +681,7 @@ def export_personnel_excel():
         except:
             return ""
 
-    
+    df["posting_tenure"] = df["posting_date"].apply(get_tenure)
  
     # ✅ Extract only years number
     # ✅ Tenure filter based on posting_date
@@ -689,14 +689,8 @@ def export_personnel_excel():
 
     df["posting_date_obj"] = pd.to_datetime(
         df["posting_date"], format="%d/%m/%Y", errors="coerce"
-    )
+)
 
-    df["posting_tenure"] = df["posting_date_obj"].apply(
-        lambda x: calculate_tenure(x.date()) if pd.notnull(x) else ""
-    )
-
-    today = datetime.today()
-    
     if tenure == "0-1":
         df = df[
             df["posting_date_obj"] >= (today - timedelta(days=365))
@@ -720,7 +714,6 @@ def export_personnel_excel():
     ]
 
     df = df.reset_index(drop=True)
-    df["posting_date"] = df["posting_date_obj"].dt.strftime("%d/%m/%Y")
     df.insert(0, "Sr_no", range(1, len(df) + 1))
     # Final column order
     df = df[
