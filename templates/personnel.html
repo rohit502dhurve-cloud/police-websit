@@ -225,83 +225,63 @@
     </table>
 </div>
 <script>
+let sortDirection = {};
+
+document.querySelectorAll("#personnelTable th").forEach((th, index) => {
+    th.style.cursor = "pointer";
+    th.onclick = () => sortTable(index);
+});
+
 function sortTable(n) {
     let table = document.getElementById("personnelTable");
-    let rows = table.rows;
-    let switching = true;
-    let dir = "asc";
-    let switchcount = 0;
+    let rows = Array.from(table.rows).slice(1);
 
-    while (switching) {
-        switching = false;
-        let shouldSwitch;
+    // toggle direction per column
+    sortDirection[n] = !sortDirection[n];
+    let dir = sortDirection[n] ? "asc" : "desc";
 
-        for (let i = 1; i < (rows.length - 1); i++) {
-            shouldSwitch = false;
+    rows.sort((a, b) => {
+        let x = a.cells[n].innerText.trim();
+        let y = b.cells[n].innerText.trim();
 
-            let x = rows[i].getElementsByTagName("TD")[n];
-            let y = rows[i + 1].getElementsByTagName("TD")[n];
-
-            let xVal = x.innerText.trim();
-            let yVal = y.innerText.trim();
-
-            // 🔥 Tenure column (index 7)
-            if (n === 7) {
-                xVal = extractYears(xVal);
-                yVal = extractYears(yVal);
-            }
-
-            // 🔥 Date column (index 6)
-            else if (n === 6) {
-                xVal = parseDate(xVal);
-                yVal = parseDate(yVal);
-            }
-
-            // 🔥 Numeric column (Sr No)
-            else if (n === 0) {
-                xVal = parseInt(xVal) || 0;
-                yVal = parseInt(yVal) || 0;
-            }
-
-            // 🔥 Default text
-            else {
-                xVal = xVal.toLowerCase();
-                yVal = yVal.toLowerCase();
-            }
-
-            if (dir === "asc") {
-                if (xVal > yVal) {
-                    shouldSwitch = true;
-                    break;
-                }
-            } else {
-                if (xVal < yVal) {
-                    shouldSwitch = true;
-                    break;
-                }
-            }
+        // Sr No
+        if (n === 0) {
+            return dir === "asc" ? x - y : y - x;
         }
 
-        if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-            switchcount++;
-        } else {
-            if (switchcount === 0 && dir === "asc") {
-                dir = "desc";
-                switching = true;
-            }
+        // Date column
+        if (n === 6) {
+            x = parseDate(x);
+            y = parseDate(y);
+            return dir === "asc" ? x - y : y - x;
         }
-    }
+
+        // Tenure column
+        if (n === 7) {
+            x = extractYears(x);
+            y = extractYears(y);
+            return dir === "asc" ? x - y : y - x;
+        }
+
+        // Text columns
+        x = x.toLowerCase();
+        y = y.toLowerCase();
+
+        return dir === "asc"
+            ? x.localeCompare(y)
+            : y.localeCompare(x);
+    });
+
+    rows.forEach(row => table.appendChild(row));
 }
 
-// 🔥 Tenure → extract years number
+// 🔥 Tenure extract
 function extractYears(text) {
     let match = text.match(/(\d+)/);
     return match ? parseInt(match[0]) : 0;
 }
 
-// 🔥 Date → convert dd/mm/yyyy to JS date
+// 🔥 Date parser (dd/mm/yyyy)
 function parseDate(dateStr) {
     if (!dateStr || dateStr === "-") return new Date(0);
     let parts = dateStr.split("/");
