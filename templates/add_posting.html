@@ -2,25 +2,74 @@
 <html>
 <head>
     <title>Add Posting</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            max-width: 500px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #1e40af;
+        }
+    </style>
 </head>
+
 <body>
+
+<div class="card">
     <h2>Add Posting History</h2>
 
     <form method="POST">
 
-        <input type="text" name="police_unit" placeholder="Police Unit" required><br><br>
+        <input type="date" name="from_date" required>
 
-        <input type="text" name="station" placeholder="Police Station" required><br><br>
+        <input type="date" name="to_date">
 
-        <input type="text" name="outpost" placeholder="Outpost" required><br><br>
+        <input type="text" name="police_unit" placeholder="Police Unit" required>
 
-        <input type="text" name="rank" placeholder="Rank" required><br><br>
+        <input type="text" name="station" placeholder="Police Station" required>
 
-        <input type="date" name="from_date" required><br><br>
+        <input type="text" name="outpost" placeholder="Outpost">
 
-        <input type="date" name="to_date"><br><br>
+        <input type="text" name="rank" placeholder="Rank">
 
-        <button type="submit">Save</button>
     </form>
+</div>
+
 </body>
 </html>
