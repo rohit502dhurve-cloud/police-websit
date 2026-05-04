@@ -887,7 +887,7 @@ def delete_posting(id):
 
     conn.close()
 
-    return redirect(url_for('personnel_history'))
+    return redirect(request.referrer)
 
 @app.route('/add_personnel_page')
 def add_personnel_page():
