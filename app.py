@@ -88,7 +88,7 @@ def init_db():
     ''')
 
     c.execute("""
-    CREATE TABLE IF NOT EXISTS posting_history (
+    CREATE TABLE IF NOT EXISTS personnel_history (
         id SERIAL PRIMARY KEY,
         personnel_id INT,
         police_unit TEXT,
@@ -937,14 +937,14 @@ def add_posting(personnel_id):
         from_date = request.form.get('from_date')
         to_date = request.form.get('to_date')
 
-        c.execute("""
+        cur.execute("""
             INSERT INTO personnel_history
             (personnel_id, police_unit, police_station, outpost, rank, from_date, to_date)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
         """, (personnel_id, police_unit, station, outpost, rank, from_date, to_date))
 
         conn.commit()
-        c.close()
+        cur.close()
         conn.close()
 
         return redirect(url_for('personnel_history', personnel_id=personnel_id))
@@ -1335,6 +1335,32 @@ def fix_personnel():
     conn.close()
 
     return "Columns Fixed ✅"
+
+@app.route('/reset-posting')
+def reset_posting():
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("DROP TABLE IF EXISTS personnel_history")
+
+    cur.execute("""
+        CREATE TABLE personnel_history (
+            id SERIAL PRIMARY KEY,
+            personnel_id INT,
+            police_unit TEXT,
+            police_station TEXT,
+            outpost TEXT,
+            rank TEXT,
+            from_date DATE,
+            to_date DATE
+        )
+    """)
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return "Posting table reset done ✅"
 
 
 @app.route('/load-personnel')
