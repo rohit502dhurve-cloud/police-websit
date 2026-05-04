@@ -939,6 +939,7 @@ def personnel_history(personnel_id):
     """, (personnel_id,))
 
     history = cur.fetchall()
+    print(history)
 
     cur.close()
     conn.close()
