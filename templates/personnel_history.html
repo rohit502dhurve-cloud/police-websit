@@ -69,33 +69,36 @@
 
 <table>
     <tr>
-        <th>Posting Station</th>
-        <th>Outpost</th>
-        <th>Rank</th>
         <th>From Date</th>
         <th>To Date</th>
+        <th>Police Unit</th>
+        <th>Police Station</th>
+        <th>Outpost</th>
+        <th>Rank</th>
     </tr>
 
     {% for h in history %}
     <tr>
-        <td>{{ h[0] }}</td>
-        <td>{{ h[1] }}</td>
-        <td>{{ h[2] }}</td>
         <td>
-    {% if h[3] %}
-        {{ h[3].strftime('%d/%m/%Y') }}
-    {% else %}
-        -
-    {% endif %}
-</td>
+            {% if h[0] %}
+                {{ h[0].strftime('%d/%m/%Y') }}
+            {% else %}
+                -
+            {% endif %}
+        </td>
 
-<td>
-    {% if h[4] %}
-        {{ h[4].strftime('%d/%m/%Y') }}
-    {% else %}
-        -
-    {% endif %}
-</td>
+        <td>
+            {% if h[1] %}
+                {{ h[1].strftime('%d/%m/%Y') }}
+            {% else %}
+                -
+            {% endif %}
+        </td>
+
+        <td>{{ h[2] }}</td>  <!-- Police Unit -->
+        <td>{{ h[3] }}</td>  <!-- Police Station -->
+        <td>{{ h[4] }}</td>  <!-- Outpost -->
+        <td>{{ h[5] }}</td>  <!-- Rank -->
     </tr>
     {% endfor %}
 </table>
