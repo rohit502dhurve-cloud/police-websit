@@ -912,7 +912,7 @@ def personnel_history(personnel_id):
 
     cur.execute("""
         SELECT from_date, to_date, police_unit, police_station, outpost, rank
-        FROM posting_history
+        FROM personnel_history
         WHERE personnel_id = %s
         ORDER BY from_date DESC
     """, (personnel_id,))
