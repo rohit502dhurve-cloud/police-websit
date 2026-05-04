@@ -923,7 +923,7 @@ def personnel_history(personnel_id):
         SELECT from_date, to_date, police_unit, police_station, outpost, rank
         FROM personnel_history
         WHERE personnel_id = %s
-        ORDER BY from_date DESC
+        ORDER BY from_date ASC
     """, (personnel_id,))
 
     history = cur.fetchall()
