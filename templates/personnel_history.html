@@ -75,32 +75,42 @@
         <th>Police Station</th>
         <th>Outpost</th>
         <th>Rank</th>
+        <th>Action</th>
     </tr>
 
     {% for h in history %}
-    <tr>
-        <td>
-            {% if h[0] %}
-                {{ h[0].strftime('%d/%m/%Y') }}
-            {% else %}
-                -
-            {% endif %}
-        </td>
+<tr>
+    <td>
+        {% if h[0] %}
+            {{ h[0].strftime('%d/%m/%Y') }}
+        {% else %}
+            -
+        {% endif %}
+    </td>
 
-        <td>
-            {% if h[1] %}
-                {{ h[1].strftime('%d/%m/%Y') }}
-            {% else %}
-                -
-            {% endif %}
-        </td>
+    <td>
+        {% if h[1] %}
+            {{ h[1].strftime('%d/%m/%Y') }}
+        {% else %}
+            -
+        {% endif %}
+    </td>
 
-        <td>{{ h[2] }}</td>  <!-- Police Unit -->
-        <td>{{ h[3] }}</td>  <!-- Police Station -->
-        <td>{{ h[4] }}</td>  <!-- Outpost -->
-        <td>{{ h[5] }}</td>  <!-- Rank -->
-    </tr>
-    {% endfor %}
+    <td>{{ h[2] }}</td>
+    <td>{{ h[3] }}</td>
+    <td>{{ h[4] }}</td>
+    <td>{{ h[5] }}</td>
+
+    <!-- 🔥 DELETE BUTTON HERE -->
+    <td>
+        <a href="/delete_posting/{{ h[6] }}"
+           onclick="return confirm('Are you sure you want to delete this posting?')"
+           style="color:white; background:red; padding:5px 10px; border-radius:5px; text-decoration:none;">
+            Delete
+        </a>
+    </td>
+</tr>
+{% endfor %}
 </table>
 
 </body>
