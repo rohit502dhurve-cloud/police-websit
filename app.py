@@ -895,6 +895,14 @@ def add_personnel_page():
     c.execute("SELECT DISTINCT Rank FROM personnel ORDER BY Rank")
     rank_list = [row[0] for row in c.fetchall()]
 
+    c.execute("""
+        SELECT DISTINCT TRIM(Work_Profile) 
+        FROM personnel 
+        WHERE Work_Profile IS NOT NULL AND TRIM(Work_Profile) != ''
+        ORDER BY TRIM(Work_Profile)
+    """)
+    work_list = [row[0] for row in c.fetchall()]
+
     c.close()
     conn.close()
 
@@ -903,6 +911,7 @@ def add_personnel_page():
         ps_list=ps_list,
         outpost_list=outpost_list,
         rank_list=rank_list
+        work_list=work_list
     )
 
 @app.route('/personnel_history/<int:personnel_id>')
