@@ -88,9 +88,10 @@ def init_db():
     ''')
 
     c.execute("""
-    CREATE TABLE IF NOT EXISTS personnel_history (
+    CREATE TABLE IF NOT EXISTS posting_history (
         id SERIAL PRIMARY KEY,
         personnel_id INT,
+        police_unit TEXT,
         posting_station TEXT,
         outpost TEXT,
         rank TEXT,
