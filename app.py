@@ -910,7 +910,7 @@ def add_personnel_page():
         'add_personnel.html',
         ps_list=ps_list,
         outpost_list=outpost_list,
-        rank_list=rank_list
+        rank_list=rank_list,
         work_list=work_list
     )
 
