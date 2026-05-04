@@ -92,7 +92,7 @@ def init_db():
         id SERIAL PRIMARY KEY,
         personnel_id INT,
         police_unit TEXT,
-        posting_station TEXT,
+        police_station TEXT,
         outpost TEXT,
         rank TEXT,
         from_date DATE,
