@@ -169,17 +169,17 @@
 </div>
     <table id="personnelTable">
         <tr>
-            <th>Sr No</th>
-            <th>Police Station</th>
-            <th>Outpost</th>
-            <th>Rank</th>
-            <th>Batch No</th>
-            <th>Name</th>
-            <th>Posting Date</th>
-            <th>Tenure</th>
-            <th>Work Profile</th>
-            <th>Mobile</th>
-            <th>Remark</th>
+            <th onclick="sortTable(0)">Sr No ⬍</th>
+            <th onclick="sortTable(1)">Police Station ⬍</th>
+            <th onclick="sortTable(2)">Outpost ⬍</th>
+            <th onclick="sortTable(3)">Rank ⬍</th>
+            <th onclick="sortTable(4)">Batch No ⬍</th>
+            <th onclick="sortTable(5)">Name ⬍</th>
+            <th onclick="sortTable(6)">Posting Date ⬍</th>
+            <th onclick="sortTable(7)">Tenure ⬍</th>
+            <th onclick="sortTable(8)">Work Profile ⬍</th>
+            <th onclick="sortTable(9)">Mobile ⬍</th>
+            <th onclick="sortTable(10)">Remark ⬍</th>
             {% if session.get('personnel_admin') %}
             <th>Action</th>
             {% endif %}
@@ -225,16 +225,88 @@
     </table>
 </div>
 <script>
-$(document).ready(function () {
-    $('#personnelTable').DataTable({
-        "order": [],
-        "columnDefs": [
-            { "type": "num", "targets": 0 },
-            { "type": "date", "targets": 6 }
-        ]
-    });
-});
+function sortTable(n) {
+    let table = document.getElementById("personnelTable");
+    let rows = table.rows;
+    let switching = true;
+    let dir = "asc";
+    let switchcount = 0;
+
+    while (switching) {
+        switching = false;
+        let shouldSwitch;
+
+        for (let i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+
+            let x = rows[i].getElementsByTagName("TD")[n];
+            let y = rows[i + 1].getElementsByTagName("TD")[n];
+
+            let xVal = x.innerText.trim();
+            let yVal = y.innerText.trim();
+
+            // 🔥 Tenure column (index 7)
+            if (n === 7) {
+                xVal = extractYears(xVal);
+                yVal = extractYears(yVal);
+            }
+
+            // 🔥 Date column (index 6)
+            else if (n === 6) {
+                xVal = parseDate(xVal);
+                yVal = parseDate(yVal);
+            }
+
+            // 🔥 Numeric column (Sr No)
+            else if (n === 0) {
+                xVal = parseInt(xVal) || 0;
+                yVal = parseInt(yVal) || 0;
+            }
+
+            // 🔥 Default text
+            else {
+                xVal = xVal.toLowerCase();
+                yVal = yVal.toLowerCase();
+            }
+
+            if (dir === "asc") {
+                if (xVal > yVal) {
+                    shouldSwitch = true;
+                    break;
+                }
+            } else {
+                if (xVal < yVal) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+        }
+
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchcount++;
+        } else {
+            if (switchcount === 0 && dir === "asc") {
+                dir = "desc";
+                switching = true;
+            }
+        }
+    }
+}
+
+// 🔥 Tenure → extract years number
+function extractYears(text) {
+    let match = text.match(/(\d+)/);
+    return match ? parseInt(match[0]) : 0;
+}
+
+// 🔥 Date → convert dd/mm/yyyy to JS date
+function parseDate(dateStr) {
+    if (!dateStr || dateStr === "-") return new Date(0);
+    let parts = dateStr.split("/");
+    return new Date(parts[2], parts[1] - 1, parts[0]);
+}
 </script>
-    
 </body>
 </html>
