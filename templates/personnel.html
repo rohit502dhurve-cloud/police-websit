@@ -242,40 +242,13 @@ function sortTable(n) {
             let x = rows[i].getElementsByTagName("TD")[n];
             let y = rows[i + 1].getElementsByTagName("TD")[n];
 
-            let xVal = x.innerText.trim();
-            let yVal = y.innerText.trim();
-
-            // 🔥 Tenure column (index 7)
-            if (n === 7) {
-                xVal = extractYears(xVal);
-                yVal = extractYears(yVal);
-            }
-
-            // 🔥 Date column (index 6)
-            else if (n === 6) {
-                xVal = parseDate(xVal);
-                yVal = parseDate(yVal);
-            }
-
-            // 🔥 Numeric column (Sr No)
-            else if (n === 0) {
-                xVal = parseInt(xVal) || 0;
-                yVal = parseInt(yVal) || 0;
-            }
-
-            // 🔥 Default text
-            else {
-                xVal = xVal.toLowerCase();
-                yVal = yVal.toLowerCase();
-            }
-
             if (dir === "asc") {
-                if (xVal > yVal) {
+                if (x.innerText.toLowerCase() > y.innerText.toLowerCase()) {
                     shouldSwitch = true;
                     break;
                 }
             } else {
-                if (xVal < yVal) {
+                if (x.innerText.toLowerCase() < y.innerText.toLowerCase()) {
                     shouldSwitch = true;
                     break;
                 }
@@ -293,19 +266,6 @@ function sortTable(n) {
             }
         }
     }
-}
-
-// 🔥 Tenure → extract years number
-function extractYears(text) {
-    let match = text.match(/(\d+)/);
-    return match ? parseInt(match[0]) : 0;
-}
-
-// 🔥 Date → convert dd/mm/yyyy to JS date
-function parseDate(dateStr) {
-    if (!dateStr || dateStr === "-") return new Date(0);
-    let parts = dateStr.split("/");
-    return new Date(parts[2], parts[1] - 1, parts[0]);
 }
 </script>
 </body>
