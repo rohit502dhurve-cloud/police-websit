@@ -904,50 +904,51 @@ def add_personnel_page():
         rank_list=rank_list
     )
 
-@app.route('/personnel_history/<int:id>')
-def personnel_history(id):    
+@app.route('/personnel_history/<int:personnel_id>')
+def personnel_history(personnel_id):
     conn = get_db_connection()
-    c = conn.cursor()
+    cur = conn.cursor()
 
-    c.execute("""
-        SELECT posting_station, outpost, rank, from_date, to_date
-        FROM personnel_history
+    cur.execute("""
+        SELECT from_date, to_date, police_unit, police_station, outpost, rank
+        FROM posting_history
         WHERE personnel_id = %s
         ORDER BY from_date DESC
-    """, (id,))
+    """, (personnel_id,))
 
-    history = c.fetchall()
+    history = cur.fetchall()
 
-    c.close()
+    cur.close()
     conn.close()
 
-    return render_template('personnel_history.html', history=history, personnel_id=id)
+    return render_template('personnel_history.html', history=history, personnel_id=personnel_id)
 
 @app.route('/add_posting/<int:personnel_id>', methods=['GET', 'POST'])
 def add_posting(personnel_id):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    
     if request.method == 'POST':
+        police_unit = request.form.get("police_unit")
         station = request.form.get('station')
         outpost = request.form.get('outpost')
         rank = request.form.get('rank')
         from_date = request.form.get('from_date')
         to_date = request.form.get('to_date')
 
-        conn = get_db_connection()
-        c = conn.cursor()
-
         c.execute("""
             INSERT INTO personnel_history
-            (personnel_id, posting_station, outpost, rank, from_date, to_date)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, (personnel_id, station, outpost, rank, from_date, to_date))
+            (personnel_id, police_unit, police_station, outpost, rank, from_date, to_date)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (personnel_id, police_unit, station, outpost, rank, from_date, to_date))
 
         conn.commit()
         c.close()
         conn.close()
 
-        return redirect(f'/personnel_history/{personnel_id}')
+        return redirect(url_for('personnel_history', personnel_id=personnel_id))
 
-    return render_template('add_posting.html', personnel_id=personnel_id)
+    return render_template('add_posting.html')
 
 @app.route('/add_personnel', methods=['POST'])
 def add_personnel():
