@@ -952,7 +952,12 @@ def personnel_history(personnel_id):
     cur.close()
     conn.close()
 
-    return render_template('personnel_history.html', history=history, personnel_id=personnel_id)
+    return render_template(
+        'personnel_history.html',
+        history=history,
+        personnel_id=personnel_id,
+        is_admin=session.get("personnel_admin")   # ✅ ADD THIS
+    )
 
 @app.route('/add_posting/<int:personnel_id>', methods=['GET', 'POST'])
 def add_posting(personnel_id):
