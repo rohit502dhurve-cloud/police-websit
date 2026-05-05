@@ -879,6 +879,11 @@ def delete_personnel(id):
 
 @app.route('/delete_posting/<int:id>', methods=['POST'])
 def delete_posting(id):
+
+    # 🔒 LOGIN CHECK ADD HERE
+    if not session.get("personnel_admin"):
+        return redirect("/personnel-admin")
+
     conn = get_db_connection()
     cur = conn.cursor()
 
@@ -888,7 +893,6 @@ def delete_posting(id):
     cur.close()
     conn.close()
 
-    # 🔥 FIXED REDIRECT
     personnel_id = request.args.get("personnel_id")
 
     return redirect(f"/personnel_history/{personnel_id}")
@@ -952,6 +956,11 @@ def personnel_history(personnel_id):
 
 @app.route('/add_posting/<int:personnel_id>', methods=['GET', 'POST'])
 def add_posting(personnel_id):
+
+    # 🔒 LOGIN CHECK (यही add करना है)
+    if not session.get("personnel_admin"):
+        return redirect("/personnel-admin")
+
     conn = get_db_connection()
     cur = conn.cursor()
     
