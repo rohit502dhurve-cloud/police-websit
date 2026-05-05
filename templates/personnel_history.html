@@ -103,7 +103,7 @@
 
     <!-- 🔥 DELETE BUTTON HERE -->
     <td>
-    <form method="POST" action="/delete_posting/{{ h[6] }}" 
+    <form method="POST" action="/delete_posting/{{ h[6] }}?personnel_id={{ personnel_id }}" 
           onsubmit="return confirm('Are you sure you want to delete this posting?')">
         <button type="submit"
             style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px;">
