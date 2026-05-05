@@ -877,7 +877,7 @@ def delete_personnel(id):
 
     return redirect('/personnel')
 
-@app.route('/delete_posting/<int:id>')
+@app.route('/delete_posting/<int:id>', methods=['POST'])
 def delete_posting(id):
     conn = get_db_connection()
     cur = conn.cursor()
