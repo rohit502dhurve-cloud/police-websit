@@ -882,12 +882,16 @@ def delete_posting(id):
     conn = get_db_connection()
     cur = conn.cursor()
 
-    cur.execute("DELETE FROM posting_history WHERE id = %s", (id,))
+    cur.execute("DELETE FROM personnel_history WHERE id = %s", (id,))
     conn.commit()
 
+    cur.close()
     conn.close()
 
-    return redirect(request.referrer)
+    # 🔥 FIXED REDIRECT
+    personnel_id = request.args.get("personnel_id")
+
+    return redirect(f"/personnel_history/{personnel_id}")
 
 @app.route('/add_personnel_page')
 def add_personnel_page():
